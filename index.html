@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boda Ana y Carlos – 19 de junio 2027</title>
 
-<!-- Tipografías -->
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
@@ -17,7 +16,10 @@
   --texto: #2F2A24;
 }
 
-/* Fondo general */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: "Cormorant Garamond", serif;
@@ -25,7 +27,6 @@ body {
   color: var(--texto);
 }
 
-/* Textura papel */
 body::before {
   content: "";
   position: fixed;
@@ -37,38 +38,44 @@ body::before {
   z-index: -1;
 }
 
-/* Portada */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+}
+
+/* PORTADA */
 header {
   margin-top: 1.5rem;
-  padding: 2.5rem 1.5rem 2rem;
+  padding: 2.5rem 1.5rem 2.2rem;
   border-radius: 24px;
-  background: url('https://i.imgur.com/4vZyZzZ.jpg') center/cover no-repeat;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(232,199,200,0.55) 0, transparent 55%),
+    radial-gradient(circle at 80% 100%, rgba(216,194,157,0.55) 0, transparent 55%),
+    linear-gradient(135deg, rgba(107,122,94,0.9), rgba(216,194,157,0.9));
   color: #fff;
   position: relative;
   overflow: hidden;
   box-shadow: 0 18px 40px rgba(0,0,0,0.18);
 }
 
-/* Efecto acuarela */
-header::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 0%, rgba(232,199,200,0.55) 0, transparent 55%),
-    radial-gradient(circle at 80% 100%, rgba(216,194,157,0.55) 0, transparent 55%);
-  mix-blend-mode: soft-light;
-  opacity: 0.9;
-  pointer-events: none;
+#heroFoto {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  margin-bottom: 1.5rem;
+  cursor: pointer;
 }
 
-/* Nombres y fecha */
 .hero-nombres {
   font-family: "Great Vibes", cursive;
   font-size: 3rem;
   letter-spacing: 0.06em;
   margin: 0;
-  text-shadow: 0 0 12px rgba(0,0,0,0.2);
+  text-shadow: 0 0 1px rgba(255,255,255,0.6), 0 0 12px rgba(0,0,0,0.25);
 }
 
 .hero-fecha {
@@ -78,9 +85,9 @@ header::before {
   text-transform: uppercase;
 }
 
-/* Menú */
+/* MENÚ (simple, sin aspecto de botones) */
 nav {
-  margin-top: 2rem;
+  margin-top: 2.2rem;
   background: transparent;
   box-shadow: none;
   position: static;
@@ -114,10 +121,10 @@ nav a:hover {
   border-color: var(--champan);
 }
 
-/* Secciones */
+/* SECCIONES FLUIDAS Y SEPARADAS */
 section {
-  margin-top: 3rem;
-  padding: 2.4rem 1.8rem;
+  margin-top: 3.2rem;
+  padding: 2.6rem 1.9rem;
   border-radius: 26px;
   background: rgba(255,255,255,0.94);
   box-shadow: 0 18px 40px rgba(0,0,0,0.08);
@@ -150,7 +157,7 @@ section p {
   text-shadow: 0 0 1px rgba(255,255,255,0.4);
 }
 
-/* Fotos */
+/* FOTOS SECCIONES (clicables en admin) */
 .section-photo {
   width: 100%;
   max-height: 320px;
@@ -162,7 +169,7 @@ section p {
   cursor: pointer;
 }
 
-/* Botones mapa */
+/* BOTONES MAPA */
 .map-btn {
   display:inline-block;
   margin-top:0.3rem;
@@ -179,15 +186,25 @@ section p {
   background:var(--rosa);
 }
 
-/* Footer */
+/* IFRAME FORMULARIO */
+iframe {
+  width: 100%;
+  min-height: 900px;
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  background: #fff;
+}
+
+/* FOOTER */
 footer {
-  margin-top: 2.5rem;
+  margin-top: 2.8rem;
   text-align: center;
   font-size: 0.9rem;
   color: rgba(47,42,36,0.7);
 }
 
-/* Admin bar */
+/* ADMIN BAR SIMPLE */
 #adminBar {
   position: fixed;
   bottom: 1rem;
@@ -211,38 +228,190 @@ footer {
   font-size: 0.8rem;
   cursor: pointer;
 }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  header {
+    padding: 2.1rem 1.2rem 2rem;
+  }
+  .hero-nombres {
+    font-size: 2.4rem;
+  }
+  .hero-fecha {
+    font-size: 1rem;
+    letter-spacing: 0.14em;
+  }
+  section {
+    padding: 2.1rem 1.4rem;
+  }
+}
 </style>
 </head>
 <body>
 
 <div class="page">
 
-<header>
-  <h1 id="heroNombres" contenteditable="false" class="hero-nombres">Ana y Carlos</h1>
-  <p id="heroFecha" contenteditable="false" class="hero-fecha">19 de junio 2027 · Madrid</p>
-</header>
+  <header>
+    <img id="heroFoto" src="https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg" alt="Foto portada boda">
+    <h1 id="heroNombres" contenteditable="false" class="hero-nombres">Ana y Carlos</h1>
+    <p id="heroFecha" contenteditable="false" class="hero-fecha">19 de junio 2027 · Madrid</p>
+  </header>
 
-<nav>
-  <ul>
-    <li><a href="#como-llegar">Cómo llegar</a></li>
-    <li><a href="#confirmacion">Confirmación</a></li>
-    <li><a href="#lista-bodas">Lista de bodas</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
-</nav>
+  <nav>
+    <ul>
+      <li><a href="#como-llegar">Cómo llegar</a></li>
+      <li><a href="#confirmacion">Confirmación</a></li>
+      <li><a href="#lista-bodas">Lista de bodas</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
 
-<section id="como-llegar">
-  <h2 id="tituloComo" contenteditable="false">Cómo llegar</h2>
-  <p id="textoComo" contenteditable="false">
-    La ceremonia y el banquete se celebrarán en dos espacios muy especiales, rodeados de naturaleza y luz suave.
-    Te dejamos aquí los enlaces directos a Google Maps para que puedas llegar con tranquilidad.
-  </p>
+  <section id="como-llegar">
+    <h2 id="tituloComo" contenteditable="false">Cómo llegar</h2>
+    <p id="textoComo" contenteditable="false">
+      La ceremonia y el banquete se celebrarán en dos espacios muy especiales, rodeados de naturaleza y luz suave.
+      Te dejamos aquí los enlaces directos a Google Maps para que puedas llegar con tranquilidad.
+    </p>
 
-  <div style="display:flex; flex-direction:column; gap:0.8rem; margin-top:1rem;">
-    <div>
-      <strong>Ceremonia</strong><br>
-      <a href="https://maps.app.goo.gl/8QK4dDPodLtDiw7G9?g_st=ac" target="_blank" class="map-btn">Ver mapa</a>
+    <div style="display:flex; flex-direction:column; gap:0.8rem; margin-top:1rem;">
+      <div>
+        <strong>Ceremonia</strong><br>
+        <a href="https://maps.app.goo.gl/8QK4dDPodLtDiw7G9?g_st=ac" target="_blank" class="map-btn">Ver mapa</a>
+      </div>
+      <div style="margin-top:0.6rem;">
+        <strong>Banquete</strong><br>
+        <a href="https://maps.app.goo.gl/Dyzve1vA7GrxsFSb8?g_st=ac" target="_blank" class="map-btn">Ver mapa</a>
+      </div>
     </div>
-    <div>
-      <strong>Banquete</strong><br>
-      <a href="https://
+
+    <img id="fotoComo" class="section-photo" src="https://images.pexels.com/photos/931796/pexels-photo-931796.jpeg" alt="Jardín romántico">
+  </section>
+
+  <section id="confirmacion">
+    <h2 id="tituloConfirmacion" contenteditable="false">Confirmación de asistencia</h2>
+    <p id="textoConfirmacion" contenteditable="false">
+      Nos hará mucha ilusión compartir este día contigo.
+      Por favor, confirma tu asistencia antes del 1 de mayo de 2027 para poder organizar todos los detalles con calma.
+    </p>
+    <iframe
+      id="googleForm"
+      src="AQUI_TU_GOOGLE_FORMS"
+      title="Formulario de confirmación">
+    </iframe>
+  </section>
+
+  <section id="lista-bodas">
+    <h2 id="tituloLista" contenteditable="false">Lista de bodas</h2>
+    <p id="textoLista" contenteditable="false">
+      Tu presencia es nuestro mejor regalo.
+      Si además quieres ayudarnos a construir nuestro hogar, hemos preparado una lista de detalles que nos harán mucha ilusión.
+    </p>
+    <img id="fotoLista" class="section-photo" src="https://images.pexels.com/photos/1024992/pexels-photo-1024992.jpeg" alt="Detalles boda">
+  </section>
+
+  <section id="contacto">
+    <h2 id="tituloContacto" contenteditable="false">Contacto</h2>
+    <p id="textoContacto" contenteditable="false">
+      Si tienes cualquier duda sobre horarios, transporte, alojamiento o necesidades especiales,
+      puedes escribirnos y estaremos encantados de ayudarte.
+    </p>
+    <img id="fotoContacto" class="section-photo" src="https://images.pexels.com/photos/1024991/pexels-photo-1024991.jpeg" alt="Contacto boda">
+  </section>
+
+  <footer>
+    Con cariño, Ana y Carlos · 19 de junio 2027
+  </footer>
+
+</div>
+
+<div id="adminBar">
+  <span>Modo admin</span>
+  <button id="saveBtn">Guardar textos</button>
+</div>
+
+<script>
+const fotoIds = ["heroFoto","fotoComo","fotoLista","fotoContacto"];
+
+/* ACTIVAR MODO ADMIN */
+/* PC: Ctrl + M */
+document.addEventListener("keydown", function(e) {
+  if (e.key === "M" && e.ctrlKey) {
+    const pass = prompt("Introduce la contraseña de administrador:");
+    if (pass === "LaJosefa") activarModoAdmin();
+  }
+});
+
+/* MÓVIL: 5 toques esquina inferior derecha */
+let toqueCount = 0;
+document.addEventListener("click", function(e) {
+  const ancho = window.innerWidth;
+  const alto = window.innerHeight;
+
+  if (e.clientX > ancho * 0.75 && e.clientY > alto * 0.75) {
+    toqueCount++;
+    if (toqueCount >= 5) {
+      const pass = prompt("Introduce la contraseña de administrador:");
+      if (pass === "LaJosefa") activarModoAdmin();
+      toqueCount = 0;
+    }
+  } else {
+    toqueCount = 0;
+  }
+});
+
+function activarModoAdmin() {
+  document.querySelectorAll("[contenteditable]").forEach(el => {
+    el.setAttribute("contenteditable", "true");
+  });
+  document.getElementById("adminBar").style.display = "flex";
+
+  fotoIds.forEach(id => {
+    const img = document.getElementById(id);
+    img.style.cursor = "pointer";
+    img.addEventListener("click", () => cambiarFoto(id));
+  });
+}
+
+function cambiarFoto(id) {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const base64 = ev.target.result;
+      const img = document.getElementById(id);
+      img.src = base64;
+      localStorage.setItem(id, base64);
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+/* GUARDAR TEXTOS */
+document.getElementById("saveBtn").addEventListener("click", function() {
+  document.querySelectorAll("[contenteditable]").forEach(el => {
+    localStorage.setItem(el.id, el.innerHTML);
+  });
+  alert("Cambios guardados en este dispositivo");
+});
+
+/* CARGAR CAMBIOS AL ENTRAR */
+window.onload = function() {
+  document.querySelectorAll("[contenteditable]").forEach(el => {
+    const saved = localStorage.getItem(el.id);
+    if (saved) el.innerHTML = saved;
+  });
+
+  fotoIds.forEach(id => {
+    const savedFoto = localStorage.getItem(id);
+    if (savedFoto) document.getElementById(id).src = savedFoto;
+  });
+};
+</script>
+
+</body>
+</html>
