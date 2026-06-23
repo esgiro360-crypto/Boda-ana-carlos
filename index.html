@@ -1,350 +1,433 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Boda Ana & Carlos – 19/06/2027</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boda Ana y Carlos – 19 de junio 2027</title>
 
-  <!-- Tipografías -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- Tipografías Google -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --verde: #123528;
-      --crema: #F4EFE7;
-      --madera: #B8865D;
-      --texto: #2F2A24;
-      --blanco: #fff;
-    }
+<style>
+/* PALETA JARDÍN ROMÁNTICO */
+:root {
+  --salvia: #6B7A5E;
+  --rosa: #E8C7C8;
+  --marfil: #F7F3EB;
+  --champan: #D8C29D;
+  --texto: #2F2A24;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+/* BASE */
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      background: var(--crema);
-      font-family: "Nunito", sans-serif;
-      color: var(--texto);
-    }
+body {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  background: radial-gradient(circle at top, #fdf8f2 0%, #e8e0d3 40%, #d9cfbf 100%);
+  color: var(--texto);
+}
 
-    /* Layout general */
-    .page {
-      max-width: 960px;
-      margin: 0 auto;
-    }
+/* TEXTURA PAPEL */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.4) 0, transparent 60%),
+    url("https://www.transparenttextures.com/patterns/handmade-paper.png");
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+  z-index: -1;
+}
 
-    header {
-      position: relative;
-      text-align: center;
-      color: var(--blanco);
-    }
+/* CONTENEDOR PRINCIPAL */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+}
 
-    .hero-img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-      display: block;
-    }
+/* CABECERA / PORTADA */
+header {
+  margin-top: 1.5rem;
+  padding: 2.5rem 1.5rem 2rem;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(107,122,94,0.9), rgba(216,194,157,0.9));
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+}
 
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(18,53,40,0.7), rgba(184,134,93,0.7));
-    }
+/* MOTIVOS BOTÁNICOS SIMPLES */
+header::before,
+header::after {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.35);
+  filter: blur(0.5px);
+}
 
-    .hero-content {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-    }
+header::before {
+  top: -80px;
+  left: -40px;
+}
 
-    .hero-title {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 2.4rem;
-      margin: 0;
-    }
+header::after {
+  bottom: -90px;
+  right: -30px;
+}
 
-    .hero-date {
-      margin-top: .4rem;
-      letter-spacing: .12em;
-      font-size: 1rem;
-    }
+/* FOTO PORTADA */
+.hero-photo {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  margin-bottom: 1.5rem;
+}
 
-    nav {
-      background: var(--blanco);
-      border-bottom: 1px solid #e0d4c5;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+/* NOMBRES Y FECHA */
+.hero-nombres {
+  font-family: "Great Vibes", cursive;
+  font-size: 3rem;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
 
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: .6rem .8rem;
-      display: flex;
-      justify-content: space-around;
-      gap: .4rem;
-      font-size: .9rem;
-    }
+.hero-fecha {
+  margin-top: 0.4rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
 
-    nav a {
-      text-decoration: none;
-      color: var(--verde);
-      font-weight: 600;
-      padding: .35rem .8rem;
-      border-radius: 999px;
-      background: #f7f1e8;
-    }
+/* MENÚ */
+nav {
+  margin-top: 1.5rem;
+  background: rgba(255,255,255,0.9);
+  border-radius: 999px;
+  padding: 0.6rem 0.8rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0.5rem;
+  backdrop-filter: blur(10px);
+  z-index: 20;
+}
 
-    nav a:hover {
-      background: #efe1d0;
-    }
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
 
-    section {
-      background: var(--blanco);
-      margin: 1.2rem .8rem;
-      padding: 1.4rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
+nav a {
+  text-decoration: none;
+  color: var(--salvia);
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  background: #f7f3eb;
+  border: 1px solid rgba(216,194,157,0.7);
+  transition: all 0.25s ease;
+  font-size: 0.95rem;
+}
 
-    section h2 {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 1.6rem;
-      margin-top: 0;
-      color: var(--verde);
-    }
+nav a:hover {
+  background: var(--rosa);
+  color: var(--texto);
+}
 
-    .foto {
-      width: 100%;
-      border-radius: 12px;
-      margin-top: 1rem;
-      object-fit: cover;
-      max-height: 260px;
-    }
+/* SECCIONES */
+section {
+  margin-top: 2rem;
+  padding: 2rem 1.5rem;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+  border: 1px solid rgba(216,194,157,0.6);
+  position: relative;
+}
 
-    /* Admin */
-    [contenteditable="true"] {
-      outline: 2px dashed var(--madera);
-      padding: 4px;
-      border-radius: 6px;
-    }
+/* PEQUEÑOS DETALLES DORADOS */
+section::before {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--champan), transparent);
+  top: 1.2rem;
+  left: 1.5rem;
+  opacity: 0.8;
+}
 
-    #adminBar {
-      position: fixed;
-      bottom: 15px;
-      right: 15px;
-      background: var(--verde);
-      color: var(--blanco);
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-size: .9rem;
-      display: none;
-    }
+section h2 {
+  margin-top: 0.5rem;
+  font-size: 1.8rem;
+  color: var(--salvia);
+}
 
-    #saveBtn, #uploadBtn {
-      background: var(--madera);
-      color: var(--blanco);
-      padding: 10px 16px;
-      border-radius: 999px;
-      border: none;
-      margin-top: 10px;
-      display: none;
-    }
+section p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
 
-    #fileInput {
-      display: none;
-    }
-  </style>
+/* FOTOS SECCIONES */
+.section-photo {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-top: 1.2rem;
+  border: 1px solid rgba(216,194,157,0.8);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+
+/* GOOGLE FORMS */
+iframe {
+  width: 100%;
+  min-height: 900px;
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  background: #fff;
+}
+
+/* FOOTER */
+footer {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(47,42,36,0.7);
+}
+
+/* BARRA ADMIN */
+#adminBar {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(47,42,36,0.9);
+  color: #fff;
+  padding: 0.6rem 0.8rem;
+  border-radius: 999px;
+  display: none;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  z-index: 50;
+}
+
+#adminBar button {
+  border: none;
+  background: var(--champan);
+  color: #2f2a24;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  header {
+    padding: 2rem 1rem 1.8rem;
+  }
+  .hero-nombres {
+    font-size: 2.4rem;
+  }
+  .hero-fecha {
+    font-size: 1rem;
+    letter-spacing: 0.14em;
+  }
+  section {
+    padding: 1.6rem 1.2rem;
+  }
+}
+</style>
 </head>
-
 <body>
-  <div class="page">
-    <!-- PORTADA -->
-    <header id="portada">
-      <img id="heroFoto" class="hero-img" src="" alt="Foto portada">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <h1 id="heroTitulo" contenteditable="false" class="hero-title">Ana & Carlos</h1>
-        <p id="heroFecha" contenteditable="false" class="hero-date">19 · 06 · 2027 · Madrid</p>
-      </div>
-    </header>
 
-    <!-- MENÚ PRINCIPAL -->
-    <nav>
-      <ul>
-        <li><a href="#como-llegar">Cómo llegar</a></li>
-        <li><a href="#confirmacion">Confirmación</a></li>
-        <li><a href="#lista-bodas">Lista de bodas</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
-    </nav>
+<div class="page">
 
-    <!-- SECCIÓN CÓMO LLEGAR -->
-    <section id="como-llegar">
-      <h2 id="comoTitulo" contenteditable="false">Cómo llegar</h2>
-      <p id="comoTexto" contenteditable="false">
-        Aquí puedes explicar cómo llegar a la Iglesia del Pilar y al Palacio del Negralejo,
-        indicando direcciones, tiempos aproximados y opciones de transporte.
-      </p>
-      <img id="fotoComo" class="foto" src="" alt="Foto cómo llegar">
-    </section>
+  <!-- PORTADA -->
+  <header>
+    <img id="heroFoto" class="hero-photo" src="https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg" alt="Foto portada boda">
 
-    <!-- SECCIÓN CONFIRMACIÓN (RSVP) -->
-    <section id="confirmacion">
-      <h2 id="confirmacionTitulo" contenteditable="false">Confirmación de asistencia</h2>
-      <p id="confirmacionTexto" contenteditable="false">
-        Por favor, confirma tu asistencia a través del siguiente formulario.
-      </p>
-      <!-- Aquí irá el iframe de Google Forms en la parte 2 -->
-    </section>
+    <h1 id="heroNombres" contenteditable="false" class="hero-nombres">Ana y Carlos</h1>
+    <p id="heroFecha" contenteditable="false" class="hero-fecha">19 de junio 2027 · Madrid</p>
+  </header>
 
-    <!-- SECCIÓN LISTA DE BODAS -->
-    <section id="lista-bodas">
-      <h2 id="listaTitulo" contenteditable="false">Lista de bodas</h2>
-      <p id="listaTexto" contenteditable="false">
-        Vuestra presencia es nuestro mejor regalo. Si además queréis ayudarnos con nuestra nueva etapa:
-        <br><strong>IBAN:</strong> ES00 0000 0000 00 0000000000
-        <br>Puedes añadir aquí un mensaje bonito sobre el viaje, la casa o el proyecto que queréis hacer.
-      </p>
-      <img id="fotoLista" class="foto" src="" alt="Foto lista de bodas">
-    </section>
+  <!-- MENÚ -->
+  <nav>
+    <ul>
+      <li><a href="#como-llegar">Cómo llegar</a></li>
+      <li><a href="#confirmacion">Confirmación</a></li>
+      <li><a href="#lista-bodas">Lista de bodas</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
 
-    <!-- SECCIÓN CONTACTO -->
-    <section id="contacto">
-      <h2 id="contactoTitulo" contenteditable="false">Contacto</h2>
-      <p id="contactoTexto" contenteditable="false">
-        Para cualquier duda, podéis escribirnos o llamarnos:
-        <br><strong>Teléfono:</strong> [Tu número]
-        <br><strong>Email:</strong> [tu-correo@example.com]
-      </p>
-      <img id="fotoContacto" class="foto" src="" alt="Foto contacto">
-    </section>
+  <!-- SECCIÓN: CÓMO LLEGAR -->
+  <section id="como-llegar">
+    <h2 id="tituloComo" contenteditable="false">Cómo llegar</h2>
+    <p id="textoComo" contenteditable="false">
+      La celebración tendrá lugar en un jardín romántico a las afueras de Madrid, rodeado de naturaleza y luz suave.
+      Te recomendamos llegar con algo de antelación para disfrutar del entorno y evitar imprevistos.
+    </p>
+    <img id="fotoComo" class="section-photo" src="https://images.pexels.com/photos/931796/pexels-photo-931796.jpeg" alt="Jardín romántico">
+  </section>
 
-    <!-- BARRA ADMIN -->
-    <div id="adminBar">Modo edición activo</div>
-    <button id="saveBtn">Guardar cambios</button>
-    <button id="uploadBtn">Subir foto</button>
-    <input type="file" id="fileInput" accept="image/*">
+  <!-- SECCIÓN: CONFIRMACIÓN -->
+  <section id="confirmacion">
+    <h2 id="tituloConfirmacion" contenteditable="false">Confirmación de asistencia</h2>
+    <p id="textoConfirmacion" contenteditable="false">
+      Nos hará mucha ilusión compartir este día contigo.  
+      Por favor, confirma tu asistencia antes del 1 de mayo de 2027 para poder organizar todos los detalles con calma.
+    </p>
     <!-- GOOGLE FORMS -->
-    <iframe 
+    <iframe
       id="googleForm"
       src="AQUI_TU_GOOGLE_FORMS"
-      style="width:100%; min-height:900px; border:none; margin-top:1rem;">
+      title="Formulario de confirmación">
     </iframe>
+  </section>
 
-  </div> <!-- cierre .page -->
+  <!-- SECCIÓN: LISTA DE BODAS -->
+  <section id="lista-bodas">
+    <h2 id="tituloLista" contenteditable="false">Lista de bodas</h2>
+    <p id="textoLista" contenteditable="false">
+      Tu presencia es nuestro mejor regalo.  
+      Si además quieres ayudarnos a construir nuestro hogar, hemos preparado una lista de detalles que nos harán mucha ilusión.
+    </p>
+    <img id="fotoLista" class="section-photo" src="https://images.pexels.com/photos/1024992/pexels-photo-1024992.jpeg" alt="Detalles boda">
+  </section>
 
-  <!-- ========================= -->
-  <!--   SISTEMA ADMINISTRADOR   -->
-  <!-- ========================= -->
+  <!-- SECCIÓN: CONTACTO -->
+  <section id="contacto">
+    <h2 id="tituloContacto" contenteditable="false">Contacto</h2>
+    <p id="textoContacto" contenteditable="false">
+      Si tienes cualquier duda sobre horarios, transporte, alojamiento o necesidades especiales,
+      puedes escribirnos y estaremos encantados de ayudarte.
+    </p>
+    <img id="fotoContacto" class="section-photo" src="https://images.pexels.com/photos/1024991/pexels-photo-1024991.jpeg" alt="Contacto boda">
+  </section>
 
-  <script>
-    /* ------------------ ACTIVAR MODO ADMIN ------------------ */
+  <!-- FOOTER -->
+  <footer>
+    Con cariño, Ana y Carlos · 19 de junio 2027
+  </footer>
 
-    /* Activación por teclado (PC) */
-    document.addEventListener("keydown", function(e) {
-      if (e.key === "M" && e.ctrlKey) {
-        const pass = prompt("Introduce la contraseña de administrador:");
-        if (pass === "LaJosefa") activarModoAdmin();
-      }
-    });
+</div>
 
-    /* Activación invisible por móvil: 5 toques en la esquina inferior derecha */
-    let toqueCount = 0;
-    document.addEventListener("click", function(e) {
-      const ancho = window.innerWidth;
-      const alto = window.innerHeight;
+<!-- BARRA ADMIN -->
+<div id="adminBar">
+  <span>Modo admin</span>
+  <button id="saveBtn">Guardar textos</button>
+  <button id="uploadBtn">Cambiar foto</button>
+  <input id="fileInput" type="file" accept="image/*" style="display:none;">
+</div>
 
-      if (e.clientX > ancho * 0.75 && e.clientY > alto * 0.75) {
-        toqueCount++;
-        if (toqueCount >= 5) {
-          const pass = prompt("Introduce la contraseña de administrador:");
-          if (pass === "LaJosefa") activarModoAdmin();
-          toqueCount = 0;
-        }
-      } else {
-        toqueCount = 0;
-      }
-    });
+<script>
+/* ACTIVAR MODO ADMIN */
+/* PC: Ctrl + M */
+document.addEventListener("keydown", function(e) {
+  if (e.key === "M" && e.ctrlKey) {
+    const pass = prompt("Introduce la contraseña de administrador:");
+    if (pass === "LaJosefa") activarModoAdmin();
+  }
+});
 
-    function activarModoAdmin() {
-      document.querySelectorAll("[contenteditable]").forEach(el => {
-        el.setAttribute("contenteditable", "true");
-      });
+/* MÓVIL: 5 toques esquina inferior derecha */
+let toqueCount = 0;
+document.addEventListener("click", function(e) {
+  const ancho = window.innerWidth;
+  const alto = window.innerHeight;
 
-      document.getElementById("adminBar").style.display = "block";
-      document.getElementById("saveBtn").style.display = "block";
-      document.getElementById("uploadBtn").style.display = "block";
+  if (e.clientX > ancho * 0.75 && e.clientY > alto * 0.75) {
+    toqueCount++;
+    if (toqueCount >= 5) {
+      const pass = prompt("Introduce la contraseña de administrador:");
+      if (pass === "LaJosefa") activarModoAdmin();
+      toqueCount = 0;
     }
+  } else {
+    toqueCount = 0;
+  }
+});
 
-    /* ------------------ GUARDAR CAMBIOS ------------------ */
-    document.getElementById("saveBtn").addEventListener("click", function() {
-      document.querySelectorAll("[contenteditable]").forEach(el => {
-        localStorage.setItem(el.id, el.innerHTML);
-      });
-      alert("Cambios guardados");
-    });
+function activarModoAdmin() {
+  document.querySelectorAll("[contenteditable]").forEach(el => {
+    el.setAttribute("contenteditable", "true");
+  });
+  document.getElementById("adminBar").style.display = "flex";
+}
 
-    /* ------------------ SUBIR FOTOS ------------------ */
-    document.getElementById("uploadBtn").addEventListener("click", function() {
-      document.getElementById("fileInput").click();
-    });
+/* GUARDAR TEXTOS */
+document.getElementById("saveBtn").addEventListener("click", function() {
+  document.querySelectorAll("[contenteditable]").forEach(el => {
+    localStorage.setItem(el.id, el.innerHTML);
+  });
+  alert("Cambios guardados en este dispositivo");
+});
 
-    document.getElementById("fileInput").addEventListener("change", function(e) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
+/* SUBIR FOTOS */
+document.getElementById("uploadBtn").addEventListener("click", function() {
+  document.getElementById("fileInput").click();
+});
 
-      reader.onload = function(event) {
-        const base64 = event.target.result;
+document.getElementById("fileInput").addEventListener("change", function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
 
-        const fotoId = prompt(
-          "¿Qué foto quieres sustituir?\n" +
-          "Opciones:\n" +
-          "portada → heroFoto\n" +
-          "cómo llegar → fotoComo\n" +
-          "lista de bodas → fotoLista\n" +
-          "contacto → fotoContacto"
-        );
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const base64 = event.target.result;
+    const fotoId = prompt(
+      "¿Qué foto quieres sustituir?\n" +
+      "Opciones:\n" +
+      "portada → heroFoto\n" +
+      "cómo llegar → fotoComo\n" +
+      "lista de bodas → fotoLista\n" +
+      "contacto → fotoContacto"
+    );
+    const foto = document.getElementById(fotoId);
+    if (foto) {
+      foto.src = base64;
+      localStorage.setItem(fotoId, base64);
+    } else {
+      alert("ID de foto no válido.");
+    }
+  };
+  reader.readAsDataURL(file);
+});
 
-        const foto = document.getElementById(fotoId);
+/* CARGAR CAMBIOS AL ENTRAR */
+window.onload = function() {
+  /* Textos */
+  document.querySelectorAll("[contenteditable]").forEach(el => {
+    const saved = localStorage.getItem(el.id);
+    if (saved) el.innerHTML = saved;
+  });
 
-        if (foto) {
-          foto.src = base64;
-          localStorage.setItem(fotoId, base64);
-        } else {
-          alert("ID de foto no válido.");
-        }
-      };
-
-      reader.readAsDataURL(file);
-    });
-
-    /* ------------------ CARGAR CAMBIOS ------------------ */
-    window.onload = function() {
-      /* Cargar textos */
-      document.querySelectorAll("[contenteditable]").forEach(el => {
-        const saved = localStorage.getItem(el.id);
-        if (saved) el.innerHTML = saved;
-      });
-
-      /* Cargar fotos */
-      const fotos = ["heroFoto", "fotoComo", "fotoLista", "fotoContacto"];
-      fotos.forEach(id => {
-        const savedFoto = localStorage.getItem(id);
-        if (savedFoto) document.getElementById(id).src = savedFoto;
-      });
-    };
-  </script>
+  /* Fotos */
+  ["heroFoto","fotoComo","fotoLista","fotoContacto"].forEach(id => {
+    const savedFoto = localStorage.getItem(id);
+    if (savedFoto) document.getElementById(id).src = savedFoto;
+  });
+};
+</script>
 
 </body>
 </html>
-
