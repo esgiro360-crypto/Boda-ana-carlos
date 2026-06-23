@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ana & Carlos · 19 de junio 2027</title>
 
-<!-- Tipografías -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&family=Pinyon+Script&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-<!-- LIBRERÍAS DE FIREBASE -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
@@ -29,77 +28,35 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+body { background-color: var(--warm-bg); color: var(--soft-charcoal); font-family: var(--font-body); font-size: 18px; line-height: 1.8; background-image: url("https://www.transparenttextures.com/patterns/handmade-paper.png"); background-attachment: fixed; }
+.page-wrapper { max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
 
-body {
-  background-color: var(--warm-bg);
-  color: var(--soft-charcoal);
-  font-family: var(--font-body);
-  font-size: 18px;
-  line-height: 1.8;
-  -webkit-font-smoothing: antialiased;
-  background-image: 
-    radial-gradient(circle at 20% 10%, rgba(220, 200, 190, 0.25) 0%, transparent 40%),
-    radial-gradient(circle at 80% 90%, rgba(165, 162, 135, 0.15) 0%, transparent 40%),
-    url("https://www.transparenttextures.com/patterns/handmade-paper.png");
-  background-attachment: fixed;
-}
-
-.page-wrapper { max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 100px; }
-
-h1 { font-family: var(--font-script); font-size: clamp(64px, 12vw, 110px); font-weight: 400; line-height: 1.1; color: var(--sage-text); margin-bottom: 24px; outline: none; }
-.hero-subtitle { font-family: var(--font-hero); font-size: 18px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--soft-charcoal); margin-bottom: 40px; outline: none; }
-h2 { font-family: var(--font-script); font-size: clamp(40px, 8vw, 64px); font-weight: 400; color: var(--sage-text); margin-bottom: 16px; outline: none; }
+h1 { font-family: var(--font-script); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
+.hero-subtitle { font-family: var(--font-hero); font-size: 18px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 40px; outline: none; }
+h2 { font-family: var(--font-script); font-size: clamp(40px, 8vw, 64px); color: var(--sage-text); margin-bottom: 16px; outline: none; }
 h3 { font-family: var(--font-display); font-size: 14px; letter-spacing: 0.20em; text-transform: uppercase; color: var(--sage-text); margin-bottom: 16px; opacity: 0.8; outline: none; }
-p { margin-bottom: 24px; outline: none; }
+p { margin-bottom: 16px; outline: none; }
 
-.fine-art-img {
-  width: 100%; height: auto; max-height: 550px; object-fit: cover;
-  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 80%);
-  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 80%);
-  mix-blend-mode: multiply; transition: opacity 1.2s ease-out;
-}
-.fine-art-img.editable { cursor: pointer; border: 2px dashed var(--gold-line); -webkit-mask-image: none; mask-image: none; mix-blend-mode: normal; }
+.fine-art-img { width: 100%; height: auto; max-height: 550px; object-fit: cover; margin-bottom: 20px; transition: opacity 1.2s ease-out; }
+.fine-art-img.editable { cursor: pointer; border: 2px dashed var(--gold-line); }
 
 .hero { text-align: center; padding-top: 20px; }
 section { max-width: 650px; margin: 0 auto; text-align: center; }
-.button-group { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-top: 24px; }
 
 .btn-primary {
   display: inline-block; background: transparent; border: 1px solid var(--gold-line); border-radius: 999px;
-  padding: 14px 40px; font-family: var(--font-hero); font-size: 20px; color: var(--soft-charcoal);
-  text-decoration: none; cursor: pointer; transition: all 0.4s ease;
+  padding: 12px 30px; font-family: var(--font-hero); font-size: 16px; color: var(--soft-charcoal);
+  text-decoration: none; cursor: pointer; transition: all 0.4s ease; margin-top: 20px;
 }
 .btn-primary:hover { background: rgba(200, 185, 155, 0.15); color: var(--sage-text); }
 
-.watercolor-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin-top: 40px; border-top: 1px solid var(--gold-line); padding-top: 32px; }
-.watercolor-nav a { font-family: var(--font-display); font-size: 13px; letter-spacing: 0.20em; text-transform: uppercase; text-decoration: none; color: var(--soft-charcoal); transition: color 0.4s ease; }
+#secretAdminBtn { position: fixed; bottom: 0; right: 0; width: 100px; height: 100px; z-index: 9999; }
+#adminBar { display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background-color: var(--sage-text); color: var(--warm-bg); padding: 12px 28px; border-radius: 999px; z-index: 10000; font-family: var(--font-display); font-size: 12px; }
+#saveBtn { background: transparent; color: var(--warm-bg); border: 1px solid var(--gold-line); padding: 8px 16px; border-radius: 999px; cursor: pointer; margin-left: 10px; }
 
-#secretAdminBtn { position: fixed; bottom: 0; right: 0; width: 100px; height: 100px; z-index: 9999; cursor: default; }
-
-#adminBar {
-  display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-  background-color: var(--sage-text); color: var(--warm-bg); padding: 12px 28px;
-  border-radius: 999px; z-index: 10000; font-family: var(--font-display); font-size: 12px;
-  letter-spacing: 0.1em; text-transform: uppercase; align-items: center; gap: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
-#adminBar button { background: transparent; color: var(--warm-bg); border: 1px solid var(--gold-line); padding: 8px 16px; border-radius: 999px; cursor: pointer; font-family: inherit; transition: background 0.3s ease; }
-#adminBar button:hover { background: var(--warm-bg); color: var(--sage-text); }
-
-#loadingOverlay {
-  position: fixed; inset: 0; background: var(--warm-bg); z-index: 99999; display: flex;
-  justify-content: center; align-items: center; font-family: var(--font-script); font-size: 40px; color: var(--sage-text); transition: opacity 0.8s ease;
-}
-
+#loadingOverlay { position: fixed; inset: 0; background: var(--warm-bg); z-index: 99999; display: flex; justify-content: center; align-items: center; font-family: var(--font-script); font-size: 40px; color: var(--sage-text); transition: opacity 0.8s ease; }
 .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 1.5s ease-out, transform 1.5s ease-out; }
 .fade-up.is-visible { opacity: 1; transform: translateY(0); }
-
-@media (max-width: 768px) {
-  .page-wrapper { padding: 40px 20px; gap: 80px; }
-  .button-group { gap: 16px; flex-direction: column; align-items: center; }
-  .btn-primary { width: 100%; text-align: center; }
-  .fine-art-img { -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 85%); mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 85%); }
-}
 </style>
 </head>
 <body>
@@ -107,54 +64,47 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 <div id="loadingOverlay">Cargando la invitación...</div>
 
 <div class="page-wrapper">
-
   <header class="hero fade-up">
     <h1 id="heroNombres" contenteditable="false">Ana y Carlos</h1>
     <p id="heroFecha" class="hero-subtitle" contenteditable="false">19 de junio 2027 · Madrid</p>
-    <img id="heroImg" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000" alt="Ilustración Principal" class="fine-art-img">
-    <div class="button-group"><a href="#como-llegar" class="btn-primary">Cómo llegar</a></div>
-    <nav class="watercolor-nav"><a href="#ceremonia">Ceremonia</a><a href="#banquete">Banquete</a><a href="#confirmacion">Asistencia</a></nav>
+    <img id="heroImg" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000" alt="Hero" class="fine-art-img">
   </header>
 
   <section id="ceremonia" class="fade-up">
     <h3 id="h3Ceremonia" contenteditable="false">La ceremonia</h3>
     <h2 id="tituloCeremonia" contenteditable="false">Nuestra Señora del Pilar</h2>
-    <p id="textoCeremonia" contenteditable="false">Nos encantaría compartir con vosotros el momento más importante de nuestra vida.<br>La ceremonia tendrá lugar en la Iglesia Nuestra Señora del Pilar.</p>
-    <p id="infoCeremonia" contenteditable="false" style="font-family: var(--font-hero); font-size: 18px; margin-top: 16px;">Calle de Juan Bravo, 40, Madrid<br>18:00 horas</p>
+    <img id="ceremoniaImg" src="https://images.unsplash.com/photo-1548689816-c393139369ab?auto=format&fit=crop&q=80&w=1000" alt="Ceremonia" class="fine-art-img">
+    <p id="textoCeremonia" contenteditable="false">Descripción de la ceremonia.</p>
+    <p id="porQueCeremonia" contenteditable="false" style="font-style: italic; color: var(--sage-text);">¿Por qué elegimos este lugar?</p>
+    <a id="linkCeremonia" href="https://maps.app.goo.gl/8QK4dDPodLtDiw7G9?g_st=ac" class="btn-primary">Cómo llegar</a>
   </section>
 
   <section id="banquete" class="fade-up">
     <h3 id="h3Banquete" contenteditable="false">El banquete</h3>
     <h2 id="tituloBanquete" contenteditable="false">La Finca</h2>
-    <img id="banqueteImg" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=1000" alt="Ilustración Banquete" class="fine-art-img" style="max-height: 400px; margin-bottom: 24px;">
-    <p id="textoBanquete" contenteditable="false">Tras la ceremonia continuaremos la celebración rodeados de jardines, buena compañía y muchas ganas de disfrutar juntos.</p>
+    <img id="banqueteImg" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=1000" alt="Banquete" class="fine-art-img">
+    <p id="textoBanquete" contenteditable="false">Descripción del banquete.</p>
+    <p id="porQueBanquete" contenteditable="false" style="font-style: italic; color: var(--sage-text);">¿Por qué elegimos este lugar?</p>
+    <a id="linkBanquete" href="https://maps.app.goo.gl/Dyzve1vA7GrxsFSb8?g_st=ac" class="btn-primary">Cómo llegar</a>
   </section>
 
   <section id="confirmacion" class="fade-up">
     <h3 id="h3Asistencia" contenteditable="false">Asistencia</h3>
     <h2 id="tituloAsistencia" contenteditable="false">Acompáñanos</h2>
-    <p id="textoAsistencia" contenteditable="false">Os agradeceríamos que pudierais confirmar vuestra asistencia lo antes posible para ayudarnos a diseñar cada detalle.</p>
-    <div style="margin-top: 40px; border: 1px solid var(--gold-line); padding: 4px; border-radius: 12px; background: rgba(255,255,255,0.3);">
-      <iframe src="TU_ENLACE_DE_GOOGLE_FORMS" style="width: 100%; height: 600px; border: none; border-radius: 8px;"></iframe>
-    </div>
+    <p id="textoAsistencia" contenteditable="false">Os agradeceríamos que pudierais confirmar vuestra asistencia.</p>
+    <iframe src="TU_ENLACE_DE_GOOGLE_FORMS" style="width: 100%; height: 500px; border: none; margin-top: 20px;"></iframe>
   </section>
-
-  <section id="contacto" class="fade-up" style="padding-bottom: 60px;">
-    <h2 id="despedida1" contenteditable="false">Con cariño,</h2>
-    <h1 id="despedida2" contenteditable="false" style="font-size: 64px; margin-top: -10px;">Ana y Carlos</h1>
-  </section>
-
 </div>
 
 <div id="secretAdminBtn"></div>
 <div id="adminBar">
-  <span id="adminStatus">Modo Edición Público</span>
+  <span id="adminStatus">Modo Edición</span>
   <button id="saveBtn">Publicar Cambios</button>
 </div>
 <input type="file" id="imageUploader" accept="image/*" style="display: none;">
 
 <script>
-  const firebaseConfig = {
+  // const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
   projectId: "boda-ana-y-carlos-d458c",
@@ -165,13 +115,24 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 
   if (typeof firebase !== 'undefined' && !firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 
+  const startTime = Date.now();
+  const MIN_LOADING_TIME = 2000; // 2 segundos mínimos
+
   function quitarLoading() {
     const overlay = document.getElementById('loadingOverlay');
     if (overlay) { overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 800); }
   }
 
+  function safeQuitarLoading() {
+    const elapsed = Date.now() - startTime;
+    const remaining = Math.max(0, MIN_LOADING_TIME - elapsed);
+    setTimeout(quitarLoading, remaining);
+  }
+
   window.onload = function() {
-    setTimeout(quitarLoading, 4000); 
+    // Si Firebase tarda mucho, forzamos salida a los 4s
+    setTimeout(safeQuitarLoading, 4000);
+    
     if (typeof firebase !== 'undefined') {
       const db = firebase.firestore();
       db.collection("bodaData").doc("contenidoPrincipal").get().then((doc) => {
@@ -179,19 +140,21 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
           const data = doc.data();
           textIds.forEach(id => { if(data[id]) document.getElementById(id).innerHTML = data[id]; });
           fotoIds.forEach(id => { if(data[id]) document.getElementById(id).src = data[id]; });
+          linkIds.forEach(id => { if(data[id]) document.getElementById(id).href = data[id]; });
         }
-        quitarLoading();
-      }).catch(() => quitarLoading());
-    } else { quitarLoading(); }
-
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("is-visible"); obs.unobserve(entry.target); } });
-    }, { threshold: 0.15 });
+        safeQuitarLoading();
+      }).catch(() => safeQuitarLoading());
+    } else { safeQuitarLoading(); }
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add("is-visible"); });
+    }, { threshold: 0.1 });
     document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
   };
 
-  const textIds = ["heroNombres", "heroFecha", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "infoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia", "despedida1", "despedida2"];
-  const fotoIds = ["heroImg", "banqueteImg"];
+  const textIds = ["heroNombres", "heroFecha", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "porQueCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "porQueBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia"];
+  const fotoIds = ["heroImg", "ceremoniaImg", "banqueteImg"];
+  const linkIds = ["linkCeremonia", "linkBanquete"];
   let currentImageId = null;
 
   document.getElementById('secretAdminBtn').addEventListener('click', () => {
@@ -201,40 +164,29 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   function activarModoAdmin() {
     document.getElementById('adminBar').style.display = "flex";
     textIds.forEach(id => document.getElementById(id).setAttribute("contenteditable", "true"));
-    fotoIds.forEach(id => {
-      const img = document.getElementById(id);
-      img.classList.add("editable");
-      img.addEventListener("click", () => { currentImageId = id; document.getElementById('imageUploader').click(); });
-    });
+    fotoIds.forEach(id => { const img = document.getElementById(id); img.classList.add("editable"); img.onclick = () => { currentImageId = id; document.getElementById('imageUploader').click(); }; });
   }
 
   document.getElementById('imageUploader').addEventListener("change", async function(e) {
     const file = e.target.files[0];
-    if (!file || !currentImageId || typeof firebase === 'undefined') return;
-    const statusBtn = document.getElementById('adminStatus');
-    statusBtn.innerText = "Subiendo...";
-    try {
-      const ref = firebase.storage().ref('imagenesBoda/' + currentImageId);
-      await ref.put(file);
-      const url = await ref.getDownloadURL();
-      document.getElementById(currentImageId).src = url;
-      await firebase.firestore().collection("bodaData").doc("contenidoPrincipal").set({ [currentImageId]: url }, { merge: true });
-      statusBtn.innerText = "Actualizado ✓";
-    } catch (e) { alert("Error."); statusBtn.innerText = "Modo Edición Público"; }
+    if (!file || !currentImageId) return;
+    document.getElementById('adminStatus').innerText = "Subiendo...";
+    const ref = firebase.storage().ref('imagenesBoda/' + currentImageId);
+    await ref.put(file);
+    const url = await ref.getDownloadURL();
+    document.getElementById(currentImageId).src = url;
+    await firebase.firestore().collection("bodaData").doc("contenidoPrincipal").set({ [currentImageId]: url }, { merge: true });
+    document.getElementById('adminStatus').innerText = "Actualizado ✓";
   });
 
   document.getElementById('saveBtn').addEventListener("click", async function() {
-    if (typeof firebase === 'undefined') return;
     this.innerText = "Guardando...";
     const data = {};
     textIds.forEach(id => { data[id] = document.getElementById(id).innerHTML; });
-    try {
-      await firebase.firestore().collection("bodaData").doc("contenidoPrincipal").set(data, { merge: true });
-      this.innerText = "¡Publicado!";
-      setTimeout(() => this.innerText = "Publicar Cambios", 3000);
-    } catch (e) { alert("Error al guardar."); this.innerText = "Error"; }
+    await firebase.firestore().collection("bodaData").doc("contenidoPrincipal").set(data, { merge: true });
+    this.innerText = "Publicado!";
+    setTimeout(() => this.innerText = "Publicar Cambios", 3000);
   });
 </script>
-
 </body>
 </html>
