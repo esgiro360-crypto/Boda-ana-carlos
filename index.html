@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&family=Pinyon+Script&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
@@ -42,6 +43,10 @@ p { margin-bottom: 16px; outline: none; }
 .hero { text-align: center; padding-top: 20px; }
 section { max-width: 650px; margin: 0 auto; text-align: center; }
 
+/* Navegación recuperada */
+.watercolor-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin-top: 40px; border-top: 1px solid var(--gold-line); padding-top: 32px; }
+.watercolor-nav a { font-family: var(--font-display); font-size: 13px; letter-spacing: 0.20em; text-transform: uppercase; text-decoration: none; color: var(--soft-charcoal); transition: color 0.4s ease; cursor: pointer; }
+
 .btn-primary {
   display: inline-block; background: transparent; border: 1px solid var(--gold-line); border-radius: 999px;
   padding: 12px 30px; font-family: var(--font-hero); font-size: 16px; color: var(--soft-charcoal);
@@ -67,13 +72,33 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <h1 id="heroNombres" contenteditable="false">Ana y Carlos</h1>
     <p id="heroFecha" class="hero-subtitle" contenteditable="false">19 de junio 2027 · Madrid</p>
     <img id="heroImg" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000" alt="Hero" class="fine-art-img">
+    
+    <!-- Menú de navegación recuperado -->
+    <nav class="watercolor-nav">
+      <a href="#listaBoda">Lista</a>
+      <a href="#ceremonia">Ceremonia</a>
+      <a href="#banquete">Banquete</a>
+      <a href="#confirmacion">Asistencia</a>
+    </nav>
   </header>
+
+  <!-- Lista de Boda -->
+  <section id="listaBoda" class="fade-up">
+    <h3 id="h3Lista" contenteditable="false">Lista de Boda</h3>
+    <h2 id="tituloLista" contenteditable="false">Un detalle</h2>
+    <p id="textoListaBoda" contenteditable="false">Vuestra presencia es nuestro mayor regalo. Si queréis tener un detalle con nosotros, podéis hacerlo mediante transferencia a la siguiente cuenta:</p>
+    <div style="background: rgba(200, 185, 155, 0.1); padding: 25px; border-radius: 16px; margin-top: 20px; border: 1px solid var(--gold-line);">
+        <p style="font-size: 14px; opacity: 0.7; margin-bottom: 5px;">IBAN:</p>
+        <p id="ibanText" contenteditable="false" style="font-family: monospace; font-size: 18px; font-weight: bold; margin-bottom: 15px;">ES00 0000 0000 0000 0000 0000</p>
+        <button onclick="copiarIBAN()" class="btn-primary" style="padding: 8px 24px; font-size: 14px; margin-top: 0;">Copiar IBAN</button>
+    </div>
+  </section>
 
   <section id="ceremonia" class="fade-up">
     <h3 id="h3Ceremonia" contenteditable="false">La ceremonia</h3>
     <h2 id="tituloCeremonia" contenteditable="false">Nuestra Señora del Pilar</h2>
     <img id="ceremoniaImg" src="https://images.unsplash.com/photo-1548689816-c393139369ab?auto=format&fit=crop&q=80&w=1000" alt="Ceremonia" class="fine-art-img">
-    <p id="textoCeremonia" contenteditable="false">La ceremonia se celebrará en la Parroquia Nuestra Señora del Pilar. Un lugar que hemos elegido por...</p>
+    <p id="textoCeremonia" contenteditable="false">La ceremonia se celebrará en la Parroquia Nuestra Señora del Pilar.</p>
     <a id="linkCeremonia" href="https://maps.app.goo.gl/8QK4dDPodLtDiw7G9?g_st=ac" class="btn-primary">Cómo llegar</a>
   </section>
 
@@ -81,7 +106,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <h3 id="h3Banquete" contenteditable="false">El banquete</h3>
     <h2 id="tituloBanquete" contenteditable="false">La Finca</h2>
     <img id="banqueteImg" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=1000" alt="Banquete" class="fine-art-img">
-    <p id="textoBanquete" contenteditable="false">Tras la ceremonia, nos trasladaremos a la Finca X. Es un espacio que nos cautivó por...</p>
+    <p id="textoBanquete" contenteditable="false">Tras la ceremonia, nos trasladaremos a la Finca.</p>
     <a id="linkBanquete" href="https://maps.app.goo.gl/Dyzve1vA7GrxsFSb8?g_st=ac" class="btn-primary">Cómo llegar</a>
   </section>
 
@@ -90,6 +115,10 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <h2 id="tituloAsistencia" contenteditable="false">Acompáñanos</h2>
     <p id="textoAsistencia" contenteditable="false">Os agradeceríamos que pudierais confirmar vuestra asistencia.</p>
     <iframe src="TU_ENLACE_DE_GOOGLE_FORMS" style="width: 100%; height: 500px; border: none; margin-top: 20px;"></iframe>
+  </section>
+
+  <section id="cierre" class="fade-up" style="margin-top: 40px; border-top: 1px solid var(--gold-line); padding-top: 40px;">
+    <p id="mensajeCierre" contenteditable="false" style="font-family: var(--font-script); font-size: 32px; color: var(--sage-text);">Con cariño, Ana y Carlos</p>
   </section>
 </div>
 
@@ -102,20 +131,27 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 
 <script>
   // 🔴 PEGA TUS DATOS DE FIREBASE AQUÍ 🔴
-  const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
   projectId: "boda-ana-y-carlos-d458c",
   storageBucket: "boda-ana-y-carlos-d458c.firebasestorage.app",
   messagingSenderId: "725675577879",
   appId: "1:725675577879:web:5f7fbc4f051544afd9c252"
-  };
+};
   // 🔴 FIN DE DATOS FIREBASE 🔴
 
   if (typeof firebase !== 'undefined' && !firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 
   const startTime = Date.now();
   const MIN_LOADING_TIME = 2000;
+
+  function copiarIBAN() {
+    const texto = document.getElementById('ibanText').innerText;
+    navigator.clipboard.writeText(texto).then(() => {
+        alert("IBAN copiado al portapapeles");
+    });
+  }
 
   function quitarLoading() {
     const overlay = document.getElementById('loadingOverlay');
@@ -149,7 +185,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
   };
 
-  const textIds = ["heroNombres", "heroFecha", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia"];
+  const textIds = ["heroNombres", "heroFecha", "h3Lista", "tituloLista", "textoListaBoda", "ibanText", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia", "mensajeCierre"];
   const fotoIds = ["heroImg", "ceremoniaImg", "banqueteImg"];
   const linkIds = ["linkCeremonia", "linkBanquete"];
   let currentImageId = null;
