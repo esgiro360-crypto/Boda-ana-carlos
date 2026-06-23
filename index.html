@@ -7,22 +7,21 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&family=Pinyon+Script&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<!-- Tipografías editoriales -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@300;400;500;700&family=Pinyon+Script&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
-<style>
+<style id="custom-styles">
 :root {
   --sage-text: #5B6345;
   --warm-bg: #F8F5EF;
   --gold-line: rgba(200, 185, 155, 0.6);
   --soft-charcoal: #4A4540;
-  --font-script: 'Pinyon Script', cursive;
-  --font-hero: 'Cormorant Garamond', serif;
-  --font-display: 'Cinzel', serif;
+  --font-header: 'Pinyon Script', cursive;
   --font-body: 'Libre Baskerville', serif;
 }
 
@@ -32,18 +31,16 @@ body {
   background-color: var(--warm-bg); 
   color: var(--soft-charcoal); 
   font-family: var(--font-body); 
-  font-size: 18px; 
-  line-height: 1.8; 
-  /* Textura Verjurado */
-  background-image: url("https://www.transparenttextures.com/patterns/pinstripe-light.png"); 
+  font-size: 18px; line-height: 1.8; 
+  background-image: url("https://www.transparenttextures.com/patterns/handmade-paper.png"); 
   background-attachment: fixed; 
 }
 .page-wrapper { max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
 
-h1 { font-family: var(--font-script); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
-.hero-subtitle { font-family: var(--font-hero); font-size: 18px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 40px; outline: none; }
-h2 { font-family: var(--font-script); font-size: clamp(40px, 8vw, 64px); color: var(--sage-text); margin-bottom: 16px; outline: none; }
-h3 { font-family: var(--font-display); font-size: 14px; letter-spacing: 0.20em; text-transform: uppercase; color: var(--sage-text); margin-bottom: 16px; opacity: 0.8; outline: none; }
+h1 { font-family: var(--font-header); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
+.hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 18px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 40px; outline: none; }
+h2 { font-family: var(--font-header); font-size: clamp(40px, 8vw, 64px); color: var(--sage-text); margin-bottom: 16px; outline: none; }
+h3 { font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.20em; text-transform: uppercase; color: var(--sage-text); margin-bottom: 16px; opacity: 0.8; outline: none; }
 p { margin-bottom: 16px; outline: none; }
 
 .fine-art-img { width: 100%; height: auto; max-height: 550px; object-fit: cover; margin-bottom: 20px; transition: opacity 1.2s ease-out; }
@@ -52,30 +49,20 @@ p { margin-bottom: 16px; outline: none; }
 .hero { text-align: center; padding-top: 20px; }
 section { max-width: 650px; margin: 0 auto; text-align: center; }
 
-/* Navegación con efecto acuarela */
 .watercolor-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin-top: 40px; border-top: 1px solid var(--gold-line); padding-top: 32px; }
-.watercolor-nav a { 
-    font-family: var(--font-display); font-size: 13px; letter-spacing: 0.20em; text-transform: uppercase; 
-    text-decoration: none; color: var(--soft-charcoal); transition: all 0.5s ease; cursor: pointer; position: relative;
-}
-.watercolor-nav a::after {
-    content: ''; position: absolute; bottom: -8px; left: 50%; width: 0; height: 4px;
-    background: rgba(200, 185, 155, 0.4); filter: blur(3px); transition: all 0.5s ease;
-}
+.watercolor-nav a { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 0.20em; text-transform: uppercase; text-decoration: none; color: var(--soft-charcoal); transition: all 0.5s ease; cursor: pointer; position: relative; }
+.watercolor-nav a::after { content: ''; position: absolute; bottom: -8px; left: 50%; width: 0; height: 4px; background: rgba(200, 185, 155, 0.4); filter: blur(3px); transition: all 0.5s ease; }
 .watercolor-nav a:hover::after, .watercolor-nav a:active::after { width: 100%; left: 0; }
 
-.btn-primary {
-  display: inline-block; background: transparent; border: 1px solid var(--gold-line); border-radius: 999px;
-  padding: 12px 30px; font-family: var(--font-hero); font-size: 16px; color: var(--soft-charcoal);
-  text-decoration: none; cursor: pointer; transition: all 0.4s ease; margin-top: 20px;
-}
+.btn-primary { display: inline-block; background: transparent; border: 1px solid var(--gold-line); border-radius: 999px; padding: 12px 30px; font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--soft-charcoal); text-decoration: none; cursor: pointer; transition: all 0.4s ease; margin-top: 20px; }
 .btn-primary:hover { background: rgba(200, 185, 155, 0.15); color: var(--sage-text); }
 
 #secretAdminBtn { position: fixed; bottom: 0; right: 0; width: 100px; height: 100px; z-index: 9999; }
-#adminBar { display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background-color: var(--sage-text); color: var(--warm-bg); padding: 12px 28px; border-radius: 999px; z-index: 10000; font-family: var(--font-display); font-size: 12px; }
-#saveBtn { background: transparent; color: var(--warm-bg); border: 1px solid var(--gold-line); padding: 8px 16px; border-radius: 999px; cursor: pointer; margin-left: 10px; }
+#adminBar { display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background-color: var(--sage-text); color: var(--warm-bg); padding: 12px 28px; border-radius: 999px; z-index: 10000; font-family: 'Cinzel', serif; font-size: 12px; gap: 10px; }
+#saveBtn { background: transparent; color: var(--warm-bg); border: 1px solid var(--gold-line); padding: 8px 16px; border-radius: 999px; cursor: pointer; }
 
-#loadingOverlay { position: fixed; inset: 0; background: var(--warm-bg); z-index: 99999; display: flex; justify-content: center; align-items: center; font-family: var(--font-script); font-size: 40px; color: var(--sage-text); transition: opacity 0.8s ease; }
+#designMenu { display: none; background: #fff; color: #000; padding: 20px; border-radius: 10px; position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 10001; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+#loadingOverlay { position: fixed; inset: 0; background: var(--warm-bg); z-index: 99999; display: flex; justify-content: center; align-items: center; font-family: 'Pinyon Script', cursive; font-size: 40px; color: var(--sage-text); transition: opacity 0.8s ease; }
 .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 1.5s ease-out, transform 1.5s ease-out; }
 .fade-up.is-visible { opacity: 1; transform: translateY(0); }
 </style>
@@ -133,20 +120,33 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   </section>
 
   <section id="cierre" class="fade-up" style="margin-top: 40px; border-top: 1px solid var(--gold-line); padding-top: 40px;">
-    <p id="mensajeCierre" contenteditable="false" style="font-family: var(--font-script); font-size: 32px; color: var(--sage-text);">Con cariño, Ana y Carlos</p>
+    <p id="mensajeCierre" contenteditable="false" style="font-family: var(--font-header); font-size: 32px; color: var(--sage-text);">Con cariño, Ana y Carlos</p>
   </section>
 </div>
 
 <div id="secretAdminBtn"></div>
 <div id="adminBar">
   <span id="adminStatus">Modo Edición</span>
-  <button id="saveBtn">Publicar Cambios</button>
+  <button onclick="toggleDesign()">Diseño</button>
+  <button id="saveBtn">Publicar</button>
 </div>
+
+<div id="designMenu">
+  <label>Fondo: <input type="color" id="bgPicker" value="#F8F5EF" onchange="applyDesign()"></label><br>
+  <label>Texto: <input type="color" id="textPicker" value="#5B6345" onchange="applyDesign()"></label><br>
+  <label>Estilo Título: 
+    <select id="fontSelect" onchange="applyDesign()">
+      <option value="classic">Clásico (Pinyon Script)</option>
+      <option value="modern">Serif Moderna (Playfair)</option>
+    </select>
+  </label>
+</div>
+
 <input type="file" id="imageUploader" accept="image/*" style="display: none;">
 
 <script>
   // 🔴 PEGA TUS DATOS DE FIREBASE AQUÍ 🔴
-  const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
   projectId: "boda-ana-y-carlos-d458c",
@@ -158,29 +158,37 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 
   if (typeof firebase !== 'undefined' && !firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 
-  const startTime = Date.now();
-  const MIN_LOADING_TIME = 2000;
+  function applyDesign() {
+      const bg = document.getElementById('bgPicker').value;
+      const col = document.getElementById('textPicker').value;
+      const fontStyle = document.getElementById('fontSelect').value;
+      
+      document.documentElement.style.setProperty('--warm-bg', bg);
+      document.documentElement.style.setProperty('--sage-text', col);
+      document.documentElement.style.setProperty('--soft-charcoal', col);
+
+      const headers = document.querySelectorAll('h1, h2');
+      headers.forEach(h => h.style.fontFamily = (fontStyle === 'modern') ? "'Playfair Display', serif" : "'Pinyon Script', cursive");
+  }
+
+  function toggleDesign() {
+      const menu = document.getElementById('designMenu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  }
 
   function copiarIBAN() {
     const texto = document.getElementById('ibanText').innerText;
-    navigator.clipboard.writeText(texto).then(() => {
-        alert("IBAN copiado al portapapeles");
-    });
+    navigator.clipboard.writeText(texto).then(() => alert("IBAN copiado"));
   }
 
+  const startTime = Date.now();
+  const MIN_LOADING_TIME = 2000;
   function quitarLoading() {
     const overlay = document.getElementById('loadingOverlay');
     if (overlay) { overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 800); }
   }
 
-  function safeQuitarLoading() {
-    const elapsed = Date.now() - startTime;
-    const remaining = Math.max(0, MIN_LOADING_TIME - elapsed);
-    setTimeout(quitarLoading, remaining);
-  }
-
   window.onload = function() {
-    setTimeout(safeQuitarLoading, 4000);
     if (typeof firebase !== 'undefined') {
       const db = firebase.firestore();
       db.collection("bodaData").doc("contenidoPrincipal").get().then((doc) => {
@@ -189,10 +197,16 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
           textIds.forEach(id => { if(data[id]) document.getElementById(id).innerHTML = data[id]; });
           fotoIds.forEach(id => { if(data[id]) document.getElementById(id).src = data[id]; });
           linkIds.forEach(id => { if(data[id]) document.getElementById(id).href = data[id]; });
+          if(data.design) {
+              document.getElementById('bgPicker').value = data.design.bg;
+              document.getElementById('textPicker').value = data.design.text;
+              document.getElementById('fontSelect').value = data.design.font;
+              applyDesign();
+          }
         }
-        safeQuitarLoading();
-      }).catch(() => safeQuitarLoading());
-    } else { safeQuitarLoading(); }
+        setTimeout(quitarLoading, 2000);
+      }).catch(() => quitarLoading());
+    } else { quitarLoading(); }
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add("is-visible"); });
@@ -203,9 +217,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   const textIds = ["heroNombres", "heroFecha", "h3Lista", "tituloLista", "textoListaBoda", "ibanText", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia", "mensajeCierre"];
   const fotoIds = ["heroImg", "ceremoniaImg", "banqueteImg"];
   const linkIds = ["linkCeremonia", "linkBanquete"];
-  let currentImageId = null;
-
-  // Botón Admin con 5 clics
+  
   let adminClickCount = 0;
   document.getElementById('secretAdminBtn').addEventListener('click', () => {
     adminClickCount++;
@@ -223,23 +235,28 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 
   document.getElementById('imageUploader').addEventListener("change", async function(e) {
     const file = e.target.files[0];
-    if (!file || !currentImageId) return;
+    if (!file) return;
     document.getElementById('adminStatus').innerText = "Subiendo...";
     const ref = firebase.storage().ref('imagenesBoda/' + currentImageId);
     await ref.put(file);
     const url = await ref.getDownloadURL();
     document.getElementById(currentImageId).src = url;
-    await firebase.firestore().collection("bodaData").doc("contenidoPrincipal").set({ [currentImageId]: url }, { merge: true });
     document.getElementById('adminStatus').innerText = "Actualizado ✓";
   });
 
   document.getElementById('saveBtn').addEventListener("click", async function() {
     this.innerText = "Guardando...";
-    const data = {};
+    const data = {
+        design: {
+            bg: document.getElementById('bgPicker').value,
+            text: document.getElementById('textPicker').value,
+            font: document.getElementById('fontSelect').value
+        }
+    };
     textIds.forEach(id => { data[id] = document.getElementById(id).innerHTML; });
     await firebase.firestore().collection("bodaData").doc("contenidoPrincipal").set(data, { merge: true });
     this.innerText = "Publicado!";
-    setTimeout(() => this.innerText = "Publicar Cambios", 3000);
+    setTimeout(() => this.innerText = "Publicar", 3000);
   });
 </script>
 </body>
