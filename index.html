@@ -16,9 +16,9 @@
 <style id="custom-styles">
 :root {
   --sage-text: #5B6345;
-  --warm-bg: #DBC3A2; /* Color Camel */
-  --gold-line: rgba(139, 115, 85, 0.4);
-  --soft-charcoal: #3D3935;
+  --warm-bg: #F8F5EF;
+  --gold-line: rgba(200, 185, 155, 0.6);
+  --soft-charcoal: #4A4540;
   --font-header: 'Pinyon Script', cursive;
   --font-body: 'Libre Baskerville', serif;
 }
@@ -30,14 +30,22 @@ body {
   color: var(--soft-charcoal); 
   font-family: var(--font-body); 
   font-size: 18px; line-height: 1.8; 
-  /* Textura papel artesanal */
-  background-image: url("https://www.transparenttextures.com/patterns/handmade-paper.png"); 
-  background-attachment: fixed; 
+  /* Textura de papel artesanal con capa de grano para mayor rugosidad */
+  background-image: url("https://www.transparenttextures.com/patterns/handmade-paper.png"), 
+                    url("https://www.transparenttextures.com/patterns/noise-lines.png");
+  background-attachment: fixed;
 }
+
 .page-wrapper { max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
 
-/* Secciones con sombra para relieve */
-section { max-width: 650px; margin: 0 auto; text-align: center; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+/* Sombras en secciones para dar relieve de papel */
+section { 
+  max-width: 650px; margin: 0 auto; text-align: center; 
+  padding: 40px; border-radius: 8px; 
+  background: rgba(255, 255, 255, 0.2); 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+  border: 1px solid rgba(200, 185, 155, 0.3);
+}
 
 h1 { font-family: var(--font-header); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
 .hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 18px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 40px; outline: none; }
@@ -45,19 +53,20 @@ h2 { font-family: var(--font-header); font-size: clamp(40px, 8vw, 64px); color: 
 h3 { font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.20em; text-transform: uppercase; color: var(--sage-text); margin-bottom: 16px; opacity: 0.8; outline: none; }
 p { margin-bottom: 16px; outline: none; }
 
-.fine-art-img { width: 100%; height: auto; max-height: 550px; object-fit: cover; margin-bottom: 20px; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.fine-art-img { width: 100%; height: auto; max-height: 550px; object-fit: cover; margin-bottom: 20px; border-radius: 2px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
 .fine-art-img.editable { cursor: pointer; border: 2px dashed var(--gold-line); }
 
 .watercolor-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin-top: 40px; border-top: 1px solid var(--gold-line); padding-top: 32px; }
 .watercolor-nav a { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 0.20em; text-transform: uppercase; text-decoration: none; color: var(--soft-charcoal); transition: all 0.5s ease; cursor: pointer; position: relative; }
+.watercolor-nav a::after { content: ''; position: absolute; bottom: -8px; left: 50%; width: 0; height: 4px; background: rgba(200, 185, 155, 0.4); filter: blur(3px); transition: all 0.5s ease; }
+.watercolor-nav a:hover::after, .watercolor-nav a:active::after { width: 100%; left: 0; }
 
 .btn-primary { display: inline-block; background: transparent; border: 1px solid var(--gold-line); border-radius: 999px; padding: 12px 30px; font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--soft-charcoal); text-decoration: none; cursor: pointer; transition: all 0.4s ease; margin-top: 20px; }
-.btn-primary:hover { background: rgba(139, 115, 85, 0.15); color: var(--sage-text); }
+.btn-primary:hover { background: rgba(91, 99, 69, 0.1); color: var(--sage-text); }
 
 #secretAdminBtn { position: fixed; bottom: 0; right: 0; width: 100px; height: 100px; z-index: 9999; }
 #adminBar { display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background-color: var(--soft-charcoal); color: white; padding: 12px 28px; border-radius: 999px; z-index: 10000; font-family: sans-serif; font-size: 12px; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 
-/* Diseño del Modal de Configuración */
 #designMenu { display: none; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); color: #333; padding: 25px; border-radius: 20px; position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 10001; box-shadow: 0 20px 50px rgba(0,0,0,0.2); width: 300px; border: 1px solid #ddd; }
 #designMenu h4 { margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 #designMenu label { display: block; margin: 10px 0; font-size: 14px; font-family: sans-serif; }
@@ -106,15 +115,18 @@ p { margin-bottom: 16px; outline: none; }
     <h3 id="h3Lista" contenteditable="false">Lista de Boda</h3>
     <h2 id="tituloLista" contenteditable="false">Un detalle</h2>
     <p id="textoListaBoda" contenteditable="false">Vuestra presencia es nuestro mayor regalo. Si queréis tener un detalle con nosotros, podéis hacerlo mediante transferencia a la siguiente cuenta:</p>
-    <div style="background: rgba(139, 115, 85, 0.1); padding: 25px; border-radius: 16px; margin-top: 20px; border: 1px solid var(--gold-line);">
+    <div style="background: rgba(200, 185, 155, 0.2); padding: 25px; border-radius: 8px; margin-top: 20px; border: 1px solid var(--gold-line);">
         <p style="font-size: 14px; opacity: 0.7; margin-bottom: 5px;">IBAN:</p>
         <p id="ibanText" contenteditable="false" style="font-family: monospace; font-size: 18px; font-weight: bold; margin-bottom: 15px;">ES00 0000 0000 0000 0000 0000</p>
         <button onclick="copiarIBAN()" class="btn-primary" style="padding: 8px 24px; font-size: 14px; margin-top: 0;">Copiar IBAN</button>
     </div>
   </section>
+
+  <section id="cierre" class="fade-up" style="margin-top: 40px; border: none; box-shadow: none; background: transparent;">
+    <p id="mensajeCierre" contenteditable="false" style="font-family: var(--font-header); font-size: 32px; color: var(--sage-text);">Con cariño, Ana y Carlos</p>
+  </section>
 </div>
 
-<!-- Controles Admin -->
 <div id="secretAdminBtn"></div>
 <div id="adminBar">
   <span id="adminStatus">Modo Edición</span>
@@ -122,16 +134,15 @@ p { margin-bottom: 16px; outline: none; }
   <button id="saveBtn">Publicar</button>
 </div>
 
-<!-- Modal Diseño -->
 <div id="designMenu">
   <h4>Personalización</h4>
-  <label>Fondo Camel: <input type="color" id="bgPicker" value="#DBC3A2" onchange="applyDesign()"></label>
-  <label>Texto Principal: <input type="color" id="textPicker" value="#3D3935" onchange="applyDesign()"></label>
-  <label>Detalles Oro/Línea: <input type="color" id="goldPicker" value="#8B7355" onchange="applyDesign()"></label>
+  <label>Fondo: <input type="color" id="bgPicker" value="#F8F5EF" onchange="applyDesign()"></label>
+  <label>Texto Principal: <input type="color" id="textPicker" value="#5B6345" onchange="applyDesign()"></label>
+  <label>Detalles Oro: <input type="color" id="goldPicker" value="#C8B99B" onchange="applyDesign()"></label>
   <label>Estilo Título: 
     <select id="fontSelect" onchange="applyDesign()">
-      <option value="classic">Clásico (Editorial)</option>
-      <option value="modern">Serif Moderna</option>
+      <option value="classic">Clásico (Pinyon Script)</option>
+      <option value="modern">Serif Moderna (Playfair)</option>
     </select>
   </label>
 </div>
@@ -140,7 +151,7 @@ p { margin-bottom: 16px; outline: none; }
 
 <script>
   // 🔴 PEGA TUS DATOS DE FIREBASE AQUÍ 🔴
-const firebaseConfig = {
+  const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
   projectId: "boda-ana-y-carlos-d458c",
@@ -159,9 +170,9 @@ const firebaseConfig = {
       const font = document.getElementById('fontSelect').value;
       
       document.documentElement.style.setProperty('--warm-bg', bg);
+      document.documentElement.style.setProperty('--sage-text', text);
       document.documentElement.style.setProperty('--soft-charcoal', text);
       document.documentElement.style.setProperty('--gold-line', gold);
-      document.documentElement.style.setProperty('--sage-text', text);
 
       const headers = document.querySelectorAll('h1, h2');
       headers.forEach(h => h.style.fontFamily = (font === 'modern') ? "'Playfair Display', serif" : "'Pinyon Script', cursive");
@@ -177,7 +188,6 @@ const firebaseConfig = {
     navigator.clipboard.writeText(texto).then(() => alert("IBAN copiado"));
   }
 
-  // Carga
   window.onload = function() {
     if (typeof firebase !== 'undefined') {
       const db = firebase.firestore();
@@ -197,7 +207,7 @@ const firebaseConfig = {
     }
   };
 
-  const textIds = ["heroNombres", "heroFecha", "h3Lista", "tituloLista", "textoListaBoda", "ibanText", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia"];
+  const textIds = ["heroNombres", "heroFecha", "h3Lista", "tituloLista", "textoListaBoda", "ibanText", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia", "mensajeCierre"];
   const fotoIds = ["heroImg", "ceremoniaImg", "banqueteImg"];
   
   let adminClickCount = 0;
@@ -214,6 +224,17 @@ const firebaseConfig = {
     textIds.forEach(id => document.getElementById(id).setAttribute("contenteditable", "true"));
     fotoIds.forEach(id => { const img = document.getElementById(id); img.classList.add("editable"); img.onclick = () => { currentImageId = id; document.getElementById('imageUploader').click(); }; });
   }
+
+  document.getElementById('imageUploader').addEventListener("change", async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    document.getElementById('adminStatus').innerText = "Subiendo...";
+    const ref = firebase.storage().ref('imagenesBoda/' + currentImageId);
+    await ref.put(file);
+    const url = await ref.getDownloadURL();
+    document.getElementById(currentImageId).src = url;
+    document.getElementById('adminStatus').innerText = "Actualizado ✓";
+  });
 
   document.getElementById('saveBtn').addEventListener("click", async function() {
     this.innerText = "Guardando...";
