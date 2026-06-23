@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&family=Pinyon+Script&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-<!-- LIBRERÍAS DE FIREBASE (Conexión a la base de datos) -->
+<!-- LIBRERÍAS DE FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
@@ -21,7 +21,6 @@
   --warm-bg: #F8F5EF;
   --gold-line: rgba(200, 185, 155, 0.6);
   --soft-charcoal: #4A4540;
-  
   --font-script: 'Pinyon Script', cursive;
   --font-hero: 'Cormorant Garamond', serif;
   --font-display: 'Cinzel', serif;
@@ -87,7 +86,6 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 #adminBar button { background: transparent; color: var(--warm-bg); border: 1px solid var(--gold-line); padding: 8px 16px; border-radius: 999px; cursor: pointer; font-family: inherit; transition: background 0.3s ease; }
 #adminBar button:hover { background: var(--warm-bg); color: var(--sage-text); }
 
-/* Pantalla de carga visual mientras se descargan datos */
 #loadingOverlay {
   position: fixed; inset: 0; background: var(--warm-bg); z-index: 99999; display: flex;
   justify-content: center; align-items: center; font-family: var(--font-script); font-size: 40px; color: var(--sage-text); transition: opacity 0.8s ease;
@@ -137,7 +135,6 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <h2 id="tituloAsistencia" contenteditable="false">Acompáñanos</h2>
     <p id="textoAsistencia" contenteditable="false">Os agradeceríamos que pudierais confirmar vuestra asistencia lo antes posible para ayudarnos a diseñar cada detalle.</p>
     <div style="margin-top: 40px; border: 1px solid var(--gold-line); padding: 4px; border-radius: 12px; background: rgba(255,255,255,0.3);">
-      <!-- RECUERDA CAMBIAR EL SRC DE ESTE IFRAME POR EL DE TU GOOGLE FORMS -->
       <iframe src="TU_ENLACE_DE_GOOGLE_FORMS" style="width: 100%; height: 600px; border: none; border-radius: 8px;"></iframe>
     </div>
   </section>
@@ -149,7 +146,6 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 
 </div>
 
-<!-- Admin UI -->
 <div id="secretAdminBtn"></div>
 <div id="adminBar">
   <span id="adminStatus">Modo Edición Público</span>
@@ -158,7 +154,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 <input type="file" id="imageUploader" accept="image/*" style="display: none;">
 
 <script>
-  //const firebaseConfig = {
+  const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
   projectId: "boda-ana-y-carlos-d458c",
@@ -167,113 +163,76 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   appId: "1:725675577879:web:5f7fbc4f051544afd9c252"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
+  if (typeof firebase !== 'undefined' && !firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 
-  // INICIALIZAR FIREBASE
-  if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
-  const db = firebase.firestore();
-  const storage = firebase.storage();
-  const dbDoc = db.collection("bodaData").doc("contenidoPrincipal");
+  function quitarLoading() {
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) { overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 800); }
+  }
 
-  // VARIABLES Y ESTADOS
-  const textIds = ["heroNombres", "heroFecha", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "infoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia", "despedida1", "despedida2"];
-  const fotoIds = ["heroImg", "banqueteImg"];
-  let currentImageId = null;
-
-  // CARGAR DATOS AL ENTRAR
   window.onload = function() {
-    dbDoc.get().then((doc) => {
-      if (doc.exists) {
-        const data = doc.data();
-        textIds.forEach(id => { if(data[id]) document.getElementById(id).innerHTML = data[id]; });
-        fotoIds.forEach(id => { if(data[id]) document.getElementById(id).src = data[id]; });
-      }
-      // Ocultar pantalla de carga
-      const overlay = document.getElementById('loadingOverlay');
-      overlay.style.opacity = '0';
-      setTimeout(() => overlay.style.display = 'none', 800);
-    }).catch(error => {
-      console.log("Aún no hay datos en la nube o faltan las credenciales.");
-      document.getElementById('loadingOverlay').style.display = 'none';
-    });
+    setTimeout(quitarLoading, 4000); 
+    if (typeof firebase !== 'undefined') {
+      const db = firebase.firestore();
+      db.collection("bodaData").doc("contenidoPrincipal").get().then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          textIds.forEach(id => { if(data[id]) document.getElementById(id).innerHTML = data[id]; });
+          fotoIds.forEach(id => { if(data[id]) document.getElementById(id).src = data[id]; });
+        }
+        quitarLoading();
+      }).catch(() => quitarLoading());
+    } else { quitarLoading(); }
 
-    // Animaciones al hacer scroll
     const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add("is-visible"); obs.unobserve(entry.target); }
-      });
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("is-visible"); obs.unobserve(entry.target); } });
     }, { threshold: 0.15 });
     document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
   };
 
-  // LÓGICA DEL BOTÓN INVISIBLE (5 clics rápidos)
-  let clickCount = 0; let clickTimer;
+  const textIds = ["heroNombres", "heroFecha", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "infoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia", "despedida1", "despedida2"];
+  const fotoIds = ["heroImg", "banqueteImg"];
+  let currentImageId = null;
+
   document.getElementById('secretAdminBtn').addEventListener('click', () => {
-    clickCount++;
-    clearTimeout(clickTimer);
-    clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
-    
-    if (clickCount >= 5) {
-      clickCount = 0;
-      if (prompt("Contraseña:") === "LaJosefa") activarModoAdmin();
-    }
+    if (prompt("Contraseña:") === "LaJosefa") activarModoAdmin();
   });
 
   function activarModoAdmin() {
     document.getElementById('adminBar').style.display = "flex";
-    
-    // Textos editables
     textIds.forEach(id => document.getElementById(id).setAttribute("contenteditable", "true"));
-
-    // Fotos clickeables
     fotoIds.forEach(id => {
       const img = document.getElementById(id);
       img.classList.add("editable");
-      img.addEventListener("click", () => {
-        currentImageId = id;
-        document.getElementById('imageUploader').click();
-      });
+      img.addEventListener("click", () => { currentImageId = id; document.getElementById('imageUploader').click(); });
     });
   }
 
-  // SUBIR IMAGEN A LA NUBE (STORAGE)
   document.getElementById('imageUploader').addEventListener("change", async function(e) {
     const file = e.target.files[0];
-    if (!file || !currentImageId) return;
-    
+    if (!file || !currentImageId || typeof firebase === 'undefined') return;
     const statusBtn = document.getElementById('adminStatus');
-    statusBtn.innerText = "Subiendo foto...";
-    
+    statusBtn.innerText = "Subiendo...";
     try {
-      const ref = storage.ref('imagenesBoda/' + currentImageId);
+      const ref = firebase.storage().ref('imagenesBoda/' + currentImageId);
       await ref.put(file);
       const url = await ref.getDownloadURL();
-      
-      // Mostrar y guardar en Firestore
       document.getElementById(currentImageId).src = url;
-      await dbDoc.set({ [currentImageId]: url }, { merge: true });
-      statusBtn.innerText = "Foto actualizada ✓";
-    } catch (error) {
-      alert("Error subiendo la foto. Comprueba que las reglas de Firebase Storage estén en modo prueba.");
-      statusBtn.innerText = "Modo Edición Público";
-    }
+      await firebase.firestore().collection("bodaData").doc("contenidoPrincipal").set({ [currentImageId]: url }, { merge: true });
+      statusBtn.innerText = "Actualizado ✓";
+    } catch (e) { alert("Error."); statusBtn.innerText = "Modo Edición Público"; }
   });
 
-  // GUARDAR TEXTOS EN LA NUBE (FIRESTORE)
   document.getElementById('saveBtn').addEventListener("click", async function() {
+    if (typeof firebase === 'undefined') return;
     this.innerText = "Guardando...";
-    const dataToSave = {};
-    textIds.forEach(id => { dataToSave[id] = document.getElementById(id).innerHTML; });
-
+    const data = {};
+    textIds.forEach(id => { data[id] = document.getElementById(id).innerHTML; });
     try {
-      await dbDoc.set(dataToSave, { merge: true });
+      await firebase.firestore().collection("bodaData").doc("contenidoPrincipal").set(data, { merge: true });
       this.innerText = "¡Publicado!";
       setTimeout(() => this.innerText = "Publicar Cambios", 3000);
-    } catch (error) {
-      alert("Error al guardar. Comprueba las reglas de tu base de datos Firebase.");
-      this.innerText = "Error";
-    }
+    } catch (e) { alert("Error al guardar."); this.innerText = "Error"; }
   });
 </script>
 
