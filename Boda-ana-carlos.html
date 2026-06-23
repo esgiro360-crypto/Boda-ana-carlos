@@ -1,129 +1,254 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Boda de Ana & Carlos – 19/06/2027</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<title>Boda Ana & Carlos – 19/06/2027</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Tipografías elegantes estilo pluma -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- Tipografías -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --color-fondo: #F4EFE7;
-      --color-principal: #123528;
-      --color-secundario: #8FA48F;
-      --color-madera: #B8865D;
-      --color-texto: #2F2A24;
-      --color-blanco: #FFFFFF;
-      --max-width: 980px;
-      --radius: 12px;
+<style>
+/* ----------- ESTILOS GENERALES ----------- */
+:root {
+  --verde: #123528;
+  --crema: #F4EFE7;
+  --madera: #B8865D;
+  --texto: #2F2A24;
+  --blanco: #fff;
+}
+
+body {
+  margin: 0;
+  background: var(--crema);
+  font-family: "Nunito", sans-serif;
+  color: var(--texto);
+}
+
+/* ----------- CABECERA ----------- */
+header {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  background: linear-gradient(135deg, rgba(18,53,40,0.92), rgba(184,134,93,0.9));
+  color: var(--blanco);
+}
+
+header h1 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.6rem;
+}
+
+header .fecha {
+  margin-top: .5rem;
+  font-size: 1.1rem;
+  letter-spacing: .1em;
+}
+
+/* ----------- SECCIONES ----------- */
+section {
+  background: var(--blanco);
+  margin: 1.2rem;
+  padding: 1.4rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+section h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.8rem;
+  margin-top: 0;
+  color: var(--verde);
+}
+
+/* ----------- FOTOS ----------- */
+.foto {
+  width: 100%;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+/* ----------- FORMULARIO GOOGLE ----------- */
+iframe {
+  width: 100%;
+  min-height: 900px;
+  border: none;
+}
+
+/* ----------- MODO ADMIN ----------- */
+[contenteditable="true"] {
+  outline: 2px dashed var(--madera);
+  padding: 4px;
+  border-radius: 6px;
+}
+
+#adminBar {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  background: var(--verde);
+  color: var(--blanco);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: .9rem;
+  display: none;
+}
+
+#saveBtn, #uploadBtn {
+  background: var(--madera);
+  color: var(--blanco);
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: none;
+  margin-top: 10px;
+  display: none;
+}
+
+#fileInput {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1 id="titulo" contenteditable="false">Ana & Carlos</h1>
+  <p class="fecha" id="fecha" contenteditable="false">19 · 06 · 2027</p>
+</header>
+
+<section>
+  <h2 id="nosotrosTitulo" contenteditable="false">Nuestra historia</h2>
+  <p id="nosotrosTexto" contenteditable="false">
+    Aquí podéis escribir vuestra historia, cómo os conocisteis y unas palabras de agradecimiento.
+  </p>
+
+  <img id="foto1" class="foto" src="" alt="Foto 1">
+</section>
+
+<section>
+  <h2 id="ubicacionesTitulo" contenteditable="false">Ubicaciones</h2>
+  <p id="ubicacionesTexto" contenteditable="false">
+    Ceremonia en la Iglesia del Pilar y celebración en el Palacio del Negralejo.
+  </p>
+
+  <img id="foto2" class="foto" src="" alt="Foto 2">
+</section>
+
+<section>
+  <h2 id="rsvpTitulo" contenteditable="false">Confirmar asistencia</h2>
+
+  <!-- 🔗 PEGAR AQUÍ TU GOOGLE FORMS -->
+  <iframe src="AQUÍ_TU_ENLACE_DE_GOOGLE_FORMS"></iframe>
+</section>
+
+<section>
+  <h2 id="regaloTitulo" contenteditable="false">Regalo</h2>
+  <p id="regaloTexto" contenteditable="false">
+    Vuestra presencia es lo más importante. Si queréis hacernos un regalo:
+    <br><strong>IBAN:</strong> ES00 0000 0000 00 0000000000
+  </p>
+</section>
+
+<section>
+  <h2 id="contactoTitulo" contenteditable="false">Contacto</h2>
+  <p id="contactoTexto" contenteditable="false">
+    Para cualquier duda podéis escribirnos a: <strong>correo@example.com</strong>
+  </p>
+</section>
+
+<!-- ----------- BOTONES ADMIN ----------- -->
+<div id="adminBar">Modo edición activo</div>
+<button id="saveBtn">Guardar cambios</button>
+<button id="uploadBtn">Subir foto</button>
+<input type="file" id="fileInput" accept="image/*">
+
+<script>
+/* ------------------ ACTIVAR MODO ADMIN ------------------ */
+
+/* Activación por teclado (PC) */
+document.addEventListener("keydown", function(e) {
+  if (e.key === "M" && e.ctrlKey) {
+    const pass = prompt("Introduce la contraseña de administrador:");
+    if (pass === "LaJosefa") activarModoAdmin();
+  }
+});
+
+/* Activación invisible por móvil: 5 toques en la esquina inferior derecha */
+let toqueCount = 0;
+document.addEventListener("click", function(e) {
+  const ancho = window.innerWidth;
+  const alto = window.innerHeight;
+
+  if (e.clientX > ancho * 0.75 && e.clientY > alto * 0.75) {
+    toqueCount++;
+    if (toqueCount >= 5) {
+      const pass = prompt("Introduce la contraseña de administrador:");
+      if (pass === "LaJosefa") activarModoAdmin();
+      toqueCount = 0;
     }
+  } else {
+    toqueCount = 0;
+  }
+});
 
-    body {
-      margin: 0;
-      font-family: "Nunito", sans-serif;
-      background-color: var(--color-fondo);
-      color: var(--color-texto);
-      line-height: 1.7;
+function activarModoAdmin() {
+  document.querySelectorAll("[contenteditable]").forEach(el => {
+    el.setAttribute("contenteditable", "true");
+  });
+
+  document.getElementById("adminBar").style.display = "block";
+  document.getElementById("saveBtn").style.display = "block";
+  document.getElementById("uploadBtn").style.display = "block";
+}
+
+/* ------------------ GUARDAR CAMBIOS ------------------ */
+document.getElementById("saveBtn").addEventListener("click", function() {
+  document.querySelectorAll("[contenteditable]").forEach(el => {
+    localStorage.setItem(el.id, el.innerHTML);
+  });
+  alert("Cambios guardados");
+});
+
+/* ------------------ SUBIR FOTOS ------------------ */
+document.getElementById("uploadBtn").addEventListener("click", function() {
+  document.getElementById("fileInput").click();
+});
+
+document.getElementById("fileInput").addEventListener("change", function(e) {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+    const base64 = event.target.result;
+
+    const fotoId = prompt("¿Qué foto quieres sustituir? (1 o 2)");
+    const foto = document.getElementById("foto" + fotoId);
+
+    if (foto) {
+      foto.src = base64;
+      localStorage.setItem("foto" + fotoId, base64);
     }
+  };
 
-    header {
-      background: linear-gradient(135deg, rgba(18,53,40,0.92), rgba(184,134,93,0.9));
-      color: var(--color-blanco);
-      text-align: center;
-      padding: 3.2rem 1rem 2.6rem;
-      border-bottom: 4px solid rgba(0,0,0,0.1);
-    }
+  reader.readAsDataURL(file);
+});
 
-    header h1 {
-      margin: 0;
-      font-family: "Cormorant Garamond", serif;
-      font-size: 3rem;
-      letter-spacing: 0.05em;
-    }
+/* ------------------ CARGAR CAMBIOS ------------------ */
+window.onload = function() {
+  document.querySelectorAll("[contenteditable]").forEach(el => {
+    const saved = localStorage.getItem(el.id);
+    if (saved) el.innerHTML = saved;
+  });
 
-    header .fecha {
-      font-family: "Playfair Display", serif;
-      font-size: 1.2rem;
-      margin-top: 0.5rem;
-      letter-spacing: 0.12em;
-    }
+  for (let i = 1; i <= 2; i++) {
+    const savedFoto = localStorage.getItem("foto" + i);
+    if (savedFoto) document.getElementById("foto" + i).src = savedFoto;
+  }
+};
+</script>
 
-    nav {
-      background-color: #fdf9f3;
-      border-bottom: 1px solid #e0d4c5;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0.5rem 1rem;
-      display: flex;
-      justify-content: center;
-      gap: 0.75rem;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--color-principal);
-      font-weight: 600;
-      padding: 0.35rem 0.9rem;
-      border-radius: 999px;
-      background-color: #f7f1e8;
-    }
-
-    nav a:hover {
-      background-color: #efe1d0;
-      border-color: var(--color-madera);
-    }
-
-    main {
-      max-width: var(--max-width);
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-
-    section {
-      background-color: var(--color-blanco);
-      border-radius: var(--radius);
-      padding: 1.7rem;
-      margin-bottom: 1.7rem;
-      border: 1px solid #e3d6c7;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
-    }
-
-    section h2 {
-      font-family: "Playfair Display", serif;
-      font-size: 1.8rem;
-      color: var(--color-principal);
-      margin-top: 0;
-      letter-spacing: 0.04em;
-    }
-
-    .subtitulo {
-      font-style: italic;
-      color: #6b5b4c;
-      margin-top: -0.4rem;
-      margin-bottom: 1rem;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.2rem;
-    }
-
-    @media (max-width: 780px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .foto-real {
-      border-radius: var(--radius);
+</body>
+</html>
