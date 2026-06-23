@@ -36,7 +36,6 @@ body {
 
 .page-wrapper { max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
 
-/* Sin marcos, sin sombras, flujo natural */
 section { max-width: 650px; margin: 0 auto; text-align: center; padding: 20px 0; }
 
 h1 { font-family: var(--font-header); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
@@ -100,6 +99,8 @@ p { margin-bottom: 16px; outline: none; }
     <h2 id="tituloLista" contenteditable="false">Un detalle</h2>
     <p id="textoListaBoda" contenteditable="false">Vuestra presencia es nuestro mayor regalo.</p>
     <p id="ibanText" contenteditable="false" style="font-family: monospace; font-weight: bold; padding: 10px; border: 1px solid var(--gold-line);">ES00 0000 0000 0000 0000 0000</p>
+    
+    <p id="mensajeFinal" contenteditable="false" style="margin-top: 40px; font-style: italic; font-family: var(--font-header); font-size: 24px;">Con cariño,<br>Ana y Carlos</p>
   </section>
 </div>
 
@@ -112,21 +113,20 @@ p { margin-bottom: 16px; outline: none; }
 
 <script>
   // 🔴 PEGA TUS DATOS AQUÍ 🔴
-  const firebaseConfig = {
-  apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
-  authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
-  projectId: "boda-ana-y-carlos-d458c",
-  storageBucket: "boda-ana-y-carlos-d458c.firebasestorage.app",
-  messagingSenderId: "725675577879",
-  appId: "1:725675577879:web:5f7fbc4f051544afd9c252"
-};
+  const apiKey = "TU_API_KEY";
+  const authDomain = "TU_PROYECTO.firebaseapp.com";
+  const projectId = "TU_PROYECTO";
+  const storageBucket = "TU_PROYECTO.appspot.com";
+  const messagingSenderId = "TUS_NUMEROS";
+  const appId = "TU_APP_ID";
   // 🔴 FIN 🔴
 
   if (typeof firebase !== 'undefined' && !firebase.apps.length) {
     firebase.initializeApp({ apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId });
   }
   
-  const textIds = ["heroNombres", "heroFecha", "h3Lista", "tituloLista", "textoListaBoda", "ibanText", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia"];
+  // Hemos añadido "mensajeFinal" a esta lista para que se guarde
+  const textIds = ["heroNombres", "heroFecha", "h3Lista", "tituloLista", "textoListaBoda", "ibanText", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia", "mensajeFinal"];
   const fotoIds = ["heroImg", "ceremoniaImg", "banqueteImg"];
   let currentImageId = "";
 
