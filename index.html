@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ana & Carlos · 19 de junio 2027</title>
 
-<!-- Tipografías -->
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Cinzel&family=Libre+Baskerville&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  /* Paleta */
+  /* Paleta de Colores */
   --sage-heritage: #78775F;
   --warm-ivory: #F7F3ED;
   --stone-beige: #EEE7DD;
@@ -19,27 +20,34 @@
   --antique-gold: #C5AF7C;
   --soft-charcoal: #4A4540;
 
-  /* Tipografía */
-  --font-display: "Cormorant Garamond", serif;
-  --font-subtitle: "Cinzel", serif;
-  --font-body: "Libre Baskerville", serif;
+  /* Tipografías */
+  --font-hero: 'Cormorant Garamond', serif;
+  --font-display: 'Cinzel', serif;
+  --font-body: 'Libre Baskerville', serif;
 }
 
-/* Reset suave */
+/* Reset Suave */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
   background-color: var(--warm-ivory);
   color: var(--soft-charcoal);
   font-family: var(--font-body);
   font-size: 18px;
   line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Textura papel muy sutil */
+/* Textura sutil de papel de algodón (Opacidad 5%) */
 body::before {
   content: "";
   position: fixed;
@@ -47,415 +55,377 @@ body::before {
   pointer-events: none;
   background-image: url("https://www.transparenttextures.com/patterns/handmade-paper.png");
   opacity: 0.05;
-  mix-blend-mode: soft-light;
-  z-index: -1;
+  mix-blend-mode: multiply;
+  z-index: 9999; /* Sobre todo, pero sin interferir clics */
 }
 
-/* Contenedor principal */
-.page {
-  max-width: 1040px;
+/* Contenedor Principal Editorial */
+.page-wrapper {
+  max-width: 900px;
   margin: 0 auto;
-  padding: 32px 20px 64px;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 120px; /* Espacio respirable entre secciones */
 }
 
-/* Tipografía jerárquica */
+/* Tipografía Jerárquica */
 h1 {
-  font-family: var(--font-display);
-  font-size: clamp(56px, 8vw, 96px);
+  font-family: var(--font-hero);
+  font-size: clamp(48px, 8vw, 84px);
   font-weight: 300;
-  line-height: 1;
-  margin: 0;
+  line-height: 1.1;
   color: var(--sage-heritage);
+  margin-bottom: 16px;
 }
 
 h2 {
-  font-family: var(--font-display);
-  font-size: clamp(36px, 5vw, 56px);
-  font-weight: 400;
-  margin: 0 0 12px;
+  font-family: var(--font-hero);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 300;
   color: var(--sage-heritage);
+  margin-bottom: 24px;
 }
 
 h3 {
-  font-family: var(--font-subtitle);
-  font-size: 16px;
-  letter-spacing: 0.2em;
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.20em;
   text-transform: uppercase;
-  margin: 0 0 8px;
+  color: var(--antique-gold);
+  margin-bottom: 16px;
+}
+
+p {
   color: var(--soft-charcoal);
+  margin-bottom: 24px;
 }
 
-/* PORTADA / HERO */
-.hero {
-  background-color: var(--stone-beige);
-  border-radius: 24px;
-  padding: 32px 28px 28px;
-  border: 1px solid rgba(197,175,124,0.5);
+.text-center {
+  text-align: center;
 }
 
-.hero-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* Foto portada */
-#heroFoto {
+/* Ilustraciones y Fotografías (Estilo Acuarela/Fine Art) */
+.fine-art-img {
   width: 100%;
-  max-height: 380px;
+  height: auto;
+  max-height: 500px;
   object-fit: cover;
-  border-radius: 18px;
-  border: 1px solid rgba(197,175,124,0.6);
-  cursor: pointer;
+  border-radius: 4px;
+  filter: saturate(0.8) contrast(0.85) sepia(0.1);
+  transition: opacity 1.2s ease-out;
 }
 
-/* Bloque nombres/fecha */
-.hero-text {
-  text-align: left;
+/* HERO SECTION */
+.hero {
+  text-align: center;
+  padding-top: 40px;
 }
 
 .hero-subtitle {
-  font-family: var(--font-subtitle);
-  font-size: 16px;
-  letter-spacing: 0.2em;
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0.20em;
   text-transform: uppercase;
-  margin-top: 10px;
-  color: var(--soft-charcoal);
+  margin-bottom: 32px;
 }
 
-/* Navegación editorial */
-nav {
-  margin-top: 32px;
-  padding-top: 8px;
-  border-top: 1px solid rgba(197,175,124,0.5);
+.hero-message {
+  font-style: italic;
+  font-size: 20px;
+  max-width: 600px;
+  margin: 40px auto;
+  color: var(--sage-heritage);
 }
 
-nav ul {
-  list-style: none;
-  margin: 12px 0 0;
-  padding: 0;
+/* NAVEGACIÓN ORGÁNICA */
+.watercolor-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 64px;
 }
 
-nav a {
-  font-family: var(--font-subtitle);
+.watercolor-nav a {
+  position: relative;
+  font-family: var(--font-display);
   font-size: 13px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.20em;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--soft-charcoal);
-  padding-bottom: 4px;
-  border-bottom: 1px solid rgba(197,175,124,0.6);
-  transition: color 0.3s ease, border-color 0.3s ease;
+  padding: 12px 24px;
+  transition: color 0.4s ease;
+  z-index: 1;
 }
 
-nav a:hover {
+/* Pincelada suave de fondo al hacer hover */
+.watercolor-nav a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--stone-beige);
+  border-radius: 60% 40% 50% 40% / 40% 50% 40% 60%;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.6s ease-out;
+  z-index: -1;
+}
+
+.watercolor-nav a:hover {
   color: var(--sage-heritage);
-  border-color: var(--sage-heritage);
+}
+
+.watercolor-nav a:hover::before {
+  opacity: 0.8;
+  transform: scale(1);
 }
 
 /* SECCIONES EDITORIALES */
 section {
-  margin-top: 40px;
-  padding: 28px 24px 26px;
-  border-radius: 20px;
-  background-color: var(--stone-beige);
-  border: 1px solid rgba(197,175,124,0.5);
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
 }
 
-/* Línea dorada sutil */
-section::before {
-  content: "";
-  display: block;
-  width: 80px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--antique-gold), transparent);
-  margin-bottom: 16px;
+/* Camino Ilustrado (Elemento decorativo entre secciones) */
+.illustrated-path {
+  height: 80px;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--antique-gold), transparent);
+  margin: 0 auto;
+  opacity: 0.4;
 }
 
-/* Texto sección */
-section p {
-  margin: 0 0 16px;
-}
-
-/* Fotos de sección */
-.section-photo {
-  width: 100%;
-  max-height: 320px;
-  object-fit: cover;
-  border-radius: 16px;
-  border: 1px solid rgba(197,175,124,0.6);
-  cursor: pointer;
-}
-
-/* Botones estilo papelería */
-.button {
+/* BOTONES */
+.btn-primary {
   display: inline-block;
   background: transparent;
   border: 1px solid #D7C7B8;
   border-radius: 999px;
   padding: 16px 36px;
-  font-family: var(--font-subtitle);
-  font-size: 13px;
-  letter-spacing: 0.18em;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.20em;
   text-transform: uppercase;
   color: var(--soft-charcoal);
   text-decoration: none;
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  margin-top: 16px;
 }
 
-.button:hover {
+.btn-primary:hover {
   background: var(--sage-heritage);
   color: var(--warm-ivory);
   border-color: var(--sage-heritage);
 }
 
-/* Iframe formulario */
+/* LISTA DE BODA - IBAN */
+.iban-container {
+  background-color: var(--stone-beige);
+  padding: 32px;
+  border-radius: 8px;
+  margin: 32px auto;
+  max-width: 450px;
+  border: 1px solid rgba(197, 175, 124, 0.3);
+}
+
+.iban-text {
+  font-family: var(--font-display);
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+
+/* FORMULARIO */
+.form-container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
 iframe {
   width: 100%;
-  min-height: 900px;
+  min-height: 800px;
   border: none;
-  border-radius: 16px;
-  background-color: var(--warm-ivory);
+  background-color: transparent;
 }
 
-/* Footer */
-footer {
+/* CONTACTO / DESPEDIDA */
+.contact-section {
+  padding-bottom: 80px;
+}
+
+.signature {
+  font-family: var(--font-hero);
+  font-size: 32px;
+  font-style: italic;
+  color: var(--sage-heritage);
   margin-top: 48px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(197,175,124,0.5);
-  text-align: center;
-  font-size: 14px;
-  color: var(--soft-charcoal);
 }
 
-/* Admin bar */
-#adminBar {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  background-color: var(--sage-heritage);
-  color: var(--warm-ivory);
-  padding: 8px 14px;
-  border-radius: 999px;
-  display: none;
-  gap: 8px;
-  font-size: 13px;
-  font-family: var(--font-body);
+/* ANIMACIONES FADE IN AL HACER SCROLL */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.2s ease-out, transform 1.2s ease-out;
 }
 
-#adminBar button {
-  border: none;
-  background: transparent;
-  color: var(--warm-ivory);
-  padding: 4px 10px;
-  border-radius: 999px;
-  cursor: pointer;
-  border: 1px solid rgba(247,243,237,0.6);
+.fade-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Responsive */
-@media (max-width: 720px) {
-  .hero {
-    padding: 24px 20px;
-  }
-  section {
-    padding: 24px 20px;
-  }
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .page-wrapper { padding: 40px 20px; gap: 80px; }
+  .watercolor-nav { gap: 16px; flex-direction: column; align-items: center; }
+  .btn-primary { padding: 14px 28px; width: 100%; text-align: center; }
 }
 </style>
 </head>
 <body>
 
-<div class="page">
+<div class="page-wrapper">
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-inner">
-      <img id="heroFoto" src="https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg" alt="Finca histórica madrileña">
-      <div class="hero-text">
-        <h1 id="heroNombres" contenteditable="false">Ana & Carlos</h1>
-        <p id="heroFecha" class="hero-subtitle" contenteditable="false">19 de junio 2027 · Madrid</p>
-      </div>
+  <header class="hero fade-up">
+    <h1 id="heroNombres">Ana & Carlos</h1>
+    <p id="heroFecha" class="hero-subtitle">19 de junio de 2027 · Madrid</p>
+    
+    <p class="hero-message">
+      "Celebraremos uno de los días más importantes de nuestra vida y nos encantaría compartirlo contigo."
+    </p>
+
+    <img id="heroImg" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000" alt="Palacio del Negralejo" class="fine-art-img" style="border-radius: 50% 50% 0 0 / 20% 20% 0 0;">
+
+    <nav class="watercolor-nav">
+      <a href="#ceremonia">La ceremonia</a>
+      <a href="#banquete">El banquete</a>
+      <a href="#lista">Lista de boda</a>
+      <a href="#confirmacion">Confirmar asistencia</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <section id="ceremonia" class="fade-up">
+    <h3>La ceremonia</h3>
+    <h2>Iglesia Nuestra Señora del Pilar</h2>
+    <p>
+      Nos encantaría compartir con vosotros el momento más importante de nuestra vida.<br>
+      La ceremonia tendrá lugar en la Iglesia Nuestra Señora del Pilar, en Madrid.
+    </p>
+    <p style="font-family: var(--font-display); font-size: 14px;">
+      Calle de Juan Bravo, 40, 28006 Madrid<br>
+      19 de Junio de 2027 · 18:00h
+    </p>
+    <a href="https://maps.google.com" target="_blank" class="btn-primary">Ver ubicación</a>
+  </section>
+
+  <div class="illustrated-path fade-up"></div>
+
+  <section id="banquete" class="fade-up">
+    <h3>El banquete</h3>
+    <h2>Palacio del Negralejo</h2>
+    <img id="banqueteImg" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=1000" alt="Palacio del Negralejo Banquete" class="fine-art-img" style="margin-bottom: 32px;">
+    
+    <p>
+      Tras la ceremonia continuaremos la celebración rodeados de jardines, buena compañía y muchas ganas de disfrutar juntos.
+    </p>
+    <p style="font-family: var(--font-display); font-size: 14px;">
+      Ctra. de San Fernando a Mejorada, Km 3, 28522 Rivas-Vaciamadrid
+    </p>
+    <a href="https://maps.google.com" target="_blank" class="btn-primary">Cómo llegar</a>
+  </section>
+
+  <div class="illustrated-path fade-up"></div>
+
+  <section id="lista" class="fade-up">
+    <h3>Lista de boda</h3>
+    <h2>Nuestro futuro juntos</h2>
+    <p>
+      Vuestra presencia es, sin duda, el mejor regalo que podríamos recibir.<br>
+      No obstante, para quienes deseen ayudarnos a seguir construyendo esta nueva etapa juntos, os dejamos aquí nuestra cuenta bancaria.
+    </p>
+    
+    <div class="iban-container">
+      <div class="iban-text" id="ibanText">ES12 3456 7890 1234 5678 9012</div>
+      <button class="btn-primary" onclick="copyIBAN()">Copiar IBAN</button>
     </div>
   </section>
 
-  <!-- NAV -->
-  <nav>
-    <ul>
-      <li><a href="#como-llegar">Cómo llegar</a></li>
-      <li><a href="#programa">Programa</a></li>
-      <li><a href="#confirmacion">Confirmación</a></li>
-      <li><a href="#lista-bodas">Lista de bodas</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-  </nav>
-
-  <!-- CÓMO LLEGAR -->
-  <section id="como-llegar">
-    <h3>Ubicación</h3>
-    <h2 id="tituloComo" contenteditable="false">Cómo llegar</h2>
-    <p id="textoComo" contenteditable="false">
-      La ceremonia y el banquete se celebrarán en una finca histórica rodeada de jardines, a las afueras de Madrid.
-      Hemos preparado los enlaces directos a Google Maps para que puedas llegar con calma y sin prisas.
+  <section id="confirmacion" class="fade-up">
+    <h3>Asistencia</h3>
+    <h2>Confirmar asistencia</h2>
+    <p>
+      Os agradeceríamos que pudierais confirmar vuestra asistencia lo antes posible para ayudarnos con la organización de este día tan especial.
     </p>
-
-    <p><strong>Ceremonia</strong></p>
-    <a href="https://maps.app.goo.gl/8QK4dDPodLtDiw7G9?g_st=ac" target="_blank" class="button">Ver mapa</a>
-
-    <p style="margin-top:20px;"><strong>Banquete</strong></p>
-    <a href="https://maps.app.goo.gl/Dyzve1vA7GrxsFSb8?g_st=ac" target="_blank" class="button">Ver mapa</a>
-
-    <img id="fotoComo" class="section-photo" src="https://images.pexels.com/photos/931796/pexels-photo-931796.jpeg" alt="Jardines de la finca">
+    <div class="form-container">
+      <iframe src="https://docs.google.com/forms/d/e/TU_ID_AQUI/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+    </div>
   </section>
 
-  <!-- PROGRAMA -->
-  <section id="programa">
-    <h3>Programa</h3>
-    <h2 id="tituloPrograma" contenteditable="false">Un fin de semana en la finca</h2>
-    <p id="textoPrograma" contenteditable="false">
-      Queremos que este día se sienta como un fin de semana de verano en una finca heredada, donde cada momento
-      está pensado para disfrutarse sin prisa: la llegada al jardín, la ceremonia entre árboles, el cóctel al atardecer
-      y la cena bajo luces cálidas.
+  <section id="contacto" class="contact-section fade-up">
+    <h3>Nos vemos muy pronto</h3>
+    <h2>Gracias por acompañarnos</h2>
+    <p>
+      Estamos deseando celebrar este día con todos vosotros.<br>
+      Gracias por acompañarnos en uno de los momentos más importantes de nuestra vida.
     </p>
-    <img id="fotoPrograma" class="section-photo" src="https://images.pexels.com/photos/1024992/pexels-photo-1024992.jpeg" alt="Ambiente de la celebración">
+    
+    <div style="margin-top: 48px; font-size: 16px;">
+      <p style="margin-bottom: 8px;"><strong>Ana Belén Salvador Acosta</strong></p>
+      <p style="margin-bottom: 24px; font-family: var(--font-display); font-size: 12px;">+34 600 000 000 · ana@email.com</p>
+      
+      <p style="margin-bottom: 8px;"><strong>Carlos Prieto Soria</strong></p>
+      <p style="margin-bottom: 24px; font-family: var(--font-display); font-size: 12px;">+34 600 000 000 · carlos@email.com</p>
+    </div>
+
+    <p class="signature">Con cariño,<br>Ana y Carlos</p>
   </section>
 
-  <!-- CONFIRMACIÓN -->
-  <section id="confirmacion">
-    <h3>Confirmación</h3>
-    <h2 id="tituloConfirmacion" contenteditable="false">Confirmación de asistencia</h2>
-    <p id="textoConfirmacion" contenteditable="false">
-      Nos hará mucha ilusión compartir este día contigo.
-      Por favor, confirma tu asistencia antes del 1 de mayo de 2027 para que podamos cuidar cada detalle con tiempo.
-    </p>
-    <iframe
-      id="googleForm"
-      src="AQUI_TU_GOOGLE_FORMS"
-      title="Formulario de confirmación">
-    </iframe>
-  </section>
-
-  <!-- LISTA DE BODAS -->
-  <section id="lista-bodas">
-    <h3>Lista de bodas</h3>
-    <h2 id="tituloLista" contenteditable="false">Detalles para nuestro hogar</h2>
-    <p id="textoLista" contenteditable="false">
-      Tu presencia es nuestro mejor regalo.
-      Si además quieres ayudarnos a construir nuestro hogar, hemos preparado una lista de detalles que nos hacen ilusión:
-      piezas especiales, experiencias compartidas y pequeños gestos que nos acompañarán muchos años.
-    </p>
-    <img id="fotoLista" class="section-photo" src="https://images.pexels.com/photos/1024991/pexels-photo-1024991.jpeg" alt="Detalles de papelería y mesa">
-  </section>
-
-  <!-- CONTACTO -->
-  <section id="contacto">
-    <h3>Contacto</h3>
-    <h2 id="tituloContacto" contenteditable="false">Dudas y detalles</h2>
-    <p id="textoContacto" contenteditable="false">
-      Si tienes cualquier duda sobre horarios, transporte, alojamiento cercano o necesidades especiales,
-      puedes escribirnos y estaremos encantados de ayudarte. Queremos que te sientas tan cuidado como nosotros
-      al diseñar este día.
-    </p>
-    <img id="fotoContacto" class="section-photo" src="https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg" alt="Correspondencia y detalles">
-  </section>
-
-  <footer>
-    Ana & Carlos · 19 de junio 2027 · Madrid
-  </footer>
-
-</div>
-
-<!-- Barra admin -->
-<div id="adminBar">
-  <span>Modo edición</span>
-  <button id="saveBtn">Guardar textos</button>
 </div>
 
 <script>
-const fotoIds = ["heroFoto","fotoComo","fotoPrograma","fotoLista","fotoContacto"];
-
-/* ACTIVAR MODO ADMIN */
-/* PC: Ctrl + M */
-document.addEventListener("keydown", function(e) {
-  if (e.key === "M" && e.ctrlKey) {
-    const pass = prompt("Introduce la contraseña de administrador:");
-    if (pass === "LaJosefa") activarModoAdmin();
+  // FUNCIONALIDAD: COPIAR IBAN
+  function copyIBAN() {
+    const ibanText = document.getElementById("ibanText").innerText;
+    navigator.clipboard.writeText(ibanText).then(() => {
+      const btn = document.querySelector(".iban-container .btn-primary");
+      const originalText = btn.innerText;
+      btn.innerText = "¡IBAN Copiado!";
+      btn.style.background = "var(--sage-heritage)";
+      btn.style.color = "var(--warm-ivory)";
+      
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.background = "transparent";
+        btn.style.color = "var(--soft-charcoal)";
+      }, 3000);
+    });
   }
-});
 
-/* MÓVIL: 5 toques esquina inferior derecha */
-let toqueCount = 0;
-document.addEventListener("click", function(e) {
-  const ancho = window.innerWidth;
-  const alto = window.innerHeight;
-
-  if (e.clientX > ancho * 0.75 && e.clientY > alto * 0.75) {
-    toqueCount++;
-    if (toqueCount >= 5) {
-      const pass = prompt("Introduce la contraseña de administrador:");
-      if (pass === "LaJosefa") activarModoAdmin();
-      toqueCount = 0;
-    }
-  } else {
-    toqueCount = 0;
-  }
-});
-
-function activarModoAdmin() {
-  document.querySelectorAll("[contenteditable]").forEach(el => {
-    el.setAttribute("contenteditable", "true");
-  });
-  document.getElementById("adminBar").style.display = "flex";
-
-  fotoIds.forEach(id => {
-    const img = document.getElementById(id);
-    img.style.cursor = "pointer";
-    img.addEventListener("click", () => cambiarFoto(id));
-  });
-}
-
-function cambiarFoto(id) {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
-  input.onchange = e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const base64 = ev.target.result;
-      const img = document.getElementById(id);
-      img.src = base64;
-      localStorage.setItem(id, base64);
+  // ANIMACIONES FADE-UP CON INTERSECTION OBSERVER (Scroll suave)
+  document.addEventListener("DOMContentLoaded", function() {
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.15 // Activa la animación cuando el 15% de la sección es visible
     };
-    reader.readAsDataURL(file);
-  };
-  input.click();
-}
 
-/* GUARDAR TEXTOS */
-document.getElementById("saveBtn").addEventListener("click", function() {
-  document.querySelectorAll("[contenteditable]").forEach(el => {
-    localStorage.setItem(el.id, el.innerHTML);
-  });
-  alert("Cambios guardados en este dispositivo");
-});
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target); // Se anima solo la primera vez
+        }
+      });
+    }, observerOptions);
 
-/* CARGAR CAMBIOS AL ENTRAR */
-window.onload = function() {
-  document.querySelectorAll("[contenteditable]").forEach(el => {
-    const saved = localStorage.getItem(el.id);
-    if (saved) el.innerHTML = saved;
+    const fadeElements = document.querySelectorAll(".fade-up");
+    fadeElements.forEach(el => observer.observe(el));
   });
-
-  fotoIds.forEach(id => {
-    const savedFoto = localStorage.getItem(id);
-    if (savedFoto) document.getElementById(id).src = savedFoto;
-  });
-};
 </script>
 
 </body>
