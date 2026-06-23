@@ -30,7 +30,7 @@ body {
   color: var(--soft-charcoal); 
   font-family: var(--font-body); 
   font-size: 18px; line-height: 1.8; 
-  /* Textura de papel artesanal con capa de grano para mayor rugosidad */
+  /* Textura de papel artesanal reforzada */
   background-image: url("https://www.transparenttextures.com/patterns/handmade-paper.png"), 
                     url("https://www.transparenttextures.com/patterns/noise-lines.png");
   background-attachment: fixed;
@@ -38,13 +38,10 @@ body {
 
 .page-wrapper { max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
 
-/* Sombras en secciones para dar relieve de papel */
+/* Sin marcos, sin sombras, solo flujo natural */
 section { 
   max-width: 650px; margin: 0 auto; text-align: center; 
-  padding: 40px; border-radius: 8px; 
-  background: rgba(255, 255, 255, 0.2); 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
-  border: 1px solid rgba(200, 185, 155, 0.3);
+  padding: 20px 0;
 }
 
 h1 { font-family: var(--font-header); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
@@ -53,7 +50,7 @@ h2 { font-family: var(--font-header); font-size: clamp(40px, 8vw, 64px); color: 
 h3 { font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.20em; text-transform: uppercase; color: var(--sage-text); margin-bottom: 16px; opacity: 0.8; outline: none; }
 p { margin-bottom: 16px; outline: none; }
 
-.fine-art-img { width: 100%; height: auto; max-height: 550px; object-fit: cover; margin-bottom: 20px; border-radius: 2px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+.fine-art-img { width: 100%; height: auto; max-height: 550px; object-fit: cover; margin-bottom: 20px; transition: opacity 1.2s ease-out; }
 .fine-art-img.editable { cursor: pointer; border: 2px dashed var(--gold-line); }
 
 .watercolor-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin-top: 40px; border-top: 1px solid var(--gold-line); padding-top: 32px; }
@@ -115,14 +112,14 @@ p { margin-bottom: 16px; outline: none; }
     <h3 id="h3Lista" contenteditable="false">Lista de Boda</h3>
     <h2 id="tituloLista" contenteditable="false">Un detalle</h2>
     <p id="textoListaBoda" contenteditable="false">Vuestra presencia es nuestro mayor regalo. Si queréis tener un detalle con nosotros, podéis hacerlo mediante transferencia a la siguiente cuenta:</p>
-    <div style="background: rgba(200, 185, 155, 0.2); padding: 25px; border-radius: 8px; margin-top: 20px; border: 1px solid var(--gold-line);">
+    <div style="border-top: 1px solid var(--gold-line); border-bottom: 1px solid var(--gold-line); padding: 25px 0; margin-top: 20px;">
         <p style="font-size: 14px; opacity: 0.7; margin-bottom: 5px;">IBAN:</p>
         <p id="ibanText" contenteditable="false" style="font-family: monospace; font-size: 18px; font-weight: bold; margin-bottom: 15px;">ES00 0000 0000 0000 0000 0000</p>
         <button onclick="copiarIBAN()" class="btn-primary" style="padding: 8px 24px; font-size: 14px; margin-top: 0;">Copiar IBAN</button>
     </div>
   </section>
 
-  <section id="cierre" class="fade-up" style="margin-top: 40px; border: none; box-shadow: none; background: transparent;">
+  <section id="cierre" class="fade-up" style="margin-top: 40px;">
     <p id="mensajeCierre" contenteditable="false" style="font-family: var(--font-header); font-size: 32px; color: var(--sage-text);">Con cariño, Ana y Carlos</p>
   </section>
 </div>
@@ -151,7 +148,7 @@ p { margin-bottom: 16px; outline: none; }
 
 <script>
   // 🔴 PEGA TUS DATOS DE FIREBASE AQUÍ 🔴
-  const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
   projectId: "boda-ana-y-carlos-d458c",
