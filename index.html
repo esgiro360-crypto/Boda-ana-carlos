@@ -1,254 +1,349 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Boda Ana & Carlos – 19/06/2027</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Boda Ana & Carlos – 19/06/2027</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Tipografías -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Tipografías -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
 
-<style>
-/* ----------- ESTILOS GENERALES ----------- */
-:root {
-  --verde: #123528;
-  --crema: #F4EFE7;
-  --madera: #B8865D;
-  --texto: #2F2A24;
-  --blanco: #fff;
-}
+  <style>
+    :root {
+      --verde: #123528;
+      --crema: #F4EFE7;
+      --madera: #B8865D;
+      --texto: #2F2A24;
+      --blanco: #fff;
+    }
 
-body {
-  margin: 0;
-  background: var(--crema);
-  font-family: "Nunito", sans-serif;
-  color: var(--texto);
-}
+    * {
+      box-sizing: border-box;
+    }
 
-/* ----------- CABECERA ----------- */
-header {
-  text-align: center;
-  padding: 2.5rem 1rem;
-  background: linear-gradient(135deg, rgba(18,53,40,0.92), rgba(184,134,93,0.9));
-  color: var(--blanco);
-}
+    body {
+      margin: 0;
+      background: var(--crema);
+      font-family: "Nunito", sans-serif;
+      color: var(--texto);
+    }
 
-header h1 {
-  margin: 0;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 2.6rem;
-}
+    /* Layout general */
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+    }
 
-header .fecha {
-  margin-top: .5rem;
-  font-size: 1.1rem;
-  letter-spacing: .1em;
-}
+    header {
+      position: relative;
+      text-align: center;
+      color: var(--blanco);
+    }
 
-/* ----------- SECCIONES ----------- */
-section {
-  background: var(--blanco);
-  margin: 1.2rem;
-  padding: 1.4rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
+    .hero-img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+    }
 
-section h2 {
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1.8rem;
-  margin-top: 0;
-  color: var(--verde);
-}
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(18,53,40,0.7), rgba(184,134,93,0.7));
+    }
 
-/* ----------- FOTOS ----------- */
-.foto {
-  width: 100%;
-  border-radius: 12px;
-  margin-top: 1rem;
-}
+    .hero-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
 
-/* ----------- FORMULARIO GOOGLE ----------- */
-iframe {
-  width: 100%;
-  min-height: 900px;
-  border: none;
-}
+    .hero-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2.4rem;
+      margin: 0;
+    }
 
-/* ----------- MODO ADMIN ----------- */
-[contenteditable="true"] {
-  outline: 2px dashed var(--madera);
-  padding: 4px;
-  border-radius: 6px;
-}
+    .hero-date {
+      margin-top: .4rem;
+      letter-spacing: .12em;
+      font-size: 1rem;
+    }
 
-#adminBar {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  background: var(--verde);
-  color: var(--blanco);
-  padding: 10px 16px;
-  border-radius: 999px;
-  font-size: .9rem;
-  display: none;
-}
+    nav {
+      background: var(--blanco);
+      border-bottom: 1px solid #e0d4c5;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-#saveBtn, #uploadBtn {
-  background: var(--madera);
-  color: var(--blanco);
-  padding: 10px 16px;
-  border-radius: 999px;
-  border: none;
-  margin-top: 10px;
-  display: none;
-}
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: .6rem .8rem;
+      display: flex;
+      justify-content: space-around;
+      gap: .4rem;
+      font-size: .9rem;
+    }
 
-#fileInput {
-  display: none;
-}
-</style>
+    nav a {
+      text-decoration: none;
+      color: var(--verde);
+      font-weight: 600;
+      padding: .35rem .8rem;
+      border-radius: 999px;
+      background: #f7f1e8;
+    }
+
+    nav a:hover {
+      background: #efe1d0;
+    }
+
+    section {
+      background: var(--blanco);
+      margin: 1.2rem .8rem;
+      padding: 1.4rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    section h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.6rem;
+      margin-top: 0;
+      color: var(--verde);
+    }
+
+    .foto {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 1rem;
+      object-fit: cover;
+      max-height: 260px;
+    }
+
+    /* Admin */
+    [contenteditable="true"] {
+      outline: 2px dashed var(--madera);
+      padding: 4px;
+      border-radius: 6px;
+    }
+
+    #adminBar {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: var(--verde);
+      color: var(--blanco);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: .9rem;
+      display: none;
+    }
+
+    #saveBtn, #uploadBtn {
+      background: var(--madera);
+      color: var(--blanco);
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: none;
+      margin-top: 10px;
+      display: none;
+    }
+
+    #fileInput {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="page">
+    <!-- PORTADA -->
+    <header id="portada">
+      <img id="heroFoto" class="hero-img" src="" alt="Foto portada">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 id="heroTitulo" contenteditable="false" class="hero-title">Ana & Carlos</h1>
+        <p id="heroFecha" contenteditable="false" class="hero-date">19 · 06 · 2027 · Madrid</p>
+      </div>
+    </header>
 
-<header>
-  <h1 id="titulo" contenteditable="false">Ana & Carlos</h1>
-  <p class="fecha" id="fecha" contenteditable="false">19 · 06 · 2027</p>
-</header>
+    <!-- MENÚ PRINCIPAL -->
+    <nav>
+      <ul>
+        <li><a href="#como-llegar">Cómo llegar</a></li>
+        <li><a href="#confirmacion">Confirmación</a></li>
+        <li><a href="#lista-bodas">Lista de bodas</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
 
-<section>
-  <h2 id="nosotrosTitulo" contenteditable="false">Nuestra historia</h2>
-  <p id="nosotrosTexto" contenteditable="false">
-    Aquí podéis escribir vuestra historia, cómo os conocisteis y unas palabras de agradecimiento.
-  </p>
+    <!-- SECCIÓN CÓMO LLEGAR -->
+    <section id="como-llegar">
+      <h2 id="comoTitulo" contenteditable="false">Cómo llegar</h2>
+      <p id="comoTexto" contenteditable="false">
+        Aquí puedes explicar cómo llegar a la Iglesia del Pilar y al Palacio del Negralejo,
+        indicando direcciones, tiempos aproximados y opciones de transporte.
+      </p>
+      <img id="fotoComo" class="foto" src="" alt="Foto cómo llegar">
+    </section>
 
-  <img id="foto1" class="foto" src="" alt="Foto 1">
-</section>
+    <!-- SECCIÓN CONFIRMACIÓN (RSVP) -->
+    <section id="confirmacion">
+      <h2 id="confirmacionTitulo" contenteditable="false">Confirmación de asistencia</h2>
+      <p id="confirmacionTexto" contenteditable="false">
+        Por favor, confirma tu asistencia a través del siguiente formulario.
+      </p>
+      <!-- Aquí irá el iframe de Google Forms en la parte 2 -->
+    </section>
 
-<section>
-  <h2 id="ubicacionesTitulo" contenteditable="false">Ubicaciones</h2>
-  <p id="ubicacionesTexto" contenteditable="false">
-    Ceremonia en la Iglesia del Pilar y celebración en el Palacio del Negralejo.
-  </p>
+    <!-- SECCIÓN LISTA DE BODAS -->
+    <section id="lista-bodas">
+      <h2 id="listaTitulo" contenteditable="false">Lista de bodas</h2>
+      <p id="listaTexto" contenteditable="false">
+        Vuestra presencia es nuestro mejor regalo. Si además queréis ayudarnos con nuestra nueva etapa:
+        <br><strong>IBAN:</strong> ES00 0000 0000 00 0000000000
+        <br>Puedes añadir aquí un mensaje bonito sobre el viaje, la casa o el proyecto que queréis hacer.
+      </p>
+      <img id="fotoLista" class="foto" src="" alt="Foto lista de bodas">
+    </section>
 
-  <img id="foto2" class="foto" src="" alt="Foto 2">
-</section>
+    <!-- SECCIÓN CONTACTO -->
+    <section id="contacto">
+      <h2 id="contactoTitulo" contenteditable="false">Contacto</h2>
+      <p id="contactoTexto" contenteditable="false">
+        Para cualquier duda, podéis escribirnos o llamarnos:
+        <br><strong>Teléfono:</strong> [Tu número]
+        <br><strong>Email:</strong> [tu-correo@example.com]
+      </p>
+      <img id="fotoContacto" class="foto" src="" alt="Foto contacto">
+    </section>
 
-<section>
-  <h2 id="rsvpTitulo" contenteditable="false">Confirmar asistencia</h2>
+    <!-- BARRA ADMIN -->
+    <div id="adminBar">Modo edición activo</div>
+    <button id="saveBtn">Guardar cambios</button>
+    <button id="uploadBtn">Subir foto</button>
+    <input type="file" id="fileInput" accept="image/*">
+    <!-- GOOGLE FORMS -->
+    <iframe 
+      id="googleForm"
+      src="AQUI_TU_GOOGLE_FORMS"
+      style="width:100%; min-height:900px; border:none; margin-top:1rem;">
+    </iframe>
 
-  <!-- 🔗 PEGAR AQUÍ TU GOOGLE FORMS -->
-  <iframe src="AQUÍ_TU_ENLACE_DE_GOOGLE_FORMS"></iframe>
-</section>
+  </div> <!-- cierre .page -->
 
-<section>
-  <h2 id="regaloTitulo" contenteditable="false">Regalo</h2>
-  <p id="regaloTexto" contenteditable="false">
-    Vuestra presencia es lo más importante. Si queréis hacernos un regalo:
-    <br><strong>IBAN:</strong> ES00 0000 0000 00 0000000000
-  </p>
-</section>
+  <!-- ========================= -->
+  <!--   SISTEMA ADMINISTRADOR   -->
+  <!-- ========================= -->
 
-<section>
-  <h2 id="contactoTitulo" contenteditable="false">Contacto</h2>
-  <p id="contactoTexto" contenteditable="false">
-    Para cualquier duda podéis escribirnos a: <strong>correo@example.com</strong>
-  </p>
-</section>
+  <script>
+    /* ------------------ ACTIVAR MODO ADMIN ------------------ */
 
-<!-- ----------- BOTONES ADMIN ----------- -->
-<div id="adminBar">Modo edición activo</div>
-<button id="saveBtn">Guardar cambios</button>
-<button id="uploadBtn">Subir foto</button>
-<input type="file" id="fileInput" accept="image/*">
+    /* Activación por teclado (PC) */
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "M" && e.ctrlKey) {
+        const pass = prompt("Introduce la contraseña de administrador:");
+        if (pass === "LaJosefa") activarModoAdmin();
+      }
+    });
 
-<script>
-/* ------------------ ACTIVAR MODO ADMIN ------------------ */
+    /* Activación invisible por móvil: 5 toques en la esquina inferior derecha */
+    let toqueCount = 0;
+    document.addEventListener("click", function(e) {
+      const ancho = window.innerWidth;
+      const alto = window.innerHeight;
 
-/* Activación por teclado (PC) */
-document.addEventListener("keydown", function(e) {
-  if (e.key === "M" && e.ctrlKey) {
-    const pass = prompt("Introduce la contraseña de administrador:");
-    if (pass === "LaJosefa") activarModoAdmin();
-  }
-});
+      if (e.clientX > ancho * 0.75 && e.clientY > alto * 0.75) {
+        toqueCount++;
+        if (toqueCount >= 5) {
+          const pass = prompt("Introduce la contraseña de administrador:");
+          if (pass === "LaJosefa") activarModoAdmin();
+          toqueCount = 0;
+        }
+      } else {
+        toqueCount = 0;
+      }
+    });
 
-/* Activación invisible por móvil: 5 toques en la esquina inferior derecha */
-let toqueCount = 0;
-document.addEventListener("click", function(e) {
-  const ancho = window.innerWidth;
-  const alto = window.innerHeight;
+    function activarModoAdmin() {
+      document.querySelectorAll("[contenteditable]").forEach(el => {
+        el.setAttribute("contenteditable", "true");
+      });
 
-  if (e.clientX > ancho * 0.75 && e.clientY > alto * 0.75) {
-    toqueCount++;
-    if (toqueCount >= 5) {
-      const pass = prompt("Introduce la contraseña de administrador:");
-      if (pass === "LaJosefa") activarModoAdmin();
-      toqueCount = 0;
+      document.getElementById("adminBar").style.display = "block";
+      document.getElementById("saveBtn").style.display = "block";
+      document.getElementById("uploadBtn").style.display = "block";
     }
-  } else {
-    toqueCount = 0;
-  }
-});
 
-function activarModoAdmin() {
-  document.querySelectorAll("[contenteditable]").forEach(el => {
-    el.setAttribute("contenteditable", "true");
-  });
+    /* ------------------ GUARDAR CAMBIOS ------------------ */
+    document.getElementById("saveBtn").addEventListener("click", function() {
+      document.querySelectorAll("[contenteditable]").forEach(el => {
+        localStorage.setItem(el.id, el.innerHTML);
+      });
+      alert("Cambios guardados");
+    });
 
-  document.getElementById("adminBar").style.display = "block";
-  document.getElementById("saveBtn").style.display = "block";
-  document.getElementById("uploadBtn").style.display = "block";
-}
+    /* ------------------ SUBIR FOTOS ------------------ */
+    document.getElementById("uploadBtn").addEventListener("click", function() {
+      document.getElementById("fileInput").click();
+    });
 
-/* ------------------ GUARDAR CAMBIOS ------------------ */
-document.getElementById("saveBtn").addEventListener("click", function() {
-  document.querySelectorAll("[contenteditable]").forEach(el => {
-    localStorage.setItem(el.id, el.innerHTML);
-  });
-  alert("Cambios guardados");
-});
+    document.getElementById("fileInput").addEventListener("change", function(e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
 
-/* ------------------ SUBIR FOTOS ------------------ */
-document.getElementById("uploadBtn").addEventListener("click", function() {
-  document.getElementById("fileInput").click();
-});
+      reader.onload = function(event) {
+        const base64 = event.target.result;
 
-document.getElementById("fileInput").addEventListener("change", function(e) {
-  const file = e.target.files[0];
-  const reader = new FileReader();
+        const fotoId = prompt(
+          "¿Qué foto quieres sustituir?\n" +
+          "Opciones:\n" +
+          "portada → heroFoto\n" +
+          "cómo llegar → fotoComo\n" +
+          "lista de bodas → fotoLista\n" +
+          "contacto → fotoContacto"
+        );
 
-  reader.onload = function(event) {
-    const base64 = event.target.result;
+        const foto = document.getElementById(fotoId);
 
-    const fotoId = prompt("¿Qué foto quieres sustituir? (1 o 2)");
-    const foto = document.getElementById("foto" + fotoId);
+        if (foto) {
+          foto.src = base64;
+          localStorage.setItem(fotoId, base64);
+        } else {
+          alert("ID de foto no válido.");
+        }
+      };
 
-    if (foto) {
-      foto.src = base64;
-      localStorage.setItem("foto" + fotoId, base64);
-    }
-  };
+      reader.readAsDataURL(file);
+    });
 
-  reader.readAsDataURL(file);
-});
+    /* ------------------ CARGAR CAMBIOS ------------------ */
+    window.onload = function() {
+      /* Cargar textos */
+      document.querySelectorAll("[contenteditable]").forEach(el => {
+        const saved = localStorage.getItem(el.id);
+        if (saved) el.innerHTML = saved;
+      });
 
-/* ------------------ CARGAR CAMBIOS ------------------ */
-window.onload = function() {
-  document.querySelectorAll("[contenteditable]").forEach(el => {
-    const saved = localStorage.getItem(el.id);
-    if (saved) el.innerHTML = saved;
-  });
-
-  for (let i = 1; i <= 2; i++) {
-    const savedFoto = localStorage.getItem("foto" + i);
-    if (savedFoto) document.getElementById("foto" + i).src = savedFoto;
-  }
-};
-</script>
+      /* Cargar fotos */
+      const fotos = ["heroFoto", "fotoComo", "fotoLista", "fotoContacto"];
+      fotos.forEach(id => {
+        const savedFoto = localStorage.getItem(id);
+        if (savedFoto) document.getElementById(id).src = savedFoto;
+      });
+    };
+  </script>
 
 </body>
 </html>
