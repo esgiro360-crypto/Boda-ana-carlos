@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&family=Pinyon+Script&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
@@ -74,8 +73,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <h3 id="h3Ceremonia" contenteditable="false">La ceremonia</h3>
     <h2 id="tituloCeremonia" contenteditable="false">Nuestra Señora del Pilar</h2>
     <img id="ceremoniaImg" src="https://images.unsplash.com/photo-1548689816-c393139369ab?auto=format&fit=crop&q=80&w=1000" alt="Ceremonia" class="fine-art-img">
-    <p id="textoCeremonia" contenteditable="false">Descripción de la ceremonia.</p>
-    <p id="porQueCeremonia" contenteditable="false" style="font-style: italic; color: var(--sage-text);">¿Por qué elegimos este lugar?</p>
+    <p id="textoCeremonia" contenteditable="false">La ceremonia se celebrará en la Parroquia Nuestra Señora del Pilar. Un lugar que hemos elegido por...</p>
     <a id="linkCeremonia" href="https://maps.app.goo.gl/8QK4dDPodLtDiw7G9?g_st=ac" class="btn-primary">Cómo llegar</a>
   </section>
 
@@ -83,8 +81,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <h3 id="h3Banquete" contenteditable="false">El banquete</h3>
     <h2 id="tituloBanquete" contenteditable="false">La Finca</h2>
     <img id="banqueteImg" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=1000" alt="Banquete" class="fine-art-img">
-    <p id="textoBanquete" contenteditable="false">Descripción del banquete.</p>
-    <p id="porQueBanquete" contenteditable="false" style="font-style: italic; color: var(--sage-text);">¿Por qué elegimos este lugar?</p>
+    <p id="textoBanquete" contenteditable="false">Tras la ceremonia, nos trasladaremos a la Finca X. Es un espacio que nos cautivó por...</p>
     <a id="linkBanquete" href="https://maps.app.goo.gl/Dyzve1vA7GrxsFSb8?g_st=ac" class="btn-primary">Cómo llegar</a>
   </section>
 
@@ -104,19 +101,21 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 <input type="file" id="imageUploader" accept="image/*" style="display: none;">
 
 <script>
-  // const firebaseConfig = {
+  // 🔴 PEGA TUS DATOS DE FIREBASE AQUÍ 🔴
+  const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
   projectId: "boda-ana-y-carlos-d458c",
   storageBucket: "boda-ana-y-carlos-d458c.firebasestorage.app",
   messagingSenderId: "725675577879",
   appId: "1:725675577879:web:5f7fbc4f051544afd9c252"
-};
+  };
+  // 🔴 FIN DE DATOS FIREBASE 🔴
 
   if (typeof firebase !== 'undefined' && !firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 
   const startTime = Date.now();
-  const MIN_LOADING_TIME = 2000; // 2 segundos mínimos
+  const MIN_LOADING_TIME = 2000;
 
   function quitarLoading() {
     const overlay = document.getElementById('loadingOverlay');
@@ -130,9 +129,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   }
 
   window.onload = function() {
-    // Si Firebase tarda mucho, forzamos salida a los 4s
     setTimeout(safeQuitarLoading, 4000);
-    
     if (typeof firebase !== 'undefined') {
       const db = firebase.firestore();
       db.collection("bodaData").doc("contenidoPrincipal").get().then((doc) => {
@@ -152,7 +149,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
   };
 
-  const textIds = ["heroNombres", "heroFecha", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "porQueCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "porQueBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia"];
+  const textIds = ["heroNombres", "heroFecha", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia"];
   const fotoIds = ["heroImg", "ceremoniaImg", "banqueteImg"];
   const linkIds = ["linkCeremonia", "linkBanquete"];
   let currentImageId = null;
