@@ -28,7 +28,16 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { background-color: var(--warm-bg); color: var(--soft-charcoal); font-family: var(--font-body); font-size: 18px; line-height: 1.8; background-image: url("https://www.transparenttextures.com/patterns/handmade-paper.png"); background-attachment: fixed; }
+body { 
+  background-color: var(--warm-bg); 
+  color: var(--soft-charcoal); 
+  font-family: var(--font-body); 
+  font-size: 18px; 
+  line-height: 1.8; 
+  /* Textura Verjurado */
+  background-image: url("https://www.transparenttextures.com/patterns/pinstripe-light.png"); 
+  background-attachment: fixed; 
+}
 .page-wrapper { max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
 
 h1 { font-family: var(--font-script); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
@@ -196,8 +205,14 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   const linkIds = ["linkCeremonia", "linkBanquete"];
   let currentImageId = null;
 
+  // Botón Admin con 5 clics
+  let adminClickCount = 0;
   document.getElementById('secretAdminBtn').addEventListener('click', () => {
-    if (prompt("Contraseña:") === "LaJosefa") activarModoAdmin();
+    adminClickCount++;
+    if (adminClickCount >= 5) {
+      if (prompt("Contraseña:") === "LaJosefa") activarModoAdmin();
+      adminClickCount = 0;
+    }
   });
 
   function activarModoAdmin() {
