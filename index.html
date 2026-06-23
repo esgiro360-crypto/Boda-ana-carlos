@@ -57,7 +57,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 .btn-primary { display: inline-block; background: transparent; border: 1px solid var(--gold-line); border-radius: 999px; padding: 12px 30px; font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--soft-charcoal); text-decoration: none; cursor: pointer; transition: all 0.4s ease; margin-top: 20px; }
 .btn-primary:hover { background: rgba(200, 185, 155, 0.15); color: var(--sage-text); }
 
-/* ESTILOS ESPECÍFICOS DEL FORMULARIO */
+/* ESTILOS FORMULARIO */
 .form-box { text-align: left; margin: 20px auto; max-width: 500px; }
 .form-field { margin-bottom: 25px; }
 .form-label { display: block; font-family: var(--font-accent); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage-text); margin-bottom: 8px; }
@@ -80,11 +80,11 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 <div id="loadingOverlay">Cargando la invitación...</div>
 
 <div class="page-wrapper">
-  <!-- ... (Hero, Ceremonia y Banquete se mantienen igual) ... -->
   <header class="hero fade-up">
     <h1 id="heroNombres" contenteditable="false">Ana y Carlos</h1>
     <p id="heroFecha" class="hero-subtitle" contenteditable="false">19 de junio 2027 · Madrid</p>
     <img id="heroImg" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000" alt="Hero" class="fine-art-img">
+    
     <nav class="watercolor-nav">
       <a href="#ceremonia">Ceremonia</a>
       <a href="#banquete">Banquete</a>
@@ -97,6 +97,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <h3 id="h3Ceremonia" contenteditable="false">La ceremonia</h3>
     <h2 id="tituloCeremonia" contenteditable="false">Nuestra Señora del Pilar</h2>
     <img id="ceremoniaImg" src="https://images.unsplash.com/photo-1548689816-c393139369ab?auto=format&fit=crop&q=80&w=1000" alt="Ceremonia" class="fine-art-img">
+    <p id="textoCeremonia" contenteditable="false">La ceremonia se celebrará en la Parroquia Nuestra Señora del Pilar.</p>
     <a id="linkCeremonia" href="https://maps.app.goo.gl/8QK4dDPodLtDiw7G9?g_st=ac" class="btn-primary">Cómo llegar</a>
   </section>
 
@@ -104,13 +105,14 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <h3 id="h3Banquete" contenteditable="false">El banquete</h3>
     <h2 id="tituloBanquete" contenteditable="false">La Finca</h2>
     <img id="banqueteImg" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=1000" alt="Banquete" class="fine-art-img">
+    <p id="textoBanquete" contenteditable="false">Tras la ceremonia, nos trasladaremos a la Finca.</p>
     <a id="linkBanquete" href="https://maps.app.goo.gl/Dyzve1vA7GrxsFSb8?g_st=ac" class="btn-primary">Cómo llegar</a>
   </section>
 
-  <!-- FORMULARIO INTEGRADO CON ESTÉTICA -->
   <section id="confirmacion" class="fade-up">
     <h3 id="h3Asistencia" contenteditable="false">Asistencia</h3>
     <h2 id="tituloAsistencia" contenteditable="false">Acompáñanos</h2>
+    <p id="textoAsistencia" contenteditable="false">Os agradeceríamos que pudierais confirmar vuestra asistencia.</p>
     
     <div id="formContainer" class="form-box">
         <div class="form-field">
@@ -132,22 +134,46 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
             <label class="form-label">¿Alguna alergia o intolerancia?</label>
             <input type="text" id="guestAllergies" class="form-input" placeholder="(Especifica si es tuya o de tu acompañante)">
         </div>
-        
         <button onclick="enviarConfirmacion()" class="btn-primary">Enviar confirmación</button>
     </div>
     <div id="formFeedback" style="display:none; font-family: var(--font-header); font-size: 24px; color: var(--sage-text); margin-top: 40px;">¡Gracias por confirmar!</div>
   </section>
 
-  <!-- Resto de la web... -->
   <section id="listaBoda" class="fade-up">
     <h3 id="h3Lista" contenteditable="false">Lista de Boda</h3>
     <h2 id="tituloLista" contenteditable="false">Un detalle</h2>
+    <p id="textoListaBoda" contenteditable="false">Vuestra presencia es nuestro mayor regalo. Si queréis tener un detalle con nosotros, podéis hacerlo mediante transferencia a la siguiente cuenta:</p>
     <div style="background: rgba(200, 185, 155, 0.1); padding: 25px; border-radius: 16px; margin-top: 20px; border: 1px solid var(--gold-line);">
         <p id="ibanText" contenteditable="false" style="font-family: monospace; font-size: 18px; font-weight: bold; margin-bottom: 15px;">ES00 0000 0000 0000 0000 0000</p>
         <button onclick="copiarIBAN()" class="btn-primary" style="padding: 8px 24px; font-size: 14px; margin-top: 0;">Copiar IBAN</button>
     </div>
   </section>
+
+  <section id="cierre" class="fade-up" style="margin-top: 40px; border-top: 1px solid var(--gold-line); padding-top: 40px;">
+    <p id="mensajeCierre" contenteditable="false" style="font-family: var(--font-header); font-size: 32px; color: var(--sage-text);">Con cariño, Ana y Carlos</p>
+  </section>
 </div>
+
+<div id="secretAdminBtn"></div>
+<div id="adminBar">
+  <span id="adminStatus">Modo Edición</span>
+  <button onclick="toggleDesign()">Diseño</button>
+  <button id="saveBtn">Publicar</button>
+  <button onclick="descargarAsistencias()" style="background: rgba(255,255,255,0.2); border: none; padding: 4px 10px; cursor: pointer; color: white; border-radius: 5px;">Descargar CSV</button>
+</div>
+
+<div id="designMenu">
+  <label>Fondo: <input type="color" id="bgPicker" value="#F8F5EF" onchange="applyDesign()"></label><br>
+  <label>Texto: <input type="color" id="textPicker" value="#5B6345" onchange="applyDesign()"></label><br>
+  <label>Estilo Título: 
+    <select id="fontSelect" onchange="applyDesign()">
+      <option value="classic">Clásico (Pinyon Script)</option>
+      <option value="modern">Serif Moderna (Playfair)</option>
+    </select>
+  </label>
+</div>
+
+<input type="file" id="imageUploader" accept="image/*" style="display: none;">
 
 <script>
   // 🔴 PEGA TUS DATOS DE FIREBASE AQUÍ 🔴
@@ -186,7 +212,120 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
       document.getElementById('formFeedback').style.display = 'block';
   }
 
-  // ... (Resto de funciones: descargarAsistencias, design, etc se mantienen iguales) ...
+  async function descargarAsistencias() {
+      const db = firebase.firestore();
+      const snapshot = await db.collection("asistencias").get();
+      let csvContent = "data:text/csv;charset=utf-8,Nombre,Acompañante,Autobús,Alergias,Fecha\n";
+
+      snapshot.forEach(doc => {
+          const data = doc.data();
+          csvContent += `"${data.nombre || ''}","${data.acompañante || ''}","${data.autobus || ''}","${data.alergias || ''}","${data.fecha || ''}"\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "invitados_boda.csv");
+      document.body.appendChild(link);
+      link.click();
+  }
+
+  function applyDesign() {
+      const bg = document.getElementById('bgPicker').value;
+      const col = document.getElementById('textPicker').value;
+      const fontStyle = document.getElementById('fontSelect').value;
+      document.documentElement.style.setProperty('--warm-bg', bg);
+      document.documentElement.style.setProperty('--sage-text', col);
+      document.documentElement.style.setProperty('--soft-charcoal', col);
+      const headers = document.querySelectorAll('h1, h2');
+      headers.forEach(h => h.style.fontFamily = (fontStyle === 'modern') ? "'Playfair Display', serif" : "'Pinyon Script', cursive");
+  }
+
+  function toggleDesign() {
+      const menu = document.getElementById('designMenu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  }
+
+  function copiarIBAN() {
+    const texto = document.getElementById('ibanText').innerText;
+    navigator.clipboard.writeText(texto).then(() => alert("IBAN copiado"));
+  }
+
+  const quitarLoading = () => {
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) { overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 800); }
+  }
+
+  window.onload = function() {
+    if (typeof firebase !== 'undefined') {
+      const db = firebase.firestore();
+      db.collection("bodaData").doc("contenidoPrincipal").get().then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          textIds.forEach(id => { if(data[id]) document.getElementById(id).innerHTML = data[id]; });
+          fotoIds.forEach(id => { if(data[id]) document.getElementById(id).src = data[id]; });
+          linkIds.forEach(id => { if(data[id]) document.getElementById(id).href = data[id]; });
+          if(data.design) {
+              document.getElementById('bgPicker').value = data.design.bg;
+              document.getElementById('textPicker').value = data.design.text;
+              document.getElementById('fontSelect').value = data.design.font;
+              applyDesign();
+          }
+        }
+        setTimeout(quitarLoading, 2000);
+      }).catch(() => quitarLoading());
+    } else { quitarLoading(); }
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add("is-visible"); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+  };
+
+  const textIds = ["heroNombres", "heroFecha", "h3Lista", "tituloLista", "textoListaBoda", "ibanText", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "textoAsistencia", "mensajeCierre"];
+  const fotoIds = ["heroImg", "ceremoniaImg", "banqueteImg"];
+  const linkIds = ["linkCeremonia", "linkBanquete"];
+  
+  let adminClickCount = 0;
+  document.getElementById('secretAdminBtn').addEventListener('click', () => {
+    adminClickCount++;
+    if (adminClickCount >= 5) {
+      if (prompt("Contraseña:") === "LaJosefa") activarModoAdmin();
+      adminClickCount = 0;
+    }
+  });
+
+  function activarModoAdmin() {
+    document.getElementById('adminBar').style.display = "flex";
+    textIds.forEach(id => document.getElementById(id).setAttribute("contenteditable", "true"));
+    fotoIds.forEach(id => { const img = document.getElementById(id); img.classList.add("editable"); img.onclick = () => { currentImageId = id; document.getElementById('imageUploader').click(); }; });
+  }
+
+  document.getElementById('imageUploader').addEventListener("change", async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    document.getElementById('adminStatus').innerText = "Subiendo...";
+    const ref = firebase.storage().ref('imagenesBoda/' + currentImageId);
+    await ref.put(file);
+    const url = await ref.getDownloadURL();
+    document.getElementById(currentImageId).src = url;
+    document.getElementById('adminStatus').innerText = "Actualizado ✓";
+  });
+
+  document.getElementById('saveBtn').addEventListener("click", async function() {
+    this.innerText = "Guardando...";
+    const data = {
+        design: {
+            bg: document.getElementById('bgPicker').value,
+            text: document.getElementById('textPicker').value,
+            font: document.getElementById('fontSelect').value
+        }
+    };
+    textIds.forEach(id => { data[id] = document.getElementById(id).innerHTML; });
+    await firebase.firestore().collection("bodaData").doc("contenidoPrincipal").set(data, { merge: true });
+    this.innerText = "Publicado!";
+    setTimeout(() => this.innerText = "Publicar", 3000);
+  });
 </script>
 </body>
 </html>
