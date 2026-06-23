@@ -43,9 +43,17 @@ p { margin-bottom: 16px; outline: none; }
 .hero { text-align: center; padding-top: 20px; }
 section { max-width: 650px; margin: 0 auto; text-align: center; }
 
-/* Navegación recuperada */
+/* Navegación con efecto acuarela */
 .watercolor-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin-top: 40px; border-top: 1px solid var(--gold-line); padding-top: 32px; }
-.watercolor-nav a { font-family: var(--font-display); font-size: 13px; letter-spacing: 0.20em; text-transform: uppercase; text-decoration: none; color: var(--soft-charcoal); transition: color 0.4s ease; cursor: pointer; }
+.watercolor-nav a { 
+    font-family: var(--font-display); font-size: 13px; letter-spacing: 0.20em; text-transform: uppercase; 
+    text-decoration: none; color: var(--soft-charcoal); transition: all 0.5s ease; cursor: pointer; position: relative;
+}
+.watercolor-nav a::after {
+    content: ''; position: absolute; bottom: -8px; left: 50%; width: 0; height: 4px;
+    background: rgba(200, 185, 155, 0.4); filter: blur(3px); transition: all 0.5s ease;
+}
+.watercolor-nav a:hover::after, .watercolor-nav a:active::after { width: 100%; left: 0; }
 
 .btn-primary {
   display: inline-block; background: transparent; border: 1px solid var(--gold-line); border-radius: 999px;
@@ -73,26 +81,13 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <p id="heroFecha" class="hero-subtitle" contenteditable="false">19 de junio 2027 · Madrid</p>
     <img id="heroImg" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000" alt="Hero" class="fine-art-img">
     
-    <!-- Menú de navegación recuperado -->
     <nav class="watercolor-nav">
-      <a href="#listaBoda">Lista</a>
       <a href="#ceremonia">Ceremonia</a>
       <a href="#banquete">Banquete</a>
       <a href="#confirmacion">Asistencia</a>
+      <a href="#listaBoda">Lista de Boda</a>
     </nav>
   </header>
-
-  <!-- Lista de Boda -->
-  <section id="listaBoda" class="fade-up">
-    <h3 id="h3Lista" contenteditable="false">Lista de Boda</h3>
-    <h2 id="tituloLista" contenteditable="false">Un detalle</h2>
-    <p id="textoListaBoda" contenteditable="false">Vuestra presencia es nuestro mayor regalo. Si queréis tener un detalle con nosotros, podéis hacerlo mediante transferencia a la siguiente cuenta:</p>
-    <div style="background: rgba(200, 185, 155, 0.1); padding: 25px; border-radius: 16px; margin-top: 20px; border: 1px solid var(--gold-line);">
-        <p style="font-size: 14px; opacity: 0.7; margin-bottom: 5px;">IBAN:</p>
-        <p id="ibanText" contenteditable="false" style="font-family: monospace; font-size: 18px; font-weight: bold; margin-bottom: 15px;">ES00 0000 0000 0000 0000 0000</p>
-        <button onclick="copiarIBAN()" class="btn-primary" style="padding: 8px 24px; font-size: 14px; margin-top: 0;">Copiar IBAN</button>
-    </div>
-  </section>
 
   <section id="ceremonia" class="fade-up">
     <h3 id="h3Ceremonia" contenteditable="false">La ceremonia</h3>
@@ -117,6 +112,17 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <iframe src="TU_ENLACE_DE_GOOGLE_FORMS" style="width: 100%; height: 500px; border: none; margin-top: 20px;"></iframe>
   </section>
 
+  <section id="listaBoda" class="fade-up">
+    <h3 id="h3Lista" contenteditable="false">Lista de Boda</h3>
+    <h2 id="tituloLista" contenteditable="false">Un detalle</h2>
+    <p id="textoListaBoda" contenteditable="false">Vuestra presencia es nuestro mayor regalo. Si queréis tener un detalle con nosotros, podéis hacerlo mediante transferencia a la siguiente cuenta:</p>
+    <div style="background: rgba(200, 185, 155, 0.1); padding: 25px; border-radius: 16px; margin-top: 20px; border: 1px solid var(--gold-line);">
+        <p style="font-size: 14px; opacity: 0.7; margin-bottom: 5px;">IBAN:</p>
+        <p id="ibanText" contenteditable="false" style="font-family: monospace; font-size: 18px; font-weight: bold; margin-bottom: 15px;">ES00 0000 0000 0000 0000 0000</p>
+        <button onclick="copiarIBAN()" class="btn-primary" style="padding: 8px 24px; font-size: 14px; margin-top: 0;">Copiar IBAN</button>
+    </div>
+  </section>
+
   <section id="cierre" class="fade-up" style="margin-top: 40px; border-top: 1px solid var(--gold-line); padding-top: 40px;">
     <p id="mensajeCierre" contenteditable="false" style="font-family: var(--font-script); font-size: 32px; color: var(--sage-text);">Con cariño, Ana y Carlos</p>
   </section>
@@ -131,7 +137,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 
 <script>
   // 🔴 PEGA TUS DATOS DE FIREBASE AQUÍ 🔴
-const firebaseConfig = {
+  const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
   projectId: "boda-ana-y-carlos-d458c",
