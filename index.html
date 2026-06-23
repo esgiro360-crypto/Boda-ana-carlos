@@ -7,10 +7,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Tipografías editoriales -->
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@300;400;500;700&family=Pinyon+Script&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
@@ -105,7 +103,13 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     <h3 id="h3Asistencia" contenteditable="false">Asistencia</h3>
     <h2 id="tituloAsistencia" contenteditable="false">Acompáñanos</h2>
     <p id="textoAsistencia" contenteditable="false">Os agradeceríamos que pudierais confirmar vuestra asistencia.</p>
-    <iframe src="https://forms.gle/4Wq1wS8Pe4ypygYG6" style="width: 100%; height: 500px; border: none; margin-top: 20px;"></iframe>
+    <div id="formContainer" style="margin-top: 20px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto;">
+        <input type="text" id="guestName" placeholder="Nombre y Apellidos" style="width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid var(--gold-line); background: transparent; color: var(--soft-charcoal); font-family: var(--font-body);">
+        <input type="number" id="guestCount" placeholder="Número de personas" style="width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid var(--gold-line); background: transparent; color: var(--soft-charcoal); font-family: var(--font-body);">
+        <textarea id="guestMessage" placeholder="¿Alguna alergia o mensaje?" style="width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid var(--gold-line); background: transparent; color: var(--soft-charcoal); font-family: var(--font-body); height: 100px;"></textarea>
+        <button onclick="enviarConfirmacion()" class="btn-primary" style="width: 100%;">Enviar confirmación</button>
+    </div>
+    <p id="formFeedback" style="display:none; margin-top: 20px; font-style: italic; color: var(--sage-text);">¡Gracias por confirmar!</p>
   </section>
 
   <section id="listaBoda" class="fade-up">
@@ -129,6 +133,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   <span id="adminStatus">Modo Edición</span>
   <button onclick="toggleDesign()">Diseño</button>
   <button id="saveBtn">Publicar</button>
+  <button onclick="descargarAsistencias()" style="background: rgba(255,255,255,0.2); border: none; padding: 4px 10px; cursor: pointer; color: white; border-radius: 5px;">Descargar CSV</button>
 </div>
 
 <div id="designMenu">
@@ -146,17 +151,62 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 
 <script>
   // 🔴 PEGA TUS DATOS DE FIREBASE AQUÍ 🔴
-const firebaseConfig = {
-  apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
-  authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
-  projectId: "boda-ana-y-carlos-d458c",
-  storageBucket: "boda-ana-y-carlos-d458c.firebasestorage.app",
-  messagingSenderId: "725675577879",
-  appId: "1:725675577879:web:5f7fbc4f051544afd9c252"
-};
+  const firebaseConfig = {
+    //apiKey: "...",
+    //authDomain: "...",
+    //projectId: "...",
+    //storageBucket: "...",
+    //messagingSenderId: "...",
+    //appId: "..."
+  };
   // 🔴 FIN DE DATOS FIREBASE 🔴
 
   if (typeof firebase !== 'undefined' && !firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+
+  // Función para guardar asistencia
+  async function enviarConfirmacion() {
+      const db = firebase.firestore();
+      const name = document.getElementById('guestName').value;
+      const count = document.getElementById('guestCount').value;
+      const msg = document.getElementById('guestMessage').value;
+
+      if (!name || !count) {
+          alert("Por favor, introduce tu nombre y el número de asistentes.");
+          return;
+      }
+
+      try {
+          await db.collection("asistencias").add({
+              nombre: name,
+              asistentes: count,
+              mensaje: msg,
+              fecha: new Date().toLocaleString()
+          });
+          document.getElementById('formContainer').style.display = 'none';
+          document.getElementById('formFeedback').style.display = 'block';
+      } catch (e) {
+          alert("Error al enviar, por favor intenta de nuevo.");
+      }
+  }
+
+  // Función para descargar CSV
+  async function descargarAsistencias() {
+      const db = firebase.firestore();
+      const snapshot = await db.collection("asistencias").get();
+      let csvContent = "data:text/csv;charset=utf-8,Nombre,Asistentes,Mensaje,Fecha\n";
+
+      snapshot.forEach(doc => {
+          const data = doc.data();
+          csvContent += `"${data.nombre || ''}","${data.asistentes || ''}","${data.mensaje || ''}","${data.fecha || ''}"\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "invitados_boda.csv");
+      document.body.appendChild(link);
+      link.click();
+  }
 
   function applyDesign() {
       const bg = document.getElementById('bgPicker').value;
