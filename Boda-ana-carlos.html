@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Boda de Ana & Carlos – 19/06/2027</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Tipografías elegantes estilo pluma -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-fondo: #F4EFE7;
+      --color-principal: #123528;
+      --color-secundario: #8FA48F;
+      --color-madera: #B8865D;
+      --color-texto: #2F2A24;
+      --color-blanco: #FFFFFF;
+      --max-width: 980px;
+      --radius: 12px;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Nunito", sans-serif;
+      background-color: var(--color-fondo);
+      color: var(--color-texto);
+      line-height: 1.7;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(18,53,40,0.92), rgba(184,134,93,0.9));
+      color: var(--color-blanco);
+      text-align: center;
+      padding: 3.2rem 1rem 2.6rem;
+      border-bottom: 4px solid rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 3rem;
+      letter-spacing: 0.05em;
+    }
+
+    header .fecha {
+      font-family: "Playfair Display", serif;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      letter-spacing: 0.12em;
+    }
+
+    nav {
+      background-color: #fdf9f3;
+      border-bottom: 1px solid #e0d4c5;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--color-principal);
+      font-weight: 600;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      background-color: #f7f1e8;
+    }
+
+    nav a:hover {
+      background-color: #efe1d0;
+      border-color: var(--color-madera);
+    }
+
+    main {
+      max-width: var(--max-width);
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      background-color: var(--color-blanco);
+      border-radius: var(--radius);
+      padding: 1.7rem;
+      margin-bottom: 1.7rem;
+      border: 1px solid #e3d6c7;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+    }
+
+    section h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.8rem;
+      color: var(--color-principal);
+      margin-top: 0;
+      letter-spacing: 0.04em;
+    }
+
+    .subtitulo {
+      font-style: italic;
+      color: #6b5b4c;
+      margin-top: -0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    @media (max-width: 780px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .foto-real {
+      border-radius: var(--radius);
