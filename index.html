@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@300;400;500;700&family=Pinyon+Script&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
@@ -26,14 +27,19 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+
 body { 
   background-color: var(--warm-bg); 
   color: var(--soft-charcoal); 
   font-family: var(--font-body); 
   font-size: 18px; line-height: 1.8; 
-  background-image: url("https://www.transparenttextures.com/patterns/handmade-paper.png"); 
+  /* ILUSTRACIÓN DE FONDO INTEGRADA */
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/boda-ana-y-carlos-d458c.appspot.com/o/1782326688420.png?alt=media&token=d7e63e6-151b-4471-86a2-ab5d1d4cb7ba");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
   background-attachment: fixed; 
 }
+
 .page-wrapper { max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
 
 h1 { font-family: var(--font-header); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
@@ -176,7 +182,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 <input type="file" id="imageUploader" accept="image/*" style="display: none;">
 
 <script>
-  // 🔴 TUS DATOS FIREBASE 🔴
+  // 🔴 DATOS FIREBASE 🔴
   const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
@@ -188,7 +194,6 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   
   if (typeof firebase !== 'undefined' && !firebase.apps.length && firebaseConfig.apiKey) { firebase.initializeApp(firebaseConfig); }
 
-  // LÓGICA TEMPORIZADOR
   function actualizarCuentaAtras() {
       const boda = new Date("June 19, 2027 00:00:00").getTime();
       const ahora = new Date().getTime();
