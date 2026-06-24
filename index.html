@@ -83,6 +83,9 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   <header class="hero fade-up">
     <h1 id="heroNombres" contenteditable="false">Ana y Carlos</h1>
     <p id="heroFecha" class="hero-subtitle" contenteditable="false">19 de junio 2027 · Madrid</p>
+    <!-- Contenedor para el temporizador -->
+    <div id="cuentaAtras" style="font-family: var(--font-accent); font-size: 14px; opacity: 0.8; margin-top: -20px; margin-bottom: 20px; letter-spacing: 0.1em; color: var(--sage-text);"></div>
+    
     <img id="heroImg" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000" alt="Hero" class="fine-art-img">
     
     <nav class="watercolor-nav">
@@ -177,7 +180,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 
 <script>
   // 🔴 PEGA TUS DATOS DE FIREBASE AQUÍ 🔴
-  const firebaseConfig = {
+  const const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
   projectId: "boda-ana-y-carlos-d458c",
@@ -188,6 +191,22 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   // 🔴 FIN DE DATOS FIREBASE 🔴
 
   if (typeof firebase !== 'undefined' && !firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+
+  // Temporizador
+  function actualizarCuentaAtras() {
+      const boda = new Date("June 19, 2027 00:00:00").getTime();
+      const ahora = new Date().getTime();
+      const diff = boda - ahora;
+      
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      
+      const el = document.getElementById("cuentaAtras");
+      if(el) el.innerHTML = `${dias} días, ${horas} horas y ${minutos} minutos restantes`;
+  }
+  setInterval(actualizarCuentaAtras, 60000);
+  actualizarCuentaAtras();
 
   async function enviarConfirmacion() {
       const db = firebase.firestore();
