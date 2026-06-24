@@ -29,13 +29,12 @@ html { scroll-behavior: smooth; }
 
 body { background-color: var(--warm-bg); color: var(--soft-charcoal); font-family: var(--font-body); font-size: 18px; line-height: 1.8; margin: 0; }
 
-/* FONDO EDITABLE */
+/* FONDO TÉCNICO */
 #bgImage { 
   position: fixed; top: 0; left: 0; 
   width: 100vw; height: 100vh; 
   object-fit: cover; z-index: -1; pointer-events: none; 
 }
-#bgImage.editable { cursor: pointer; border: 4px dashed var(--gold-line); pointer-events: all; }
 
 .page-wrapper { max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
 h1 { font-family: var(--font-header); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
@@ -116,6 +115,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   <span>Modo Edición</span>
   <button id="saveBtn">Publicar</button>
   <button onclick="descargarAsistencias()">CSV</button>
+  <button onclick="triggerBgUpload()">Cambiar Fondo</button>
 </div>
 
 <input type="file" id="imageUploader" accept="image/*" style="display: none;">
@@ -158,11 +158,19 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     document.getElementById(currentImageId).src = url;
   });
 
+  // Botón dedicado para cambiar fondo
+  function triggerBgUpload() {
+      currentImageId = "bgImage";
+      document.getElementById('imageUploader').click();
+  }
+
   document.getElementById('secretAdminBtn').addEventListener('click', () => {
     if (prompt("Contraseña:") === "LaJosefa") {
         document.getElementById('adminBar').style.display = "flex";
         textIds.forEach(id => document.getElementById(id).setAttribute("contenteditable", "true"));
-        fotoIds.forEach(id => { 
+        // Solo aplicar clic a imágenes de sección, no al fondo
+        const sectionFotoIds = fotoIds.filter(id => id !== "bgImage");
+        sectionFotoIds.forEach(id => { 
             const el = document.getElementById(id);
             el.classList.add("editable"); 
             el.onclick = () => { currentImageId = id; document.getElementById('imageUploader').click(); }; 
@@ -178,8 +186,8 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     alert("Publicado correctamente");
   });
 
-  async function enviarConfirmacion() { /* lógica de formulario */ }
-  async function descargarAsistencias() { /* lógica de csv */ }
+  async function enviarConfirmacion() { /* lógica formulario */ }
+  async function descargarAsistencias() { /* lógica csv */ }
 
   window.onload = function() {
     if (typeof firebase !== 'undefined' && firebase.apps.length) {
