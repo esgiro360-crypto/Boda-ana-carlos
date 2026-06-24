@@ -29,14 +29,22 @@ html { scroll-behavior: smooth; }
 
 body { background-color: var(--warm-bg); color: var(--soft-charcoal); font-family: var(--font-body); font-size: 18px; line-height: 1.8; margin: 0; }
 
-/* FONDO TÉCNICO */
+/* FONDO TÉCNICO CORREGIDO */
 #bgImage { 
   position: fixed; top: 0; left: 0; 
   width: 100vw; height: 100vh; 
   object-fit: cover; z-index: -1; pointer-events: none; 
 }
 
-.page-wrapper { max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
+/* CONTENEDOR PRINCIPAL CON Z-INDEX PARA NO SUPERPONERSE */
+.page-wrapper { 
+  position: relative; z-index: 1; 
+  max-width: 800px; margin: 0 auto; padding: 60px 24px; 
+  display: flex; flex-direction: column; gap: 80px; 
+  background-color: rgba(248, 245, 239, 0.7); /* Ligera transparencia para asegurar legibilidad */
+  border-radius: 20px;
+}
+
 h1 { font-family: var(--font-header); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
 .hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 18px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 10px; outline: none; }
 h2 { font-family: var(--font-header); font-size: clamp(40px, 8vw, 64px); color: var(--sage-text); margin-bottom: 16px; outline: none; }
@@ -99,6 +107,21 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
             <label class="form-label">Nombre y apellidos*</label>
             <input type="text" id="guestName" class="form-input" required>
         </div>
+        <div class="form-field">
+            <label class="form-label">Nombre y apellidos acompañante</label>
+            <input type="text" id="guestCompanion" class="form-input" placeholder="(Deja en blanco si no llevas)">
+        </div>
+        <div class="form-field">
+            <label class="form-label">¿Bus?*</label>
+            <div class="radio-options">
+                <label><input type="radio" name="autobus" value="Si"> Sí</label>
+                <label><input type="radio" name="autobus" value="No"> No</label>
+            </div>
+        </div>
+        <div class="form-field">
+            <label class="form-label">¿Alergias?</label>
+            <input type="text" id="guestAllergies" class="form-input" placeholder="Especifica">
+        </div>
         <button onclick="enviarConfirmacion()" class="btn-primary">Enviar confirmación</button>
     </div>
     <div id="formFeedback" style="display:none; margin-top: 20px;">¡Gracias!</div>
@@ -158,7 +181,6 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     document.getElementById(currentImageId).src = url;
   });
 
-  // Botón dedicado para cambiar fondo
   function triggerBgUpload() {
       currentImageId = "bgImage";
       document.getElementById('imageUploader').click();
@@ -168,8 +190,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     if (prompt("Contraseña:") === "LaJosefa") {
         document.getElementById('adminBar').style.display = "flex";
         textIds.forEach(id => document.getElementById(id).setAttribute("contenteditable", "true"));
-        // Solo aplicar clic a imágenes de sección, no al fondo
-        const sectionFotoIds = fotoIds.filter(id => id !== "bgImage");
+        const sectionFotoIds = ["heroImg", "ceremoniaImg", "banqueteImg"];
         sectionFotoIds.forEach(id => { 
             const el = document.getElementById(id);
             el.classList.add("editable"); 
@@ -186,8 +207,8 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     alert("Publicado correctamente");
   });
 
-  async function enviarConfirmacion() { /* lógica formulario */ }
-  async function descargarAsistencias() { /* lógica csv */ }
+  async function enviarConfirmacion() { /* lógica */ }
+  async function descargarAsistencias() { /* lógica */ }
 
   window.onload = function() {
     if (typeof firebase !== 'undefined' && firebase.apps.length) {
