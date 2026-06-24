@@ -29,14 +29,11 @@ html { scroll-behavior: smooth; }
 
 body { background-color: var(--warm-bg); color: var(--soft-charcoal); font-family: var(--font-body); font-size: 18px; line-height: 1.8; margin: 0; }
 
-/* FONDO ESTÁTICO FIJO (NO INTERFIERE) */
+/* FONDO EDITABLE */
 #bgImage { 
-  position: fixed; 
-  top: 0; left: 0; 
+  position: fixed; top: 0; left: 0; 
   width: 100vw; height: 100vh; 
-  object-fit: cover; 
-  z-index: -1; 
-  pointer-events: none; 
+  object-fit: cover; z-index: -1; pointer-events: none; 
 }
 #bgImage.editable { cursor: pointer; border: 4px dashed var(--gold-line); pointer-events: all; }
 
@@ -58,7 +55,6 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 .form-field { margin-bottom: 25px; }
 .form-label { display: block; font-family: var(--font-accent); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage-text); margin-bottom: 8px; }
 .form-input { width: 100%; padding: 10px 0; border: none; border-bottom: 1px solid var(--gold-line); background: transparent; font-family: var(--font-body); font-size: 16px; color: var(--soft-charcoal); outline: none; }
-.radio-options { display: flex; gap: 20px; margin-top: 5px; }
 
 #secretAdminBtn { position: fixed; bottom: 0; right: 0; width: 100px; height: 100px; z-index: 9999; }
 #adminBar { display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background-color: var(--sage-text); color: var(--warm-bg); padding: 12px 28px; border-radius: 999px; z-index: 10000; font-family: var(--font-accent); font-size: 12px; gap: 10px; }
@@ -125,7 +121,8 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 <input type="file" id="imageUploader" accept="image/*" style="display: none;">
 
 <script>
-  /const firebaseConfig = {
+  // 🔴 CONFIGURA AQUÍ FIREBASE 🔴
+  const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
   projectId: "boda-ana-y-carlos-d458c",
@@ -181,8 +178,8 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
     alert("Publicado correctamente");
   });
 
-  async function enviarConfirmacion() { /* lógica simplificada de envío */ }
-  async function descargarAsistencias() { /* lógica de descarga */ }
+  async function enviarConfirmacion() { /* lógica de formulario */ }
+  async function descargarAsistencias() { /* lógica de csv */ }
 
   window.onload = function() {
     if (typeof firebase !== 'undefined' && firebase.apps.length) {
@@ -194,8 +191,12 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
         }
         document.getElementById('loadingOverlay').style.opacity = '0';
         setTimeout(() => document.getElementById('loadingOverlay').style.display = 'none', 800);
+      }).catch(() => {
+        document.getElementById('loadingOverlay').style.display = 'none';
       });
-    } else { document.getElementById('loadingOverlay').style.display = 'none'; }
+    } else { 
+        document.getElementById('loadingOverlay').style.display = 'none'; 
+    }
   };
 </script>
 </body>
