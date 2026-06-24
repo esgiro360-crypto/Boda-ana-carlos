@@ -35,7 +35,7 @@ body { background-color: var(--warm-bg); color: var(--soft-charcoal); font-famil
   object-fit: cover; z-index: -1; pointer-events: none; 
 }
 
-.page-wrapper { position: relative; z-index: 3; max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
+.page-wrapper { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
 h1 { font-family: var(--font-header); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
 .hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 18px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 10px; outline: none; }
 h2 { font-family: var(--font-header); font-size: clamp(40px, 8vw, 64px); color: var(--sage-text); margin-bottom: 16px; outline: none; }
@@ -139,7 +139,10 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 <input type="file" id="imageUploader" accept="image/*" style="display: none;">
 
 <script>
-  // 🔴 CONFIGURA AQUÍ FIREBASE 🔴
+  // 🔴 CONFIGURACIÓN
+  const ADMIN_CLICKS = 5; 
+  
+  // Rellena aquí tus datos de Firebase:
   const firebaseConfig = {
   apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
   authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
@@ -149,7 +152,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   appId: "1:725675577879:web:5f7fbc4f051544afd9c252"
 };
   
-  if (typeof firebase !== 'undefined' && !firebase.apps.length && firebaseConfig.apiKey) { firebase.initializeApp(firebaseConfig); }
+  if (typeof firebase !== 'undefined' && !firebase.apps.length && firebaseConfig.apiKey !== "TU_API_KEY") { firebase.initializeApp(firebaseConfig); }
 
   function actualizarCuentaAtras() {
       const boda = new Date("June 19, 2027 00:00:00").getTime();
@@ -184,7 +187,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   let adminClickCount = 0;
   document.getElementById('secretAdminBtn').addEventListener('click', () => {
     adminClickCount++;
-    if (adminClickCount >= 5) {
+    if (adminClickCount >= ADMIN_CLICKS) {
         if (prompt("Contraseña:") === "LaJosefa") {
             document.getElementById('adminBar').style.display = "flex";
             textIds.forEach(id => document.getElementById(id).setAttribute("contenteditable", "true"));
@@ -210,19 +213,32 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
       const db = firebase.firestore();
       const name = document.getElementById('guestName').value;
       const companion = document.getElementById('guestCompanion').value;
-      const bus = document.querySelector('input[name="autobus"]:checked');
+      const busEl = document.querySelector('input[name="autobus"]:checked');
       const allergies = document.getElementById('guestAllergies').value;
-      if (!name || !bus) { alert("Por favor, rellena tu nombre y selecciona si necesitas autobús."); return; }
-      await db.collection("asistencias").add({ nombre: name, acompañante: companion, autobus: bus.value, alergias: allergies, fecha: new Date().toLocaleString() });
-      document.getElementById('formContainer').style.display = 'none';
-      document.getElementById('formFeedback').style.display = 'block';
+      
+      if (!name || !busEl) { alert("Por favor, rellena tu nombre y selecciona si necesitas autobús."); return; }
+      
+      await db.collection("asistencias").add({ 
+          nombre: name, 
+          acompañante: companion, 
+          autobus: busEl.value, 
+          alergias: allergies, 
+          fecha: new Date().toLocaleString() 
+      });
+      alert("¡Confirmación enviada con éxito!");
+      document.getElementById('guestName').value = "";
+      document.getElementById('guestCompanion').value = "";
+      document.getElementById('guestAllergies').value = "";
   }
 
   async function descargarAsistencias() {
       const db = firebase.firestore();
       const snapshot = await db.collection("asistencias").get();
       let csvContent = "data:text/csv;charset=utf-8,Nombre,Acompañante,Autobús,Alergias,Fecha\n";
-      snapshot.forEach(doc => { const data = doc.data(); csvContent += `"${data.nombre || ''}","${data.acompañante || ''}","${data.autobus || ''}","${data.alergias || ''}","${data.fecha || ''}"\n`; });
+      snapshot.forEach(doc => { 
+          const data = doc.data(); 
+          csvContent += `"${data.nombre || ''}","${data.acompañante || ''}","${data.autobus || ''}","${data.alergias || ''}","${data.fecha || ''}"\n`; 
+      });
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
