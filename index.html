@@ -28,13 +28,7 @@
 html { scroll-behavior: smooth; }
 body { background-color: var(--warm-bg); color: var(--soft-charcoal); font-family: var(--font-body); font-size: 18px; line-height: 1.8; margin: 0; }
 
-#bgImage { 
-  position: fixed; top: 0; left: 0; 
-  width: 100vw; height: 100vh; 
-  object-fit: cover; z-index: -1; pointer-events: none; 
-  opacity: 0.2; 
-}
-
+#bgImage { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -1; pointer-events: none; }
 .page-wrapper { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; padding: 60px 24px; display: flex; flex-direction: column; gap: 80px; }
 h1 { font-family: var(--font-header); font-size: clamp(64px, 12vw, 110px); color: var(--sage-text); margin-bottom: 24px; outline: none; }
 .hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 18px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 10px; outline: none; }
@@ -51,7 +45,6 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
 .btn-primary { display: inline-block; background: transparent; border: 2px solid var(--soft-charcoal); border-radius: 999px; padding: 12px 30px; font-family: var(--font-accent); font-size: 16px; color: var(--soft-charcoal); text-decoration: none; cursor: pointer; transition: all 0.4s ease; margin-top: 20px; font-weight: 700; }
 .form-box { text-align: left; margin: 20px auto; max-width: 500px; }
 .form-field { margin-bottom: 30px; }
-/* FORMULARIO DEFINIDO Y SIN MARCOS */
 .form-label { display: block; font-family: var(--font-accent); font-size: 14px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: #000; margin-bottom: 10px; }
 .form-input { width: 100%; padding: 12px 0; border: none; border-bottom: 3px solid #000; background: transparent; font-family: var(--font-body); font-size: 18px; color: #000; outline: none; font-weight: 700; }
 .radio-options { display: flex; gap: 20px; margin-top: 10px; font-weight: 700; color: #000; }
@@ -121,6 +114,8 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   <section id="listaBoda">
     <h3 id="h3Lista" contenteditable="false">Lista de Boda</h3>
     <p id="textoListaBoda" contenteditable="false">Vuestra presencia es nuestro mayor regalo.</p>
+    <p id="ibanTexto" contenteditable="false" style="margin-top: 20px; font-weight: 700;">ESXX XXXX XXXX XXXX XXXX</p>
+    <button class="btn-primary" onclick="copiarIban()">Copiar IBAN</button>
   </section>
 
   <section id="cierre">
@@ -148,7 +143,6 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   messagingSenderId: "725675577879",
   appId: "1:725675577879:web:5f7fbc4f051544afd9c252"
 };
-  
   if (typeof firebase !== 'undefined' && !firebase.apps.length && firebaseConfig.apiKey !== "") { firebase.initializeApp(firebaseConfig); }
 
   function actualizarCuentaAtras() {
@@ -164,7 +158,7 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   setInterval(actualizarCuentaAtras, 60000);
   actualizarCuentaAtras();
 
-  const textIds = ["heroNombres", "heroFecha", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "h3Lista", "textoListaBoda", "mensajeCierre"];
+  const textIds = ["heroNombres", "heroFecha", "h3Ceremonia", "tituloCeremonia", "textoCeremonia", "h3Banquete", "tituloBanquete", "textoBanquete", "h3Asistencia", "tituloAsistencia", "h3Lista", "textoListaBoda", "ibanTexto", "mensajeCierre"];
   const fotoIds = ["heroImg", "ceremoniaImg", "banqueteImg", "bgImage"];
   let currentImageId = "";
 
@@ -179,6 +173,11 @@ section { max-width: 650px; margin: 0 auto; text-align: center; }
   function triggerBgUpload() {
       currentImageId = "bgImage";
       document.getElementById('imageUploader').click();
+  }
+
+  function copiarIban() {
+      const iban = document.getElementById('ibanTexto').innerText;
+      navigator.clipboard.writeText(iban).then(() => { alert("IBAN copiado"); });
   }
 
   let adminClickCount = 0;
