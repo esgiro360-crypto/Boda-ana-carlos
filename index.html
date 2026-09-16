@@ -229,13 +229,13 @@ a {
     visibility: hidden;
 
     transform:
-        translateY(24px)
+        translateX(35px)
         scale(.99);
 
     transition:
-        opacity .7s ease,
-        transform .7s ease,
-        visibility .7s;
+        opacity .65s ease,
+        transform .65s cubic-bezier(.22,.8,.31,1),
+        visibility .65s;
 
     pointer-events: none;
 }
@@ -246,7 +246,7 @@ a {
     visibility: visible;
 
     transform:
-        translateY(0)
+        translateX(0)
         scale(1);
 
     pointer-events: auto;
@@ -488,13 +488,14 @@ a {
 
     color: white;
 
-    cursor: pointer;
-
     display: flex;
     flex-direction: column;
     align-items: center;
 
     gap: 8px;
+
+    pointer-events: none;
+    user-select: none;
 }
 
 .hero-enter span {
@@ -506,6 +507,10 @@ a {
     letter-spacing: .28em;
 
     text-transform: uppercase;
+}
+
+.hero-scroll-hint {
+    opacity: .95;
 }
 
 .hero-arrow {
@@ -1242,10 +1247,6 @@ a {
     background: var(--sage);
 }
 
-#sceneHero.active ~ #sceneDots .scene-dot {
-    background: rgba(255,255,255,.45);
-}
-
 
 /* =========================================================
    MODALES
@@ -1527,8 +1528,6 @@ a {
 }
 
 
-/* ADMIN DRAWER */
-
 #adminPanel {
 
     position: fixed;
@@ -1738,8 +1737,6 @@ body.admin-editing .editable-media {
 }
 
 
-/* móviles pequeños */
-
 @media (max-height: 690px) {
 
     .scene-inner {
@@ -1765,8 +1762,6 @@ body.admin-editing .editable-media {
 }
 
 
-/* Reduce motion */
-
 @media (prefers-reduced-motion: reduce) {
 
     *,
@@ -1788,16 +1783,8 @@ body.admin-editing .editable-media {
 <body>
 
 
-<!-- =========================================================
-     FONDO GLOBAL
-========================================================= -->
-
 <img id="bgImage" alt="" aria-hidden="true">
 
-
-<!-- =========================================================
-     PANTALLA DE CARGA
-========================================================= -->
 
 <div id="loadingOverlay">
 
@@ -1817,10 +1804,6 @@ body.admin-editing .editable-media {
 
 </div>
 
-
-<!-- =========================================================
-     EXPERIENCIA PRINCIPAL
-========================================================= -->
 
 <main id="experience">
 
@@ -1883,20 +1866,18 @@ body.admin-editing .editable-media {
             19 de junio de 2027 · Madrid
         </p>
 
-        <button
-            class="hero-enter reveal js-next"
-            type="button"
-        >
+
+        <div class="hero-enter reveal hero-scroll-hint">
 
             <span>
-                Descubre nuestra boda
+                Desliza para descubrir
             </span>
 
             <div class="hero-arrow">
                 ↓
             </div>
 
-        </button>
+        </div>
 
     </div>
 
@@ -1940,10 +1921,7 @@ body.admin-editing .editable-media {
 
         <div class="date-reveal-grid reveal">
 
-            <button
-                class="date-disc"
-                type="button"
-            >
+            <button class="date-disc" type="button">
 
                 <span class="date-disc-label">
                     Día
@@ -1959,10 +1937,7 @@ body.admin-editing .editable-media {
             </button>
 
 
-            <button
-                class="date-disc"
-                type="button"
-            >
+            <button class="date-disc" type="button">
 
                 <span class="date-disc-label">
                     Mes
@@ -1978,10 +1953,7 @@ body.admin-editing .editable-media {
             </button>
 
 
-            <button
-                class="date-disc"
-                type="button"
-            >
+            <button class="date-disc" type="button">
 
                 <span class="date-disc-label">
                     Año
@@ -2145,8 +2117,6 @@ body.admin-editing .editable-media {
         </div>
 
 
-        <!-- CEREMONIA -->
-
         <div
             id="placeCeremonia"
             class="place-panel active reveal"
@@ -2206,7 +2176,6 @@ body.admin-editing .editable-media {
         </div>
 
 
-        <!-- BANQUETE -->
 
         <div
             id="placeBanquete"
@@ -2465,8 +2434,6 @@ body.admin-editing .editable-media {
         <div class="detail-grid reveal">
 
 
-            <!-- RSVP -->
-
             <button
                 class="detail-card"
                 type="button"
@@ -2499,8 +2466,6 @@ body.admin-editing .editable-media {
 
 
 
-            <!-- REGALO -->
-
             <button
                 id="giftCard"
                 class="detail-card"
@@ -2531,8 +2496,6 @@ body.admin-editing .editable-media {
 
 
 
-            <!-- DRESS CODE -->
-
             <button
                 id="dressCard"
                 class="detail-card"
@@ -2559,8 +2522,6 @@ body.admin-editing .editable-media {
             </button>
 
 
-
-            <!-- CANCIÓN -->
 
             <button
                 id="songCard"
@@ -2589,8 +2550,6 @@ body.admin-editing .editable-media {
 
 
 
-            <!-- TIPS -->
-
             <button
                 id="tipsCard"
                 class="detail-card"
@@ -2617,8 +2576,6 @@ body.admin-editing .editable-media {
             </button>
 
 
-
-            <!-- FOTOS INVITADOS -->
 
             <button
                 id="albumCard"
@@ -2707,9 +2664,22 @@ body.admin-editing .editable-media {
         </div>
 
 
+        <div class="scene-navigation reveal">
+
+            <button
+                class="scene-nav-button js-prev"
+                type="button"
+                aria-label="Volver a la sección anterior"
+            >
+                ←
+            </button>
+
+        </div>
+
+
         <button
             class="secondary-btn reveal"
-            style="margin-top:40px;"
+            style="margin-top:22px;"
             type="button"
             onclick="goToScene('sceneHero')"
         >
@@ -2724,10 +2694,6 @@ body.admin-editing .editable-media {
 </main>
 
 
-
-<!-- =========================================================
-     PUNTOS NAVEGACIÓN
-========================================================= -->
 
 <div id="sceneDots"></div>
 
@@ -3160,10 +3126,6 @@ body.admin-editing .editable-media {
 
 
 
-<!-- =========================================================
-     PANEL CONFIGURADOR
-========================================================= -->
-
 <aside id="adminPanel">
 
     <div class="admin-panel-header">
@@ -3182,8 +3144,6 @@ body.admin-editing .editable-media {
 
     </div>
 
-
-    <!-- MULTIMEDIA -->
 
     <div class="admin-section">
 
@@ -3243,8 +3203,6 @@ body.admin-editing .editable-media {
 
 
 
-    <!-- FECHA -->
-
     <div class="admin-section">
 
         <div class="admin-section-title">
@@ -3265,8 +3223,6 @@ body.admin-editing .editable-media {
     </div>
 
 
-
-    <!-- MAPAS -->
 
     <div class="admin-section">
 
@@ -3302,8 +3258,6 @@ body.admin-editing .editable-media {
 
 
 
-    <!-- ÁLBUM -->
-
     <div class="admin-section">
 
         <div class="admin-section-title">
@@ -3324,8 +3278,6 @@ body.admin-editing .editable-media {
     </div>
 
 
-
-    <!-- MOSTRAR / OCULTAR -->
 
     <div class="admin-section">
 
@@ -3448,10 +3400,6 @@ body.admin-editing .editable-media {
 </aside>
 
 
-
-<!-- =========================================================
-     UPLOADER GENERAL
-========================================================= -->
 
 <input
     id="mediaUploader"
@@ -3895,13 +3843,19 @@ function updateSceneDots() {
 
 
 /* =========================================================
-   SWIPE HORIZONTAL
+   NAVEGACIÓN POR GESTOS
 ========================================================= */
 
 let touchStartX = 0;
 
 let touchStartY = 0;
 
+let wheelLocked = false;
+
+
+/*
+ * MÓVIL / TOUCH
+ */
 
 document
     .getElementById(
@@ -3949,33 +3903,78 @@ document
             }
 
 
-            const x =
+            const touchEndX =
                 event.changedTouches[0]
                     .clientX;
 
-            const y =
+            const touchEndY =
                 event.changedTouches[0]
                     .clientY;
 
 
             const dx =
-                x - touchStartX;
+                touchEndX -
+                touchStartX;
 
             const dy =
-                y - touchStartY;
+                touchEndY -
+                touchStartY;
 
+
+            const activeScene =
+                getActiveScene();
+
+
+            /*
+             * PORTADA
+             *
+             * Deslizar hacia arriba
+             * abre la invitación.
+             */
 
             if (
-                Math.abs(dx) > 70 &&
-                Math.abs(dx) >
-                Math.abs(dy) * 1.25
+                activeScene &&
+                activeScene.id ===
+                "sceneHero"
             ) {
 
-                if (dx < 0) {
+                if (
+                    dy < -55 &&
+                    Math.abs(dy) >
+                    Math.abs(dx)
+                ) {
 
                     nextScene();
 
-                } else {
+                    return;
+
+                }
+
+            }
+
+
+            /*
+             * RESTO DE LA WEB
+             *
+             * Izquierda = avanzar
+             * Derecha = retroceder
+             */
+
+            if (
+                Math.abs(dx) > 55 &&
+                Math.abs(dx) >
+                Math.abs(dy) * 1.15
+            ) {
+
+                if (
+                    dx < 0
+                ) {
+
+                    nextScene();
+
+                }
+
+                else {
 
                     previousScene();
 
@@ -3985,6 +3984,137 @@ document
 
         },
         { passive: true }
+    );
+
+
+
+/*
+ * RATÓN / TRACKPAD
+ */
+
+document
+    .getElementById(
+        "experience"
+    )
+    .addEventListener(
+        "wheel",
+        event => {
+
+            if (
+                adminMode &&
+                !previewMode
+            ) {
+                return;
+            }
+
+
+            if (
+                document.querySelector(
+                    ".modal-overlay.open"
+                )
+            ) {
+                return;
+            }
+
+
+            if (
+                wheelLocked
+            ) {
+                return;
+            }
+
+
+            const activeScene =
+                getActiveScene();
+
+
+            /*
+             * PORTADA:
+             * scroll hacia abajo.
+             */
+
+            if (
+                activeScene &&
+                activeScene.id ===
+                "sceneHero" &&
+                event.deltaY > 25
+            ) {
+
+                wheelLocked =
+                    true;
+
+
+                nextScene();
+
+
+                setTimeout(
+                    () => {
+
+                        wheelLocked =
+                            false;
+
+                    },
+                    850
+                );
+
+
+                return;
+
+            }
+
+
+            /*
+             * RESTO:
+             * scroll horizontal del trackpad.
+             */
+
+            if (
+                Math.abs(
+                    event.deltaX
+                ) >
+                Math.abs(
+                    event.deltaY
+                ) &&
+                Math.abs(
+                    event.deltaX
+                ) > 20
+            ) {
+
+                wheelLocked =
+                    true;
+
+
+                if (
+                    event.deltaX > 0
+                ) {
+
+                    nextScene();
+
+                }
+
+                else {
+
+                    previousScene();
+
+                }
+
+
+                setTimeout(
+                    () => {
+
+                        wheelLocked =
+                            false;
+
+                    },
+                    850
+                );
+
+            }
+
+        },
+        {
+            passive: true
+        }
     );
 
 
@@ -4198,7 +4328,9 @@ document
                             "active"
                         );
 
-                } else {
+                }
+
+                else {
 
                     document
                         .getElementById(
@@ -4230,7 +4362,9 @@ function openMap(type) {
             siteConfig
                 .ceremoniaMap;
 
-    } else {
+    }
+
+    else {
 
         url =
             siteConfig
@@ -5588,7 +5722,9 @@ function applyConfig() {
 
 
 
-/* cambios en toggles en tiempo real */
+/* =========================================================
+   CAMBIOS EN TOGGLES
+========================================================= */
 
 [
     "toggleGallery",
@@ -5941,8 +6077,6 @@ async function loadSavedContent() {
 
 
 
-        /* TEXTOS */
-
         textIds.forEach(
             id => {
 
@@ -5972,8 +6106,6 @@ async function loadSavedContent() {
 
 
 
-        /* CONFIG */
-
         if (
             data.siteConfig
         ) {
@@ -5994,8 +6126,6 @@ async function loadSavedContent() {
             "2027-06-19T00:00";
 
 
-
-        /* IMÁGENES */
 
         const imageJobs = [];
 
@@ -6060,11 +6190,6 @@ async function loadSavedContent() {
 
 
 
-        /*
-         * Si todavía no existen imágenes específicas
-         * para la galería, reutilizamos las actuales.
-         */
-
         if (
             !data.gallery1Img &&
             data.heroImg
@@ -6110,8 +6235,6 @@ async function loadSavedContent() {
         }
 
 
-
-        /* VIDEO */
 
         if (
             data.heroVideo
@@ -6184,16 +6307,8 @@ window.addEventListener(
 
         try {
 
-            /*
-             * Firebase + imágenes
-             */
-
             await loadSavedContent();
 
-
-            /*
-             * Esperar fuentes
-             */
 
             if (
                 document.fonts &&
@@ -6206,11 +6321,6 @@ window.addEventListener(
 
             }
 
-
-            /*
-             * Evitamos una transición demasiado brusca
-             * incluso con conexiones rapidísimas.
-             */
 
             await new Promise(
                 resolve =>
