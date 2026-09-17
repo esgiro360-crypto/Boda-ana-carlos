@@ -21,6 +21,7 @@
 :root {
     --sage: #5B6345;
     --sage-dark: #414833;
+    --sage-soft: rgba(91,99,69,.12);
     --cream: #F8F5EF;
     --cream-dark: #EFE9DF;
     --gold: #B9A77C;
@@ -65,7 +66,8 @@ body {
 
 button,
 input,
-textarea {
+textarea,
+select {
     font: inherit;
 }
 
@@ -95,6 +97,7 @@ a {
     height: 100vh;
 
     object-fit: cover;
+    object-position: center center;
 
     opacity: 0;
 
@@ -102,7 +105,7 @@ a {
 
     z-index: 0;
 
-    transition: opacity 1.4s ease;
+    transition: opacity 1.3s ease;
 }
 
 #bgImage.loaded {
@@ -172,9 +175,7 @@ a {
 }
 
 @keyframes breathing {
-
-    0%,
-    100% {
+    0%, 100% {
         opacity: .65;
         transform: scale(.98);
     }
@@ -183,7 +184,6 @@ a {
         opacity: 1;
         transform: scale(1.02);
     }
-
 }
 
 
@@ -223,15 +223,16 @@ a {
     overflow-x: hidden;
 
     overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
 
     opacity: 0;
     visibility: hidden;
 
     pointer-events: none;
 
-    transform: translateX(0);
+    transform: translateY(0);
 
-    --scene-duration: 850ms;
+    --scene-duration: 880ms;
 }
 
 .scene.active {
@@ -241,19 +242,12 @@ a {
     visibility: visible;
 
     pointer-events: auto;
-
-    transform: translateX(0);
 }
 
-
-/* =========================================================
-   TRANSICIONES EDITORIALES
-========================================================= */
-
-.scene.scene-enter-forward,
-.scene.scene-enter-backward,
-.scene.scene-leave-forward,
-.scene.scene-leave-backward {
+.scene.scene-enter-next,
+.scene.scene-enter-prev,
+.scene.scene-leave-next,
+.scene.scene-leave-prev {
     visibility: visible;
 
     will-change:
@@ -262,164 +256,107 @@ a {
         filter;
 }
 
-
-/* AVANZAR */
-
-.scene.scene-enter-forward {
+.scene.scene-enter-next {
     z-index: 3;
-
     animation:
-        sceneEnterForward
+        sceneEnterNext
         var(--scene-duration)
         cubic-bezier(.22,.76,.28,1)
         both;
 }
 
-.scene.scene-leave-forward {
+.scene.scene-leave-next {
     z-index: 2;
-
     pointer-events: none;
-
     animation:
-        sceneLeaveForward
+        sceneLeaveNext
         var(--scene-duration)
         cubic-bezier(.22,.76,.28,1)
         both;
 }
 
-
-/* RETROCEDER */
-
-.scene.scene-enter-backward {
+.scene.scene-enter-prev {
     z-index: 3;
-
     animation:
-        sceneEnterBackward
+        sceneEnterPrev
         var(--scene-duration)
         cubic-bezier(.22,.76,.28,1)
         both;
 }
 
-.scene.scene-leave-backward {
+.scene.scene-leave-prev {
     z-index: 2;
-
     pointer-events: none;
-
     animation:
-        sceneLeaveBackward
+        sceneLeavePrev
         var(--scene-duration)
         cubic-bezier(.22,.76,.28,1)
         both;
 }
 
-
-@keyframes sceneEnterForward {
-
+@keyframes sceneEnterNext {
     from {
         opacity: 0;
-
-        transform:
-            translateX(28px)
-            scale(.996);
-
-        filter: blur(1.2px);
+        transform: translateY(38px) scale(.996);
+        filter: blur(1.1px);
     }
 
     45% {
-        opacity: .78;
+        opacity: .8;
     }
 
     to {
         opacity: 1;
-
-        transform:
-            translateX(0)
-            scale(1);
-
+        transform: translateY(0) scale(1);
         filter: blur(0);
     }
-
 }
 
-
-@keyframes sceneLeaveForward {
-
+@keyframes sceneLeaveNext {
     from {
         opacity: 1;
-
-        transform:
-            translateX(0)
-            scale(1);
-
+        transform: translateY(0) scale(1);
         filter: blur(0);
     }
 
     to {
         opacity: 0;
-
-        transform:
-            translateX(-18px)
-            scale(.996);
-
+        transform: translateY(-20px) scale(.996);
         filter: blur(.8px);
     }
-
 }
 
-
-@keyframes sceneEnterBackward {
-
+@keyframes sceneEnterPrev {
     from {
         opacity: 0;
-
-        transform:
-            translateX(-28px)
-            scale(.996);
-
-        filter: blur(1.2px);
+        transform: translateY(-38px) scale(.996);
+        filter: blur(1.1px);
     }
 
     45% {
-        opacity: .78;
+        opacity: .8;
     }
 
     to {
         opacity: 1;
-
-        transform:
-            translateX(0)
-            scale(1);
-
+        transform: translateY(0) scale(1);
         filter: blur(0);
     }
-
 }
 
-
-@keyframes sceneLeaveBackward {
-
+@keyframes sceneLeavePrev {
     from {
         opacity: 1;
-
-        transform:
-            translateX(0)
-            scale(1);
-
+        transform: translateY(0) scale(1);
         filter: blur(0);
     }
 
     to {
         opacity: 0;
-
-        transform:
-            translateX(18px)
-            scale(.996);
-
+        transform: translateY(20px) scale(.996);
         filter: blur(.8px);
     }
-
 }
-
 
 .scene-inner {
     width: min(100%, 850px);
@@ -429,9 +366,9 @@ a {
     margin: 0 auto;
 
     padding:
-        max(45px, env(safe-area-inset-top))
+        max(70px, env(safe-area-inset-top))
         22px
-        max(90px, env(safe-area-inset-bottom));
+        max(110px, env(safe-area-inset-bottom));
 
     display: flex;
     flex-direction: column;
@@ -483,6 +420,86 @@ a {
 
 
 /* =========================================================
+   CUES DE NAVEGACIÓN
+========================================================= */
+
+.scene-cue {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 8;
+
+    border: none;
+    background: transparent;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+
+    color: var(--sage);
+
+    opacity: .72;
+
+    cursor: pointer;
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+}
+
+.scene-cue:hover {
+    opacity: 1;
+}
+
+.scene-cue.top {
+    top: max(14px, env(safe-area-inset-top));
+}
+
+.scene-cue.bottom {
+    bottom: max(14px, env(safe-area-inset-bottom));
+}
+
+.scene-cue-label {
+    font-family: var(--font-accent);
+    font-size: 8px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+}
+
+.scene-cue-arrow {
+    font-size: 22px;
+    line-height: 1;
+}
+
+.scene-cue.bottom .scene-cue-arrow {
+    animation: cueFloatDown 1.8s ease-in-out infinite;
+}
+
+.scene-cue.top .scene-cue-arrow {
+    animation: cueFloatUp 1.8s ease-in-out infinite;
+}
+
+.scene-cue.hero-cue {
+    color: rgba(255,255,255,.95);
+}
+
+.scene-cue.hidden {
+    display: none;
+}
+
+@keyframes cueFloatDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+}
+
+@keyframes cueFloatUp {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+
+/* =========================================================
    ANIMACIONES DE CONTENIDO
 ========================================================= */
 
@@ -495,29 +512,16 @@ a {
     animation: revealItem .9s ease forwards;
 }
 
-.scene.active .reveal:nth-child(2) {
-    animation-delay: .07s;
-}
-
-.scene.active .reveal:nth-child(3) {
-    animation-delay: .14s;
-}
-
-.scene.active .reveal:nth-child(4) {
-    animation-delay: .21s;
-}
-
-.scene.active .reveal:nth-child(5) {
-    animation-delay: .28s;
-}
+.scene.active .reveal:nth-child(2) { animation-delay: .07s; }
+.scene.active .reveal:nth-child(3) { animation-delay: .14s; }
+.scene.active .reveal:nth-child(4) { animation-delay: .21s; }
+.scene.active .reveal:nth-child(5) { animation-delay: .28s; }
 
 @keyframes revealItem {
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 
@@ -547,6 +551,7 @@ a {
     height: 100%;
 
     object-fit: cover;
+    object-position: center center;
 }
 
 #heroVideo {
@@ -588,7 +593,7 @@ a {
     padding:
         max(50px, env(safe-area-inset-top))
         24px
-        max(55px, env(safe-area-inset-bottom));
+        max(80px, env(safe-area-inset-bottom));
 
     display: flex;
     flex-direction: column;
@@ -638,51 +643,27 @@ a {
 }
 
 .hero-enter {
-    margin-top: 36px;
-
-    color: white;
+    margin-top: 34px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    gap: 8px;
+    gap: 6px;
 
-    pointer-events: none;
-    user-select: none;
+    color: rgba(255,255,255,.95);
 }
 
 .hero-enter span {
     font-family: var(--font-accent);
-
     font-size: 9px;
-
     letter-spacing: .28em;
-
     text-transform: uppercase;
-}
-
-.hero-scroll-hint {
-    opacity: .95;
 }
 
 .hero-arrow {
     font-size: 24px;
-
-    animation: arrowFloat 1.8s ease-in-out infinite;
-}
-
-@keyframes arrowFloat {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(7px);
-    }
-
+    animation: cueFloatDown 1.8s ease-in-out infinite;
 }
 
 
@@ -763,13 +744,10 @@ a {
 
 .date-reveal-grid {
     width: 100%;
-
     max-width: 600px;
 
     display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
     gap: 14px;
 
@@ -783,13 +761,10 @@ a {
 
     border: 1px solid var(--gold-line);
 
-    background:
-        rgba(255,255,255,.50);
-
+    background: rgba(255,255,255,.50);
     backdrop-filter: blur(10px);
 
-    box-shadow:
-        0 15px 40px rgba(75,67,52,.07);
+    box-shadow: 0 15px 40px rgba(75,67,52,.07);
 
     color: var(--sage);
 
@@ -798,7 +773,6 @@ a {
     position: relative;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -812,20 +786,16 @@ a {
 
 .date-disc:hover {
     transform: translateY(-3px);
-
-    box-shadow:
-        0 18px 45px rgba(75,67,52,.11);
+    box-shadow: 0 18px 45px rgba(75,67,52,.11);
 }
 
 .date-disc-label {
     position: absolute;
 
     font-family: var(--font-accent);
-
     font-size: 8px;
 
     letter-spacing: .22em;
-
     text-transform: uppercase;
 
     transition:
@@ -835,11 +805,9 @@ a {
 
 .date-disc-value {
     opacity: 0;
-
     transform: scale(.6);
 
     font-family: var(--font-serif);
-
     font-size: clamp(26px, 8vw, 52px);
 
     transition:
@@ -849,21 +817,17 @@ a {
 
 .date-disc.revealed {
     background: var(--sage);
-
     color: white;
-
     transform: rotateY(180deg);
 }
 
 .date-disc.revealed .date-disc-label {
     opacity: 0;
-
     transform: scale(.8);
 }
 
 .date-disc.revealed .date-disc-value {
     opacity: 1;
-
     transform:
         rotateY(180deg)
         scale(1);
@@ -876,23 +840,17 @@ a {
 
 .countdown-title {
     font-family: var(--font-script);
-
     font-size: 42px;
-
     color: var(--sage);
-
     margin-bottom: 12px;
 }
 
 .countdown-grid {
     width: 100%;
-
     max-width: 540px;
 
     display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 
     gap: 8px;
 }
@@ -900,18 +858,14 @@ a {
 .countdown-item {
     padding: 17px 6px;
 
-    border-top:
-        1px solid var(--gold-line);
-
-    border-bottom:
-        1px solid var(--gold-line);
+    border-top: 1px solid var(--gold-line);
+    border-bottom: 1px solid var(--gold-line);
 }
 
 .countdown-number {
     display: block;
 
     font-family: var(--font-serif);
-
     font-size: clamp(27px, 7vw, 42px);
 
     color: var(--sage);
@@ -919,105 +873,15 @@ a {
 
 .countdown-label {
     display: block;
-
     margin-top: 3px;
 
     font-family: var(--font-accent);
-
     font-size: 7px;
 
     letter-spacing: .15em;
-
     text-transform: uppercase;
 
     opacity: .65;
-}
-
-
-/* =========================================================
-   NAVEGACIÓN
-========================================================= */
-
-.scene-navigation {
-    margin-top: 38px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-wrap: wrap;
-
-    gap: 12px;
-}
-
-.scene-nav-button {
-    min-width: 135px;
-
-    padding: 14px 24px;
-
-    border:
-        1px solid rgba(185,167,124,.52);
-
-    border-radius: 999px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.90) 0%,
-            rgba(246,242,234,.76) 100%
-        );
-
-    backdrop-filter: blur(12px);
-
-    color: var(--sage);
-
-    cursor: pointer;
-
-    font-family: var(--font-accent);
-
-    font-size: 10px;
-
-    font-weight: 500;
-
-    letter-spacing: .17em;
-
-    text-transform: uppercase;
-
-    box-shadow:
-        0 10px 28px rgba(72,66,53,.08),
-        inset 0 1px 0 rgba(255,255,255,.85);
-
-    transition:
-        transform .3s ease,
-        background .3s ease,
-        border-color .3s ease,
-        box-shadow .3s ease;
-}
-
-.scene-nav-button:hover {
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.98) 0%,
-            rgba(244,239,229,.88) 100%
-        );
-
-    border-color:
-        rgba(185,167,124,.72);
-
-    box-shadow:
-        0 14px 34px rgba(72,66,53,.12),
-        inset 0 1px 0 rgba(255,255,255,.95);
-
-    transform:
-        translateY(-2px);
-}
-
-.scene-nav-button:active {
-    transform:
-        translateY(0)
-        scale(.98);
 }
 
 
@@ -1027,56 +891,43 @@ a {
 
 .place-tabs {
     display: flex;
-
     gap: 7px;
 
-    margin:
-        12px 0 22px;
-
+    margin: 12px 0 22px;
     padding: 4px;
 
-    border:
-        1px solid var(--gold-line);
-
+    border: 1px solid var(--gold-line);
     border-radius: 100px;
 
-    background:
-        rgba(255,255,255,.45);
+    background: rgba(255,255,255,.45);
 }
 
 .place-tab {
     border: 0;
-
     border-radius: 100px;
 
     padding: 10px 16px;
 
     background: transparent;
-
     color: var(--sage);
 
     cursor: pointer;
 
     font-family: var(--font-accent);
-
     font-size: 9px;
 
     letter-spacing: .12em;
-
     text-transform: uppercase;
 }
 
 .place-tab.active {
     background: var(--sage);
-
     color: white;
 }
 
 .place-panel {
     display: none;
-
     width: 100%;
-
     max-width: 650px;
 }
 
@@ -1086,66 +937,41 @@ a {
 
 .place-photo {
     width: 100%;
-
-    height: min(47vh, 430px);
+    height: min(50vh, 470px);
 
     object-fit: cover;
+    object-position: center center;
 
-    border-radius:
-        180px 180px 28px 28px;
+    border-radius: 180px 180px 28px 28px;
 
-    box-shadow:
-        0 20px 55px rgba(63,56,45,.13);
+    box-shadow: 0 20px 55px rgba(63,56,45,.13);
 }
 
 .place-card {
     position: relative;
 
-    width: calc(100% - 36px);
+    width: calc(100% - 30px);
 
-    margin:
-        -70px auto 0;
+    margin: -52px auto 0;
 
-    padding:
-        28px 22px;
+    padding: 28px 22px;
 
-    border:
-        1px solid rgba(185,167,124,.23);
-
+    border: 1px solid rgba(185,167,124,.23);
     border-radius: 24px;
 
-    background:
-        rgba(248,245,239,.94);
-
+    background: rgba(248,245,239,.94);
     backdrop-filter: blur(16px);
 
     box-shadow:
-        0 20px 45px rgba(58,52,43,.12);
+        0 20px 45px rgba(58,52,43,.12),
+        inset 0 1px 0 rgba(255,255,255,.85);
 }
-
-
-/* =========================================================
-   AJUSTE ESPECÍFICO IGLESIA
-========================================================= */
-
-#placeCeremonia .place-photo {
-    height: min(54vh, 500px);
-
-    object-position: center center;
-}
-
-#placeCeremonia .place-card {
-    margin-top: -34px;
-}
-
 
 .place-card h3 {
     font-family: var(--font-accent);
-
     font-size: 9px;
 
     letter-spacing: .25em;
-
     text-transform: uppercase;
 
     color: var(--gold);
@@ -1155,13 +981,10 @@ a {
 
 .place-card h2 {
     font-family: var(--font-script);
-
     font-size: clamp(40px, 10vw, 62px);
-
     font-weight: 400;
 
     color: var(--sage);
-
     line-height: 1;
 }
 
@@ -1169,9 +992,7 @@ a {
     margin-top: 11px;
 
     font-family: var(--font-serif);
-
     font-size: 18px;
-
     line-height: 1.45;
 }
 
@@ -1184,23 +1005,19 @@ a {
     position: relative;
 
     width: 100%;
-
     max-width: 610px;
 
     margin-top: 20px;
 
     overflow: hidden;
 
-    border-radius:
-        220px 220px 30px 30px;
+    border-radius: 220px 220px 30px 30px;
 
-    box-shadow:
-        0 25px 60px rgba(55,50,40,.13);
+    box-shadow: 0 25px 60px rgba(55,50,40,.13);
 }
 
 .gallery-track {
     display: flex;
-
     width: 100%;
 
     transition:
@@ -1210,25 +1027,23 @@ a {
 
 .gallery-slide {
     flex: 0 0 100%;
-
     width: 100%;
 }
 
 .gallery-slide img {
     width: 100%;
-
     height: min(60vh, 590px);
 
     display: block;
 
     object-fit: cover;
+    object-position: center center;
 }
 
 .gallery-controls {
     margin-top: 22px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -1239,13 +1054,10 @@ a {
     width: 44px;
     height: 36px;
 
-    border:
-        1px solid var(--gold-line);
-
+    border: 1px solid var(--gold-line);
     border-radius: 14px;
 
-    background:
-        rgba(255,255,255,.55);
+    background: rgba(255,255,255,.55);
 
     color: var(--sage);
 
@@ -1259,8 +1071,7 @@ a {
 }
 
 .gallery-arrow:hover {
-    background:
-        rgba(255,255,255,.8);
+    background: rgba(255,255,255,.8);
 }
 
 .gallery-arrow:active {
@@ -1271,13 +1082,10 @@ a {
     width: 10px;
     height: 10px;
 
-    border:
-        1px solid rgba(91,99,69,.32);
-
+    border: 1px solid rgba(91,99,69,.32);
     border-radius: 50%;
 
-    background:
-        rgba(255,255,255,.55);
+    background: rgba(255,255,255,.55);
 
     cursor: pointer;
 
@@ -1304,50 +1112,42 @@ a {
 
 .detail-grid {
     width: 100%;
+    max-width: 640px;
 
-    max-width: 620px;
-
-    margin-top: 15px;
+    margin-top: 18px;
 
     display: grid;
+    grid-template-columns: repeat(2, 1fr);
 
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 13px;
+    gap: 16px;
 }
 
 .detail-card {
     position: relative;
 
-    min-height: 165px;
+    min-height: 190px;
 
-    padding: 23px 18px;
+    padding: 20px 18px 18px;
 
     overflow: hidden;
 
-    border:
-        1px solid rgba(185,167,124,.40);
-
-    border-radius: 24px;
+    border: 1px solid rgba(185,167,124,.42);
+    border-radius: 28px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,.78) 0%,
-            rgba(248,245,239,.62) 55%,
-            rgba(240,235,225,.52) 100%
+            rgba(255,255,255,.90) 0%,
+            rgba(249,246,240,.82) 48%,
+            rgba(239,233,223,.76) 100%
         );
 
-    backdrop-filter:
-        blur(12px);
+    backdrop-filter: blur(12px);
 
     cursor: pointer;
 
     display: flex;
-
     flex-direction: column;
-
     justify-content: space-between;
 
     text-align: left;
@@ -1355,27 +1155,24 @@ a {
     color: var(--charcoal);
 
     box-shadow:
-        0 14px 38px rgba(63,57,46,.09),
-        0 3px 8px rgba(63,57,46,.04),
-        inset 0 1px 0 rgba(255,255,255,.90);
+        0 18px 40px rgba(63,57,46,.11),
+        0 4px 10px rgba(63,57,46,.05),
+        inset 0 1px 0 rgba(255,255,255,.95);
 
     transition:
-        transform .38s cubic-bezier(.22,.8,.31,1),
-        box-shadow .38s ease,
-        border-color .38s ease;
+        transform .34s cubic-bezier(.22,.8,.31,1),
+        box-shadow .34s ease,
+        border-color .34s ease;
 }
 
 .detail-card::before {
     content: "";
 
     position: absolute;
+    inset: 7px;
 
-    inset: 5px;
-
-    border:
-        1px solid rgba(185,167,124,.13);
-
-    border-radius: 19px;
+    border: 1px solid rgba(185,167,124,.16);
+    border-radius: 22px;
 
     pointer-events: none;
 }
@@ -1385,19 +1182,19 @@ a {
 
     position: absolute;
 
-    width: 130px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
 
-    top: -65px;
-    right: -55px;
+    top: -75px;
+    right: -60px;
 
     border-radius: 50%;
 
     background:
         radial-gradient(
             circle,
-            rgba(255,255,255,.72) 0%,
-            rgba(255,255,255,0) 70%
+            rgba(255,255,255,.78) 0%,
+            rgba(255,255,255,0) 72%
         );
 
     pointer-events: none;
@@ -1405,67 +1202,91 @@ a {
 
 .detail-card > * {
     position: relative;
-
     z-index: 2;
 }
 
 .detail-card:hover {
-    transform:
-        translateY(-5px);
+    transform: translateY(-5px);
 
-    border-color:
-        rgba(185,167,124,.58);
+    border-color: rgba(185,167,124,.62);
 
     box-shadow:
-        0 20px 45px rgba(63,57,46,.13),
-        0 5px 12px rgba(63,57,46,.05),
-        inset 0 1px 0 rgba(255,255,255,.96);
+        0 22px 46px rgba(63,57,46,.15),
+        0 6px 12px rgba(63,57,46,.05),
+        inset 0 1px 0 rgba(255,255,255,.98);
 }
 
 .detail-card:active {
-    transform:
-        translateY(-1px)
-        scale(.99);
+    transform: translateY(-1px) scale(.99);
+}
+
+.detail-badge {
+    width: 54px;
+    height: 54px;
+
+    border: 1px solid rgba(185,167,124,.45);
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.62);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     box-shadow:
-        0 9px 24px rgba(63,57,46,.10),
-        inset 0 1px 0 rgba(255,255,255,.90);
+        inset 0 1px 0 rgba(255,255,255,.9),
+        0 8px 18px rgba(63,57,46,.08);
 }
 
 .detail-symbol {
     font-family: var(--font-script);
-
-    font-size: 40px;
-
-    color: var(--sage);
-
+    font-size: 34px;
     line-height: 1;
+    color: var(--sage);
 }
 
-.detail-card h3 {
-    margin-top: 15px;
+.detail-content h3 {
+    margin-top: 16px;
 
     font-family: var(--font-accent);
-
     font-size: 10px;
 
-    letter-spacing: .15em;
-
+    letter-spacing: .16em;
     text-transform: uppercase;
 
     color: var(--sage);
 }
 
-.detail-card p {
-    margin-top: 5px;
+.detail-content p {
+    margin-top: 8px;
 
     font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.32;
 
-    font-size: 16px;
+    opacity: .82;
+}
 
-    line-height: 1.3;
+.detail-open {
+    margin-top: 18px;
 
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    font-family: var(--font-accent);
+    font-size: 9px;
+
+    letter-spacing: .18em;
+    text-transform: uppercase;
+
+    color: var(--sage);
     opacity: .75;
+}
+
+.detail-open-arrow {
+    font-size: 15px;
+    line-height: 1;
 }
 
 
@@ -1475,11 +1296,8 @@ a {
 
 .closing-monogram {
     font-family: var(--font-script);
-
     font-size: clamp(90px, 24vw, 150px);
-
     color: var(--sage);
-
     line-height: 1;
 }
 
@@ -1489,9 +1307,7 @@ a {
     margin: 20px auto 0;
 
     font-family: var(--font-serif);
-
     font-size: 22px;
-
     line-height: 1.5;
 }
 
@@ -1499,21 +1315,17 @@ a {
     margin-top: 30px;
 
     font-family: var(--font-accent);
-
     font-size: 10px;
 
     letter-spacing: .27em;
-
     color: var(--sage);
 }
 
 .closing-actions {
-    margin-top: 35px;
+    margin-top: 34px;
 
     display: flex;
-
     justify-content: center;
-
     flex-wrap: wrap;
 
     gap: 12px;
@@ -1530,15 +1342,12 @@ a {
     right: 17px;
     top: 50%;
 
-    transform:
-        translateY(-50%);
+    transform: translateY(-50%);
 
     z-index: 900;
 
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
 
     gap: 15px;
@@ -1550,13 +1359,10 @@ a {
 
     padding: 0;
 
-    border:
-        1px solid rgba(91,99,69,.40);
-
+    border: 1px solid rgba(91,99,69,.40);
     border-radius: 50%;
 
-    background:
-        rgba(248,245,239,.70);
+    background: rgba(248,245,239,.70);
 
     cursor: pointer;
 
@@ -1580,26 +1386,19 @@ a {
     border-color: var(--sage);
 
     box-shadow:
-        0 0 0 5px
-        rgba(91,99,69,.12);
+        0 0 0 5px rgba(91,99,69,.12);
 }
 
 #sceneDots.hero-mode .scene-dot {
-    border-color:
-        rgba(255,255,255,.72);
-
-    background:
-        rgba(255,255,255,.25);
+    border-color: rgba(255,255,255,.72);
+    background: rgba(255,255,255,.25);
 }
 
 #sceneDots.hero-mode .scene-dot.active {
     background: white;
-
     border-color: white;
-
     box-shadow:
-        0 0 0 5px
-        rgba(255,255,255,.16);
+        0 0 0 5px rgba(255,255,255,.16);
 }
 
 
@@ -1614,15 +1413,12 @@ a {
     z-index: 15000;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
     padding: 18px;
 
-    background:
-        rgba(34,35,28,.58);
-
+    background: rgba(34,35,28,.58);
     backdrop-filter: blur(8px);
 
     opacity: 0;
@@ -1642,36 +1438,27 @@ a {
     width: min(100%, 560px);
 
     max-height: 88svh;
-
     overflow-y: auto;
 
-    padding:
-        30px 24px 28px;
+    padding: 30px 24px 28px;
 
     border-radius: 28px;
 
     background: var(--cream);
 
-    box-shadow:
-        0 30px 80px rgba(0,0,0,.18);
+    box-shadow: 0 30px 80px rgba(0,0,0,.18);
 
-    transform:
-        translateY(18px)
-        scale(.98);
+    transform: translateY(18px) scale(.98);
 
-    transition:
-        transform .35s ease;
+    transition: transform .35s ease;
 }
 
 .modal-overlay.open .modal-card {
-    transform:
-        translateY(0)
-        scale(1);
+    transform: translateY(0) scale(1);
 }
 
 .modal-header {
     display: flex;
-
     align-items: flex-start;
     justify-content: space-between;
 
@@ -1682,13 +1469,10 @@ a {
 
 .modal-title {
     font-family: var(--font-script);
-
     font-size: 49px;
-
     font-weight: 400;
 
     color: var(--sage);
-
     line-height: 1;
 }
 
@@ -1698,13 +1482,10 @@ a {
 
     flex: 0 0 auto;
 
-    border:
-        1px solid var(--gold-line);
-
+    border: 1px solid var(--gold-line);
     border-radius: 50%;
 
     background: transparent;
-
     color: var(--sage);
 
     cursor: pointer;
@@ -1714,9 +1495,7 @@ a {
 
 .modal-body {
     font-family: var(--font-serif);
-
     font-size: 19px;
-
     line-height: 1.55;
 }
 
@@ -1731,15 +1510,12 @@ a {
 
 .form-label {
     display: block;
-
     margin-bottom: 7px;
 
     font-family: var(--font-accent);
-
     font-size: 9px;
 
     letter-spacing: .15em;
-
     text-transform: uppercase;
 
     color: var(--sage);
@@ -1751,38 +1527,29 @@ a {
     padding: 11px 0;
 
     border: none;
-
-    border-bottom:
-        1px solid var(--sage);
+    border-bottom: 1px solid var(--sage);
 
     outline: none;
 
     background: transparent;
-
     color: var(--charcoal);
 
     font-family: var(--font-serif);
-
     font-size: 19px;
 }
 
 .radio-options {
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 12px 22px;
 
     font-family: var(--font-serif);
-
     font-size: 18px;
 }
 
 .radio-options label {
     display: flex;
-
     align-items: center;
-
     gap: 7px;
 }
 
@@ -1807,8 +1574,7 @@ a {
     position: fixed;
 
     left: 50%;
-    bottom:
-        max(16px, env(safe-area-inset-bottom));
+    bottom: max(16px, env(safe-area-inset-bottom));
 
     transform:
         translateX(-50%)
@@ -1816,33 +1582,24 @@ a {
 
     z-index: 20000;
 
-    width:
-        min(calc(100% - 22px), 720px);
+    width: min(calc(100% - 22px), 820px);
 
     padding: 8px;
 
     border-radius: 100px;
 
-    background:
-        rgba(65,72,51,.96);
+    background: rgba(65,72,51,.96);
+    backdrop-filter: blur(20px);
 
-    backdrop-filter:
-        blur(20px);
-
-    box-shadow:
-        0 16px 55px
-        rgba(0,0,0,.22);
+    box-shadow: 0 16px 55px rgba(0,0,0,.22);
 
     display: flex;
-
     align-items: center;
-
     gap: 6px;
 
     overflow-x: auto;
 
-    transition:
-        transform .45s ease;
+    transition: transform .45s ease;
 
     scrollbar-width: none;
 }
@@ -1861,30 +1618,24 @@ a {
     flex: 0 0 auto;
 
     border: none;
-
     border-radius: 100px;
 
     padding: 10px 12px;
 
-    background:
-        rgba(255,255,255,.12);
-
+    background: rgba(255,255,255,.12);
     color: white;
 
     cursor: pointer;
 
     font-family: var(--font-accent);
-
     font-size: 8px;
 
     letter-spacing: .08em;
-
     text-transform: uppercase;
 }
 
 .admin-bar-btn.primary {
     background: white;
-
     color: var(--sage);
 }
 
@@ -1901,7 +1652,7 @@ a {
     top: 0;
     right: 0;
 
-    width: min(92vw, 420px);
+    width: min(92vw, 430px);
     height: 100%;
 
     overflow-y: auto;
@@ -1913,12 +1664,9 @@ a {
 
     background: var(--cream);
 
-    box-shadow:
-        -20px 0 70px
-        rgba(0,0,0,.18);
+    box-shadow: -20px 0 70px rgba(0,0,0,.18);
 
-    transform:
-        translateX(105%);
+    transform: translateX(105%);
 
     transition:
         transform .45s
@@ -1926,13 +1674,11 @@ a {
 }
 
 #adminPanel.open {
-    transform:
-        translateX(0);
+    transform: translateX(0);
 }
 
 .admin-panel-header {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
 
@@ -1941,29 +1687,22 @@ a {
 
 .admin-panel-title {
     font-family: var(--font-script);
-
     font-size: 46px;
-
     color: var(--sage);
 }
 
 .admin-section {
-    padding:
-        22px 0;
-
-    border-top:
-        1px solid var(--gold-line);
+    padding: 22px 0;
+    border-top: 1px solid var(--gold-line);
 }
 
 .admin-section-title {
     margin-bottom: 15px;
 
     font-family: var(--font-accent);
-
     font-size: 9px;
 
     letter-spacing: .18em;
-
     text-transform: uppercase;
 
     color: var(--sage);
@@ -1976,13 +1715,10 @@ a {
 
     padding: 12px 14px;
 
-    border:
-        1px solid var(--gold-line);
-
+    border: 1px solid var(--gold-line);
     border-radius: 12px;
 
     background: white;
-
     color: var(--sage);
 
     text-align: left;
@@ -1990,20 +1726,18 @@ a {
     cursor: pointer;
 }
 
-.admin-input {
+.admin-input,
+.admin-select {
     width: 100%;
 
     margin-bottom: 12px;
 
     padding: 11px 12px;
 
-    border:
-        1px solid var(--gold-line);
-
+    border: 1px solid var(--gold-line);
     border-radius: 10px;
 
     background: white;
-
     color: var(--charcoal);
 
     outline: none;
@@ -2011,15 +1745,12 @@ a {
 
 .admin-small-label {
     display: block;
-
     margin-bottom: 6px;
 
     font-family: var(--font-accent);
-
     font-size: 8px;
 
     letter-spacing: .12em;
-
     text-transform: uppercase;
 
     color: var(--sage);
@@ -2027,7 +1758,6 @@ a {
 
 .admin-toggle {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
 
@@ -2036,27 +1766,40 @@ a {
     padding: 10px 0;
 
     font-family: var(--font-serif);
-
     font-size: 17px;
 }
 
+.admin-range-group {
+    margin-bottom: 10px;
+}
+
+.admin-range {
+    width: 100%;
+}
+
+.admin-range-value {
+    margin-top: 4px;
+    margin-bottom: 10px;
+
+    font-family: var(--font-accent);
+    font-size: 8px;
+
+    letter-spacing: .12em;
+    text-transform: uppercase;
+
+    color: var(--sage);
+    opacity: .8;
+}
+
 body.admin-editing [contenteditable="true"] {
-    outline:
-        1px dashed
-        rgba(91,99,69,.55);
-
+    outline: 1px dashed rgba(91,99,69,.55);
     outline-offset: 4px;
-
     border-radius: 3px;
 }
 
 body.admin-editing .editable-media {
-    outline:
-        2px dashed
-        rgba(185,167,124,.9);
-
+    outline: 2px dashed rgba(185,167,124,.9);
     outline-offset: -5px;
-
     cursor: pointer;
 }
 
@@ -2065,60 +1808,41 @@ body.admin-editing .editable-media {
    RESPONSIVE
 ========================================================= */
 
+@media (max-width: 700px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 600px) {
 
-    .detail-grid {
-        gap: 9px;
-    }
-
-    .detail-card {
-        min-height: 150px;
-    }
-
     .place-card {
-        width:
-            calc(100% - 20px);
-    }
-
-    #placeCeremonia .place-photo {
-        height: min(52vh, 470px);
-    }
-
-    #placeCeremonia .place-card {
-        margin-top: -26px;
+        width: calc(100% - 20px);
+        margin-top: -40px;
     }
 
     #sceneDots {
         right: 10px;
     }
 
-    .scene-nav-button {
-        min-width: 120px;
-
-        padding:
-            13px 18px;
-
-        font-size: 9px;
-    }
-
     .admin-bar-btn {
-        padding:
-            9px 9px;
-
+        padding: 9px 9px;
         font-size: 7px;
     }
 
+    .scene-inner {
+        padding:
+            max(64px, env(safe-area-inset-top))
+            18px
+            max(105px, env(safe-area-inset-bottom));
+    }
 }
-
 
 @media (max-height: 690px) {
 
     .scene-inner {
-        justify-content:
-            flex-start;
-
-        padding-top:
-            max(34px, env(safe-area-inset-top));
+        justify-content: flex-start;
+        padding-top: max(54px, env(safe-area-inset-top));
     }
 
     .scene-title {
@@ -2126,32 +1850,23 @@ body.admin-editing .editable-media {
     }
 
     .date-reveal-grid {
-        margin:
-            15px 0 24px;
+        margin: 15px 0 24px;
     }
 
     .date-disc {
         max-height: 130px;
     }
-
 }
-
 
 @media (prefers-reduced-motion: reduce) {
 
     *,
     *::before,
     *::after {
-        animation-duration:
-            .01ms !important;
-
-        animation-iteration-count:
-            1 !important;
-
-        transition-duration:
-            .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
     }
-
 }
 
 </style>
@@ -2196,6 +1911,16 @@ body.admin-editing .editable-media {
     class="scene active"
     data-scene-name="Inicio"
 >
+
+    <button
+        class="scene-cue bottom hero-cue"
+        type="button"
+        onclick="nextScene()"
+        aria-label="Siguiente"
+    >
+        <span class="scene-cue-label">Desliza</span>
+        <span class="scene-cue-arrow">⌄</span>
+    </button>
 
     <div class="hero-media">
 
@@ -2245,17 +1970,9 @@ body.admin-editing .editable-media {
             19 de junio de 2027 · Madrid
         </p>
 
-
-        <div class="hero-enter reveal hero-scroll-hint">
-
-            <span>
-                Desliza para descubrir
-            </span>
-
-            <div class="hero-arrow">
-                ↓
-            </div>
-
+        <div class="hero-enter reveal">
+            <span>Desliza para descubrir</span>
+            <div class="hero-arrow">⌄</div>
         </div>
 
     </div>
@@ -2273,6 +1990,25 @@ body.admin-editing .editable-media {
     class="scene"
     data-scene-name="Fecha"
 >
+
+    <button
+        class="scene-cue top"
+        type="button"
+        onclick="previousScene()"
+        aria-label="Anterior"
+    >
+        <span class="scene-cue-arrow">⌃</span>
+    </button>
+
+    <button
+        class="scene-cue bottom"
+        type="button"
+        onclick="nextScene()"
+        aria-label="Siguiente"
+    >
+        <span class="scene-cue-label">Continúa</span>
+        <span class="scene-cue-arrow">⌄</span>
+    </button>
 
     <div class="scene-inner">
 
@@ -2301,50 +2037,18 @@ body.admin-editing .editable-media {
         <div class="date-reveal-grid reveal">
 
             <button class="date-disc" type="button">
-
-                <span class="date-disc-label">
-                    Día
-                </span>
-
-                <span
-                    id="revealDay"
-                    class="date-disc-value"
-                >
-                    19
-                </span>
-
+                <span class="date-disc-label">Día</span>
+                <span id="revealDay" class="date-disc-value">19</span>
             </button>
 
-
             <button class="date-disc" type="button">
-
-                <span class="date-disc-label">
-                    Mes
-                </span>
-
-                <span
-                    id="revealMonth"
-                    class="date-disc-value"
-                >
-                    Junio
-                </span>
-
+                <span class="date-disc-label">Mes</span>
+                <span id="revealMonth" class="date-disc-value">Junio</span>
             </button>
 
-
             <button class="date-disc" type="button">
-
-                <span class="date-disc-label">
-                    Año
-                </span>
-
-                <span
-                    id="revealYear"
-                    class="date-disc-value"
-                >
-                    2027
-                </span>
-
+                <span class="date-disc-label">Año</span>
+                <span id="revealYear" class="date-disc-value">2027</span>
             </button>
 
         </div>
@@ -2354,93 +2058,30 @@ body.admin-editing .editable-media {
             Faltan
         </div>
 
-
         <div
             id="cuentaAtras"
             class="countdown-grid reveal"
         >
 
             <div class="countdown-item">
-
-                <span
-                    id="countDays"
-                    class="countdown-number"
-                >
-                    --
-                </span>
-
-                <span class="countdown-label">
-                    días
-                </span>
-
+                <span id="countDays" class="countdown-number">--</span>
+                <span class="countdown-label">días</span>
             </div>
-
 
             <div class="countdown-item">
-
-                <span
-                    id="countHours"
-                    class="countdown-number"
-                >
-                    --
-                </span>
-
-                <span class="countdown-label">
-                    horas
-                </span>
-
+                <span id="countHours" class="countdown-number">--</span>
+                <span class="countdown-label">horas</span>
             </div>
-
 
             <div class="countdown-item">
-
-                <span
-                    id="countMinutes"
-                    class="countdown-number"
-                >
-                    --
-                </span>
-
-                <span class="countdown-label">
-                    minutos
-                </span>
-
+                <span id="countMinutes" class="countdown-number">--</span>
+                <span class="countdown-label">minutos</span>
             </div>
-
 
             <div class="countdown-item">
-
-                <span
-                    id="countSeconds"
-                    class="countdown-number"
-                >
-                    --
-                </span>
-
-                <span class="countdown-label">
-                    segundos
-                </span>
-
+                <span id="countSeconds" class="countdown-number">--</span>
+                <span class="countdown-label">segundos</span>
             </div>
-
-        </div>
-
-
-        <div class="scene-navigation">
-
-            <button
-                class="scene-nav-button js-prev"
-                type="button"
-            >
-                Anterior
-            </button>
-
-            <button
-                class="scene-nav-button js-next"
-                type="button"
-            >
-                Siguiente
-            </button>
 
         </div>
 
@@ -2451,7 +2092,7 @@ body.admin-editing .editable-media {
 
 
 <!-- =========================================================
-     3 · CEREMONIA / CELEBRACIÓN
+     3 · LUGARES
 ========================================================= -->
 
 <section
@@ -2459,6 +2100,25 @@ body.admin-editing .editable-media {
     class="scene"
     data-scene-name="Lugares"
 >
+
+    <button
+        class="scene-cue top"
+        type="button"
+        onclick="previousScene()"
+        aria-label="Anterior"
+    >
+        <span class="scene-cue-arrow">⌃</span>
+    </button>
+
+    <button
+        class="scene-cue bottom"
+        type="button"
+        onclick="nextScene()"
+        aria-label="Siguiente"
+    >
+        <span class="scene-cue-label">Continúa</span>
+        <span class="scene-cue-arrow">⌄</span>
+    </button>
 
     <div class="scene-inner">
 
@@ -2508,7 +2168,6 @@ body.admin-editing .editable-media {
                 alt="Ceremonia"
             >
 
-
             <div class="place-card">
 
                 <h3
@@ -2555,7 +2214,6 @@ body.admin-editing .editable-media {
         </div>
 
 
-
         <div
             id="placeBanquete"
             class="place-panel"
@@ -2567,7 +2225,6 @@ body.admin-editing .editable-media {
                 src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=85&w=1400"
                 alt="Celebración"
             >
-
 
             <div class="place-card">
 
@@ -2614,25 +2271,6 @@ body.admin-editing .editable-media {
 
         </div>
 
-
-        <div class="scene-navigation">
-
-            <button
-                class="scene-nav-button js-prev"
-                type="button"
-            >
-                Anterior
-            </button>
-
-            <button
-                class="scene-nav-button js-next"
-                type="button"
-            >
-                Siguiente
-            </button>
-
-        </div>
-
     </div>
 
 </section>
@@ -2648,6 +2286,25 @@ body.admin-editing .editable-media {
     class="scene"
     data-scene-name="Galería"
 >
+
+    <button
+        class="scene-cue top"
+        type="button"
+        onclick="previousScene()"
+        aria-label="Anterior"
+    >
+        <span class="scene-cue-arrow">⌃</span>
+    </button>
+
+    <button
+        class="scene-cue bottom"
+        type="button"
+        onclick="nextScene()"
+        aria-label="Siguiente"
+    >
+        <span class="scene-cue-label">Continúa</span>
+        <span class="scene-cue-arrow">⌄</span>
+    </button>
 
     <div class="scene-inner">
 
@@ -2683,38 +2340,30 @@ body.admin-editing .editable-media {
             >
 
                 <div class="gallery-slide">
-
                     <img
                         id="gallery1Img"
                         class="editable-media"
                         src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=85&w=1200"
                         alt="Ana y Carlos"
                     >
-
                 </div>
 
-
                 <div class="gallery-slide">
-
                     <img
                         id="gallery2Img"
                         class="editable-media"
                         src="https://images.unsplash.com/photo-1548689816-c393139369ab?auto=format&fit=crop&q=85&w=1200"
                         alt="Ana y Carlos"
                     >
-
                 </div>
 
-
                 <div class="gallery-slide">
-
                     <img
                         id="gallery3Img"
                         class="editable-media"
                         src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=85&w=1200"
                         alt="Ana y Carlos"
                     >
-
                 </div>
 
             </div>
@@ -2760,25 +2409,6 @@ body.admin-editing .editable-media {
 
         </div>
 
-
-        <div class="scene-navigation">
-
-            <button
-                class="scene-nav-button js-prev"
-                type="button"
-            >
-                Anterior
-            </button>
-
-            <button
-                class="scene-nav-button js-next"
-                type="button"
-            >
-                Siguiente
-            </button>
-
-        </div>
-
     </div>
 
 </section>
@@ -2794,6 +2424,25 @@ body.admin-editing .editable-media {
     class="scene"
     data-scene-name="Detalles"
 >
+
+    <button
+        class="scene-cue top"
+        type="button"
+        onclick="previousScene()"
+        aria-label="Anterior"
+    >
+        <span class="scene-cue-arrow">⌃</span>
+    </button>
+
+    <button
+        class="scene-cue bottom"
+        type="button"
+        onclick="nextScene()"
+        aria-label="Siguiente"
+    >
+        <span class="scene-cue-label">Continúa</span>
+        <span class="scene-cue-arrow">⌄</span>
+    </button>
 
     <div class="scene-inner">
 
@@ -2818,31 +2467,20 @@ body.admin-editing .editable-media {
                 type="button"
                 onclick="openModal('modalRSVP')"
             >
-
-                <span class="detail-symbol">
-                    A
-                </span>
-
-                <div>
-
-                    <h3
-                        id="h3Asistencia"
-                        contenteditable="false"
-                    >
-                        Asistencia
-                    </h3>
-
-                    <p
-                        id="tituloAsistencia"
-                        contenteditable="false"
-                    >
-                        Confírmanos que vienes
-                    </p>
-
+                <div class="detail-badge">
+                    <span class="detail-symbol">A</span>
                 </div>
 
-            </button>
+                <div class="detail-content">
+                    <h3 id="h3Asistencia" contenteditable="false">Asistencia</h3>
+                    <p id="tituloAsistencia" contenteditable="false">Confírmanos que vienes</p>
+                </div>
 
+                <div class="detail-open">
+                    <span>Abrir</span>
+                    <span class="detail-open-arrow">›</span>
+                </div>
+            </button>
 
 
             <button
@@ -2851,28 +2489,20 @@ body.admin-editing .editable-media {
                 type="button"
                 onclick="openModal('modalGift')"
             >
-
-                <span class="detail-symbol">
-                    &
-                </span>
-
-                <div>
-
-                    <h3
-                        id="h3Lista"
-                        contenteditable="false"
-                    >
-                        Lista de boda
-                    </h3>
-
-                    <p>
-                        Un detalle para nosotros
-                    </p>
-
+                <div class="detail-badge">
+                    <span class="detail-symbol">&</span>
                 </div>
 
-            </button>
+                <div class="detail-content">
+                    <h3 id="h3Lista" contenteditable="false">Lista de boda</h3>
+                    <p>Un detalle para nosotros</p>
+                </div>
 
+                <div class="detail-open">
+                    <span>Abrir</span>
+                    <span class="detail-open-arrow">›</span>
+                </div>
+            </button>
 
 
             <button
@@ -2881,25 +2511,20 @@ body.admin-editing .editable-media {
                 type="button"
                 onclick="openModal('modalDress')"
             >
-
-                <span class="detail-symbol">
-                    D
-                </span>
-
-                <div>
-
-                    <h3>
-                        Dress code
-                    </h3>
-
-                    <p>
-                        Inspiración para el gran día
-                    </p>
-
+                <div class="detail-badge">
+                    <span class="detail-symbol">D</span>
                 </div>
 
-            </button>
+                <div class="detail-content">
+                    <h3>Dress code</h3>
+                    <p>Inspiración para el gran día</p>
+                </div>
 
+                <div class="detail-open">
+                    <span>Abrir</span>
+                    <span class="detail-open-arrow">›</span>
+                </div>
+            </button>
 
 
             <button
@@ -2908,25 +2533,20 @@ body.admin-editing .editable-media {
                 type="button"
                 onclick="openModal('modalSong')"
             >
-
-                <span class="detail-symbol">
-                    ♫
-                </span>
-
-                <div>
-
-                    <h3>
-                        Música
-                    </h3>
-
-                    <p>
-                        ¿Qué canción no puede faltar?
-                    </p>
-
+                <div class="detail-badge">
+                    <span class="detail-symbol">♫</span>
                 </div>
 
-            </button>
+                <div class="detail-content">
+                    <h3>Música</h3>
+                    <p>¿Qué canción no puede faltar?</p>
+                </div>
 
+                <div class="detail-open">
+                    <span>Abrir</span>
+                    <span class="detail-open-arrow">›</span>
+                </div>
+            </button>
 
 
             <button
@@ -2935,25 +2555,20 @@ body.admin-editing .editable-media {
                 type="button"
                 onclick="openModal('modalTips')"
             >
-
-                <span class="detail-symbol">
-                    i
-                </span>
-
-                <div>
-
-                    <h3>
-                        Información
-                    </h3>
-
-                    <p>
-                        Algunos detalles importantes
-                    </p>
-
+                <div class="detail-badge">
+                    <span class="detail-symbol">i</span>
                 </div>
 
-            </button>
+                <div class="detail-content">
+                    <h3>Información</h3>
+                    <p>Algunos detalles importantes</p>
+                </div>
 
+                <div class="detail-open">
+                    <span>Abrir</span>
+                    <span class="detail-open-arrow">›</span>
+                </div>
+            </button>
 
 
             <button
@@ -2962,42 +2577,19 @@ body.admin-editing .editable-media {
                 type="button"
                 onclick="openAlbum()"
             >
-
-                <span class="detail-symbol">
-                    +
-                </span>
-
-                <div>
-
-                    <h3>
-                        Vuestras fotos
-                    </h3>
-
-                    <p>
-                        Compartid el día con nosotros
-                    </p>
-
+                <div class="detail-badge">
+                    <span class="detail-symbol">+</span>
                 </div>
 
-            </button>
+                <div class="detail-content">
+                    <h3>Vuestras fotos</h3>
+                    <p>Compartid el día con nosotros</p>
+                </div>
 
-        </div>
-
-
-        <div class="scene-navigation">
-
-            <button
-                class="scene-nav-button js-prev"
-                type="button"
-            >
-                Anterior
-            </button>
-
-            <button
-                class="scene-nav-button js-next"
-                type="button"
-            >
-                Siguiente
+                <div class="detail-open">
+                    <span>Abrir</span>
+                    <span class="detail-open-arrow">›</span>
+                </div>
             </button>
 
         </div>
@@ -3017,6 +2609,15 @@ body.admin-editing .editable-media {
     class="scene"
     data-scene-name="Final"
 >
+
+    <button
+        class="scene-cue top"
+        type="button"
+        onclick="previousScene()"
+        aria-label="Anterior"
+    >
+        <span class="scene-cue-arrow">⌃</span>
+    </button>
 
     <div class="scene-inner">
 
@@ -3041,12 +2642,11 @@ body.admin-editing .editable-media {
             19 · 06 · 2027
         </div>
 
-
         <div class="closing-actions reveal">
-
             <button
-                class="secondary-btn js-prev"
+                class="secondary-btn"
                 type="button"
+                onclick="previousScene()"
             >
                 Ir a la anterior
             </button>
@@ -3058,7 +2658,6 @@ body.admin-editing .editable-media {
             >
                 Volver al principio
             </button>
-
         </div>
 
     </div>
@@ -3087,9 +2686,7 @@ body.admin-editing .editable-media {
 
         <div class="modal-header">
 
-            <h2 class="modal-title">
-                Acompáñanos
-            </h2>
+            <h2 class="modal-title">Acompáñanos</h2>
 
             <button
                 class="modal-close"
@@ -3104,125 +2701,36 @@ body.admin-editing .editable-media {
 
         <div class="modal-body">
 
-
             <div class="form-field">
-
-                <label class="form-label">
-                    Nombre y apellidos *
-                </label>
-
-                <input
-                    type="text"
-                    id="guestName"
-                    class="form-input"
-                >
-
+                <label class="form-label">Nombre y apellidos *</label>
+                <input type="text" id="guestName" class="form-input">
             </div>
 
-
             <div class="form-field">
-
-                <label class="form-label">
-                    Nombre y apellidos acompañante
-                </label>
-
-                <input
-                    type="text"
-                    id="guestCompanion"
-                    class="form-input"
-                >
-
+                <label class="form-label">Nombre y apellidos acompañante</label>
+                <input type="text" id="guestCompanion" class="form-input">
             </div>
 
-
             <div class="form-field">
-
-                <label class="form-label">
-                    ¿Necesitas autobús? *
-                </label>
-
+                <label class="form-label">¿Necesitas autobús? *</label>
                 <div class="radio-options">
-
-                    <label>
-
-                        <input
-                            type="radio"
-                            name="autobus"
-                            value="Si"
-                        >
-
-                        Sí
-
-                    </label>
-
-                    <label>
-
-                        <input
-                            type="radio"
-                            name="autobus"
-                            value="No"
-                        >
-
-                        No
-
-                    </label>
-
+                    <label><input type="radio" name="autobus" value="Si"> Sí</label>
+                    <label><input type="radio" name="autobus" value="No"> No</label>
                 </div>
-
             </div>
 
-
             <div class="form-field">
-
-                <label class="form-label">
-                    Menú *
-                </label>
-
+                <label class="form-label">Menú *</label>
                 <div class="radio-options">
-
-                    <label>
-
-                        <input
-                            type="radio"
-                            name="menu"
-                            value="Con alcohol"
-                        >
-
-                        Con alcohol
-
-                    </label>
-
-                    <label>
-
-                        <input
-                            type="radio"
-                            name="menu"
-                            value="Sin alcohol"
-                        >
-
-                        Sin alcohol
-
-                    </label>
-
+                    <label><input type="radio" name="menu" value="Con alcohol"> Con alcohol</label>
+                    <label><input type="radio" name="menu" value="Sin alcohol"> Sin alcohol</label>
                 </div>
-
             </div>
-
 
             <div class="form-field">
-
-                <label class="form-label">
-                    Alergias o intolerancias
-                </label>
-
-                <input
-                    type="text"
-                    id="guestAllergies"
-                    class="form-input"
-                >
-
+                <label class="form-label">Alergias o intolerancias</label>
+                <input type="text" id="guestAllergies" class="form-input">
             </div>
-
 
             <button
                 class="primary-btn"
@@ -3253,11 +2761,7 @@ body.admin-editing .editable-media {
     <div class="modal-card">
 
         <div class="modal-header">
-
-            <h2 class="modal-title">
-                Lista de boda
-            </h2>
-
+            <h2 class="modal-title">Lista de boda</h2>
             <button
                 class="modal-close"
                 onclick="closeModal('modalGift')"
@@ -3265,38 +2769,25 @@ body.admin-editing .editable-media {
             >
                 ×
             </button>
-
         </div>
-
 
         <div class="modal-body">
 
-            <p
-                id="textoListaBoda"
-                contenteditable="false"
-            >
+            <p id="textoListaBoda" contenteditable="false">
                 Vuestra presencia es nuestro mayor regalo.
             </p>
 
             <p
                 id="ibanTexto"
                 contenteditable="false"
-                style="
-                    margin-top:25px;
-                    font-weight:bold;
-                    word-break:break-word;
-                "
+                style="margin-top:25px;font-weight:bold;word-break:break-word;"
             >
                 ESXX XXXX XXXX XXXX XXXX
             </p>
 
-
             <button
                 class="primary-btn"
-                style="
-                    margin-top:25px;
-                    width:100%;
-                "
+                style="margin-top:25px;width:100%;"
                 onclick="copiarIban()"
                 type="button"
             >
@@ -3323,11 +2814,7 @@ body.admin-editing .editable-media {
     <div class="modal-card">
 
         <div class="modal-header">
-
-            <h2 class="modal-title">
-                Dress code
-            </h2>
-
+            <h2 class="modal-title">Dress code</h2>
             <button
                 class="modal-close"
                 onclick="closeModal('modalDress')"
@@ -3335,21 +2822,14 @@ body.admin-editing .editable-media {
             >
                 ×
             </button>
-
         </div>
 
-
         <div class="modal-body">
-
-            <p
-                id="dressCodeTexto"
-                contenteditable="false"
-            >
+            <p id="dressCodeTexto" contenteditable="false">
                 Ven como tú eres y como más cómodo te sientas.
                 Aquí podremos añadir indicaciones de vestimenta
                 cuando queramos.
             </p>
-
         </div>
 
     </div>
@@ -3370,11 +2850,7 @@ body.admin-editing .editable-media {
     <div class="modal-card">
 
         <div class="modal-header">
-
-            <h2 class="modal-title">
-                Nuestra música
-            </h2>
-
+            <h2 class="modal-title">Nuestra música</h2>
             <button
                 class="modal-close"
                 onclick="closeModal('modalSong')"
@@ -3382,9 +2858,7 @@ body.admin-editing .editable-media {
             >
                 ×
             </button>
-
         </div>
-
 
         <div class="modal-body">
 
@@ -3397,51 +2871,20 @@ body.admin-editing .editable-media {
                 en nuestra boda?
             </p>
 
-
             <div class="form-field">
-
-                <label class="form-label">
-                    Tu nombre
-                </label>
-
-                <input
-                    id="songGuest"
-                    class="form-input"
-                    type="text"
-                >
-
+                <label class="form-label">Tu nombre</label>
+                <input id="songGuest" class="form-input" type="text">
             </div>
 
-
             <div class="form-field">
-
-                <label class="form-label">
-                    Canción *
-                </label>
-
-                <input
-                    id="songName"
-                    class="form-input"
-                    type="text"
-                >
-
+                <label class="form-label">Canción *</label>
+                <input id="songName" class="form-input" type="text">
             </div>
 
-
             <div class="form-field">
-
-                <label class="form-label">
-                    Artista *
-                </label>
-
-                <input
-                    id="songArtist"
-                    class="form-input"
-                    type="text"
-                >
-
+                <label class="form-label">Artista *</label>
+                <input id="songArtist" class="form-input" type="text">
             </div>
-
 
             <button
                 class="primary-btn"
@@ -3472,11 +2915,7 @@ body.admin-editing .editable-media {
     <div class="modal-card">
 
         <div class="modal-header">
-
-            <h2 class="modal-title">
-                Información
-            </h2>
-
+            <h2 class="modal-title">Información</h2>
             <button
                 class="modal-close"
                 onclick="closeModal('modalTips')"
@@ -3484,21 +2923,14 @@ body.admin-editing .editable-media {
             >
                 ×
             </button>
-
         </div>
 
-
         <div class="modal-body">
-
-            <p
-                id="tipsTexto"
-                contenteditable="false"
-            >
+            <p id="tipsTexto" contenteditable="false">
                 Aquí podremos añadir información sobre
                 autobuses, alojamiento, horarios
                 o cualquier detalle importante para los invitados.
             </p>
-
         </div>
 
     </div>
@@ -3564,11 +2996,7 @@ body.admin-editing .editable-media {
 <aside id="adminPanel">
 
     <div class="admin-panel-header">
-
-        <div class="admin-panel-title">
-            Configurador
-        </div>
-
+        <div class="admin-panel-title">Configurador</div>
         <button
             class="modal-close"
             onclick="closeAdminPanel()"
@@ -3576,16 +3004,13 @@ body.admin-editing .editable-media {
         >
             ×
         </button>
-
     </div>
 
 
-
+    <!-- MULTIMEDIA -->
     <div class="admin-section">
 
-        <div class="admin-section-title">
-            Multimedia
-        </div>
+        <div class="admin-section-title">Multimedia</div>
 
         <button
             class="admin-action"
@@ -3638,12 +3063,49 @@ body.admin-editing .editable-media {
     </div>
 
 
-
+    <!-- ENCUADRE -->
     <div class="admin-section">
 
-        <div class="admin-section-title">
-            Fecha
+        <div class="admin-section-title">Encuadre de imágenes</div>
+
+        <label class="admin-small-label">Imagen a ajustar</label>
+        <select id="adminImageTarget" class="admin-select">
+            <option value="heroImg">Portada</option>
+            <option value="ceremoniaImg">Ceremonia</option>
+            <option value="banqueteImg">Celebración</option>
+            <option value="gallery1Img">Galería 1</option>
+            <option value="gallery2Img">Galería 2</option>
+            <option value="gallery3Img">Galería 3</option>
+            <option value="bgImage">Fondo general</option>
+        </select>
+
+        <div class="admin-range-group">
+            <label class="admin-small-label">Posición horizontal</label>
+            <input id="adminImagePosX" class="admin-range" type="range" min="0" max="100" value="50">
+            <div id="adminImagePosXValue" class="admin-range-value">50%</div>
         </div>
+
+        <div class="admin-range-group">
+            <label class="admin-small-label">Posición vertical</label>
+            <input id="adminImagePosY" class="admin-range" type="range" min="0" max="100" value="50">
+            <div id="adminImagePosYValue" class="admin-range-value">50%</div>
+        </div>
+
+        <button
+            class="admin-action"
+            onclick="resetSelectedImagePosition()"
+            type="button"
+        >
+            Restablecer encuadre al centro
+        </button>
+
+    </div>
+
+
+    <!-- FECHA -->
+    <div class="admin-section">
+
+        <div class="admin-section-title">Fecha</div>
 
         <label class="admin-small-label">
             Fecha y hora real para la cuenta atrás
@@ -3659,18 +3121,12 @@ body.admin-editing .editable-media {
     </div>
 
 
-
+    <!-- MAPAS -->
     <div class="admin-section">
 
-        <div class="admin-section-title">
-            Ubicaciones
-        </div>
+        <div class="admin-section-title">Ubicaciones</div>
 
-
-        <label class="admin-small-label">
-            Enlace Google Maps ceremonia
-        </label>
-
+        <label class="admin-small-label">Enlace Google Maps ceremonia</label>
         <input
             id="adminCeremoniaMap"
             class="admin-input"
@@ -3678,11 +3134,7 @@ body.admin-editing .editable-media {
             placeholder="https://maps.google.com/..."
         >
 
-
-        <label class="admin-small-label">
-            Enlace Google Maps celebración
-        </label>
-
+        <label class="admin-small-label">Enlace Google Maps celebración</label>
         <input
             id="adminBanqueteMap"
             class="admin-input"
@@ -3693,17 +3145,12 @@ body.admin-editing .editable-media {
     </div>
 
 
-
+    <!-- ÁLBUM -->
     <div class="admin-section">
 
-        <div class="admin-section-title">
-            Fotos de invitados
-        </div>
+        <div class="admin-section-title">Fotos de invitados</div>
 
-        <label class="admin-small-label">
-            Enlace al álbum compartido
-        </label>
-
+        <label class="admin-small-label">Enlace al álbum compartido</label>
         <input
             id="adminAlbumUrl"
             class="admin-input"
@@ -3714,111 +3161,48 @@ body.admin-editing .editable-media {
     </div>
 
 
-
+    <!-- SECCIONES -->
     <div class="admin-section">
 
-        <div class="admin-section-title">
-            Secciones
-        </div>
-
+        <div class="admin-section-title">Secciones</div>
 
         <label class="admin-toggle">
-
-            <span>
-                Mostrar galería
-            </span>
-
-            <input
-                id="toggleGallery"
-                type="checkbox"
-                checked
-            >
-
+            <span>Mostrar galería</span>
+            <input id="toggleGallery" type="checkbox" checked>
         </label>
 
-
         <label class="admin-toggle">
-
-            <span>
-                Mostrar regalos
-            </span>
-
-            <input
-                id="toggleGift"
-                type="checkbox"
-                checked
-            >
-
+            <span>Mostrar regalos</span>
+            <input id="toggleGift" type="checkbox" checked>
         </label>
 
-
         <label class="admin-toggle">
-
-            <span>
-                Mostrar Dress Code
-            </span>
-
-            <input
-                id="toggleDress"
-                type="checkbox"
-                checked
-            >
-
+            <span>Mostrar Dress Code</span>
+            <input id="toggleDress" type="checkbox" checked>
         </label>
 
-
         <label class="admin-toggle">
-
-            <span>
-                Mostrar canciones
-            </span>
-
-            <input
-                id="toggleSong"
-                type="checkbox"
-                checked
-            >
-
+            <span>Mostrar canciones</span>
+            <input id="toggleSong" type="checkbox" checked>
         </label>
 
-
         <label class="admin-toggle">
-
-            <span>
-                Mostrar información
-            </span>
-
-            <input
-                id="toggleTips"
-                type="checkbox"
-                checked
-            >
-
+            <span>Mostrar información</span>
+            <input id="toggleTips" type="checkbox" checked>
         </label>
 
-
         <label class="admin-toggle">
-
-            <span>
-                Mostrar álbum invitados
-            </span>
-
-            <input
-                id="toggleAlbum"
-                type="checkbox"
-            >
-
+            <span>Mostrar álbum invitados</span>
+            <input id="toggleAlbum" type="checkbox">
         </label>
 
     </div>
 
 
-
+    <!-- EXPORTACIONES -->
     <div class="admin-section">
 
-        <div class="admin-section-title">
-            Exportaciones
-        </div>
+        <div class="admin-section-title">Exportaciones</div>
 
         <button
             class="admin-action"
@@ -3839,22 +3223,17 @@ body.admin-editing .editable-media {
     </div>
 
 
+    <!-- INFO -->
     <div class="admin-section">
 
-        <div class="admin-section-title">
-            Edición
-        </div>
+        <div class="admin-section-title">Edición</div>
 
-        <p
-            style="
-                font-family:var(--font-serif);
-                font-size:16px;
-                line-height:1.5;
-            "
-        >
+        <p style="font-family:var(--font-serif);font-size:16px;line-height:1.5;">
             Mientras estés en modo administrador puedes
             pulsar directamente sobre los textos para modificarlos
             y sobre las fotografías para sustituirlas.
+            Además, desde el apartado de encuadre podrás mover
+            la imagen dentro de su marco.
         </p>
 
     </div>
@@ -3878,47 +3257,20 @@ body.admin-editing .editable-media {
 ========================================================= */
 
 const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
-
-    authDomain:
-        "boda-ana-y-carlos-d458c.firebaseapp.com",
-
-    projectId:
-        "boda-ana-y-carlos-d458c",
-
-    storageBucket:
-        "boda-ana-y-carlos-d458c.firebasestorage.app",
-
-    messagingSenderId:
-        "725675577879",
-
-    appId:
-        "1:725675577879:web:5f7fbc4f051544afd9c252"
-
+    apiKey: "AIzaSyAGYu28kG3LA6x9SurfH9jc9ZtwuDW-yrw",
+    authDomain: "boda-ana-y-carlos-d458c.firebaseapp.com",
+    projectId: "boda-ana-y-carlos-d458c",
+    storageBucket: "boda-ana-y-carlos-d458c.firebasestorage.app",
+    messagingSenderId: "725675577879",
+    appId: "1:725675577879:web:5f7fbc4f051544afd9c252"
 };
 
-
-if (
-    typeof firebase !== "undefined" &&
-    !firebase.apps.length
-) {
-
-    firebase.initializeApp(
-        firebaseConfig
-    );
-
+if (typeof firebase !== "undefined" && !firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
 }
 
-
-const db =
-    firebase.firestore();
-
-
-const storage =
-    firebase.storage();
-
+const db = firebase.firestore();
+const storage = firebase.storage();
 
 
 /* =========================================================
@@ -3928,59 +3280,49 @@ const storage =
 const ADMIN_CLICKS = 5;
 
 let adminClickCount = 0;
-
 let adminMode = false;
-
 let previewMode = false;
 
 let currentMediaId = "";
-
 let currentMediaType = "image";
 
 let heroVideoUrl = "";
-
 let galleryIndex = 0;
-
 let sceneTransitioning = false;
 
-let currentWeddingDate =
-    "2027-06-19T00:00";
+let currentWeddingDate = "2027-06-19T00:00";
 
+const positionableImageIds = [
+    "heroImg",
+    "ceremoniaImg",
+    "banqueteImg",
+    "gallery1Img",
+    "gallery2Img",
+    "gallery3Img",
+    "bgImage"
+];
 
 let siteConfig = {
-
-    weddingDate:
-        "2027-06-19T00:00",
-
-    ceremoniaMap:
-        "",
-
-    banqueteMap:
-        "",
-
-    albumUrl:
-        "",
-
-    showGallery:
-        true,
-
-    showGift:
-        true,
-
-    showDress:
-        true,
-
-    showSong:
-        true,
-
-    showTips:
-        true,
-
-    showAlbum:
-        false
-
+    weddingDate: "2027-06-19T00:00",
+    ceremoniaMap: "",
+    banqueteMap: "",
+    albumUrl: "",
+    showGallery: true,
+    showGift: true,
+    showDress: true,
+    showSong: true,
+    showTips: true,
+    showAlbum: false,
+    imagePositions: {
+        heroImg: { x: 50, y: 50 },
+        ceremoniaImg: { x: 50, y: 50 },
+        banqueteImg: { x: 50, y: 50 },
+        gallery1Img: { x: 50, y: 50 },
+        gallery2Img: { x: 50, y: 50 },
+        gallery3Img: { x: 50, y: 50 },
+        bgImage: { x: 50, y: 50 }
+    }
 };
-
 
 
 /* =========================================================
@@ -3988,834 +3330,328 @@ let siteConfig = {
 ========================================================= */
 
 const textIds = [
-
     "heroTagline",
-
     "heroNombres",
-
     "heroFecha",
-
     "tituloFecha",
-
     "textoFecha",
-
     "tituloLugares",
-
     "h3Ceremonia",
-
     "tituloCeremonia",
-
     "textoCeremonia",
-
     "ceremoniaHora",
-
     "h3Banquete",
-
     "tituloBanquete",
-
     "textoBanquete",
-
     "banqueteHora",
-
     "tituloGaleria",
-
     "textoGaleria",
-
     "tituloDetalles",
-
     "h3Asistencia",
-
     "tituloAsistencia",
-
     "h3Lista",
-
     "textoListaBoda",
-
     "ibanTexto",
-
     "dressCodeTexto",
-
     "songTexto",
-
     "tipsTexto",
-
     "mensajeCierre"
-
 ];
-
 
 const fotoIds = [
-
     "heroImg",
-
     "ceremoniaImg",
-
     "banqueteImg",
-
     "gallery1Img",
-
     "gallery2Img",
-
     "gallery3Img",
-
     "bgImage"
-
 ];
 
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function ensureImagePositionsDefaults() {
+    if (!siteConfig.imagePositions) {
+        siteConfig.imagePositions = {};
+    }
+
+    positionableImageIds.forEach(id => {
+        if (!siteConfig.imagePositions[id]) {
+            siteConfig.imagePositions[id] = { x: 50, y: 50 };
+        }
+    });
+}
+
+function getVisibleScenes() {
+    return [...document.querySelectorAll(".scene")].filter(
+        scene => !scene.classList.contains("scene-disabled")
+    );
+}
+
+function getActiveScene() {
+    return document.querySelector(".scene.active");
+}
+
+function isSceneAtTop(scene) {
+    return scene.scrollTop <= 4;
+}
+
+function isSceneAtBottom(scene) {
+    return scene.scrollHeight - scene.clientHeight - scene.scrollTop <= 6;
+}
 
 
 /* =========================================================
    ESCENAS
 ========================================================= */
 
-function getVisibleScenes() {
-
-    return [
-        ...document.querySelectorAll(
-            ".scene"
-        )
-    ].filter(
-        scene =>
-            !scene.classList.contains(
-                "scene-disabled"
-            )
-    );
-
-}
-
-
-
-function getActiveScene() {
-
-    return document.querySelector(
-        ".scene.active"
-    );
-
-}
-
-
-
 function goToScene(id) {
+    const target = document.getElementById(id);
 
-    const target =
-        document.getElementById(id);
-
-
-    if (
-        !target ||
-        target.classList.contains(
-            "scene-disabled"
-        )
-    ) {
+    if (!target || target.classList.contains("scene-disabled")) {
         return;
     }
 
+    const current = getActiveScene();
 
-    const current =
-        getActiveScene();
-
-
-    if (
-        !current ||
-        current === target ||
-        sceneTransitioning
-    ) {
+    if (!current || current === target || sceneTransitioning) {
         return;
     }
 
+    const scenes = getVisibleScenes();
+    const currentIndex = scenes.indexOf(current);
+    const targetIndex = scenes.indexOf(target);
 
-    const scenes =
-        getVisibleScenes();
+    const movingNext = targetIndex > currentIndex;
 
-
-    const currentIndex =
-        scenes.indexOf(current);
-
-
-    const targetIndex =
-        scenes.indexOf(target);
-
-
-    const forward =
-        targetIndex > currentIndex;
-
-
-    const enterClass =
-        forward
-            ? "scene-enter-forward"
-            : "scene-enter-backward";
-
-
-    const leaveClass =
-        forward
-            ? "scene-leave-forward"
-            : "scene-leave-backward";
-
-
-    /*
-       La transición del vídeo es un poco
-       más lenta que las demás.
-    */
+    const enterClass = movingNext ? "scene-enter-next" : "scene-enter-prev";
+    const leaveClass = movingNext ? "scene-leave-next" : "scene-leave-prev";
 
     const duration =
-        (
-            current.id === "sceneHero" ||
-            target.id === "sceneHero"
-        )
-        ? 1050
-        : 850;
+        (current.id === "sceneHero" || target.id === "sceneHero")
+            ? 1050
+            : 880;
 
+    sceneTransitioning = true;
 
-    sceneTransitioning =
-        true;
+    current.style.setProperty("--scene-duration", duration + "ms");
+    target.style.setProperty("--scene-duration", duration + "ms");
 
+    target.scrollTop = 0;
 
-    current.style.setProperty(
-        "--scene-duration",
-        duration + "ms"
-    );
+    current.classList.remove("active");
+    current.classList.add(leaveClass);
 
-
-    target.style.setProperty(
-        "--scene-duration",
-        duration + "ms"
-    );
-
-
-    target.scrollTop =
-        0;
-
-
-    current.classList.remove(
-        "active"
-    );
-
-
-    current.classList.add(
-        leaveClass
-    );
-
-
-    target.classList.add(
-        "active",
-        enterClass
-    );
-
+    target.classList.add("active", enterClass);
 
     updateSceneDots();
 
+    const video = document.getElementById("heroVideo");
 
-    const video =
-        document.getElementById(
-            "heroVideo"
-        );
-
-
-    /*
-       Si regresamos a portada,
-       reactivamos vídeo.
-    */
-
-    if (
-        target.id === "sceneHero" &&
-        heroVideoUrl
-    ) {
-
-        video
-            .play()
-            .catch(
-                () => {}
-            );
-
+    if (target.id === "sceneHero" && heroVideoUrl) {
+        video.play().catch(() => {});
     }
 
-
-    /*
-       Si salimos de portada,
-       dejamos el vídeo reproduciéndose
-       mientras termina el fundido.
-    */
-
-    if (
-        current.id === "sceneHero" &&
-        heroVideoUrl
-    ) {
-
-        setTimeout(
-            () => {
-
-                if (
-                    getActiveScene()?.id !==
-                    "sceneHero"
-                ) {
-
-                    video.pause();
-
-                }
-
-            },
-            duration
-        );
-
+    if (current.id === "sceneHero" && heroVideoUrl) {
+        setTimeout(() => {
+            if (getActiveScene()?.id !== "sceneHero") {
+                video.pause();
+            }
+        }, duration);
     }
 
-
-    setTimeout(
-        () => {
-
-            current.classList.remove(
-                leaveClass
-            );
-
-
-            target.classList.remove(
-                enterClass
-            );
-
-
-            sceneTransitioning =
-                false;
-
-        },
-        duration + 40
-    );
-
+    setTimeout(() => {
+        current.classList.remove(leaveClass);
+        target.classList.remove(enterClass);
+        sceneTransitioning = false;
+    }, duration + 40);
 }
-
-
 
 function nextScene() {
+    if (sceneTransitioning) return;
 
-    if (
-        sceneTransitioning
-    ) {
-        return;
+    const scenes = getVisibleScenes();
+    const active = getActiveScene();
+    const index = scenes.indexOf(active);
+
+    if (index >= 0 && index < scenes.length - 1) {
+        goToScene(scenes[index + 1].id);
     }
-
-
-    const scenes =
-        getVisibleScenes();
-
-
-    const active =
-        getActiveScene();
-
-
-    const index =
-        scenes.indexOf(active);
-
-
-    if (
-        index >= 0 &&
-        index < scenes.length - 1
-    ) {
-
-        goToScene(
-            scenes[index + 1].id
-        );
-
-    }
-
 }
-
-
 
 function previousScene() {
+    if (sceneTransitioning) return;
 
-    if (
-        sceneTransitioning
-    ) {
-        return;
+    const scenes = getVisibleScenes();
+    const active = getActiveScene();
+    const index = scenes.indexOf(active);
+
+    if (index > 0) {
+        goToScene(scenes[index - 1].id);
     }
-
-
-    const scenes =
-        getVisibleScenes();
-
-
-    const active =
-        getActiveScene();
-
-
-    const index =
-        scenes.indexOf(active);
-
-
-    if (
-        index > 0
-    ) {
-
-        goToScene(
-            scenes[index - 1].id
-        );
-
-    }
-
 }
-
-
-
-document
-    .querySelectorAll(
-        ".js-next"
-    )
-    .forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                nextScene
-            );
-
-        }
-    );
-
-
-document
-    .querySelectorAll(
-        ".js-prev"
-    )
-    .forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                previousScene
-            );
-
-        }
-    );
-
 
 
 /* =========================================================
-   INDICADORES
+   DOTS
 ========================================================= */
 
 function buildSceneDots() {
+    const container = document.getElementById("sceneDots");
+    container.innerHTML = "";
 
-    const container =
-        document.getElementById(
-            "sceneDots"
-        );
+    getVisibleScenes().forEach(scene => {
+        const button = document.createElement("button");
+        button.className = "scene-dot";
+        button.type = "button";
+        button.title = scene.dataset.sceneName || "";
+        button.dataset.scene = scene.id;
 
+        button.addEventListener("click", () => {
+            goToScene(scene.id);
+        });
 
-    container.innerHTML =
-        "";
-
-
-    getVisibleScenes()
-        .forEach(
-            scene => {
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                button.className =
-                    "scene-dot";
-
-
-                button.type =
-                    "button";
-
-
-                button.title =
-                    scene.dataset.sceneName ||
-                    "";
-
-
-                button.dataset.scene =
-                    scene.id;
-
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        goToScene(
-                            scene.id
-                        );
-
-                    }
-                );
-
-
-                container.appendChild(
-                    button
-                );
-
-            }
-        );
-
+        container.appendChild(button);
+    });
 
     updateSceneDots();
-
 }
 
-
-
 function updateSceneDots() {
-
-    const active =
-        getActiveScene();
-
-
-    const container =
-        document.getElementById(
-            "sceneDots"
-        );
-
+    const active = getActiveScene();
+    const container = document.getElementById("sceneDots");
 
     container.classList.toggle(
         "hero-mode",
-        active &&
-        active.id === "sceneHero"
+        active && active.id === "sceneHero"
     );
 
-
-    document
-        .querySelectorAll(
-            ".scene-dot"
-        )
-        .forEach(
-            dot => {
-
-                dot.classList.toggle(
-                    "active",
-                    active &&
-                    dot.dataset.scene ===
-                    active.id
-                );
-
-            }
+    document.querySelectorAll(".scene-dot").forEach(dot => {
+        dot.classList.toggle(
+            "active",
+            active && dot.dataset.scene === active.id
         );
-
+    });
 }
 
 
-
 /* =========================================================
-   GESTOS
+   GESTOS Y SCROLL
 ========================================================= */
 
 let touchStartX = 0;
-
 let touchStartY = 0;
-
 let wheelLocked = false;
 
+document.getElementById("experience").addEventListener(
+    "touchstart",
+    event => {
+        touchStartX = event.changedTouches[0].clientX;
+        touchStartY = event.changedTouches[0].clientY;
+    },
+    { passive: true }
+);
 
+document.getElementById("experience").addEventListener(
+    "touchend",
+    event => {
+        if (sceneTransitioning) return;
+        if (adminMode && !previewMode) return;
+        if (document.querySelector(".modal-overlay.open")) return;
 
-document
-    .getElementById(
-        "experience"
-    )
-    .addEventListener(
-        "touchstart",
-        event => {
+        const endX = event.changedTouches[0].clientX;
+        const endY = event.changedTouches[0].clientY;
 
-            touchStartX =
-                event.changedTouches[0]
-                    .clientX;
+        const dx = endX - touchStartX;
+        const dy = endY - touchStartY;
 
-            touchStartY =
-                event.changedTouches[0]
-                    .clientY;
+        const activeScene = getActiveScene();
+        if (!activeScene) return;
 
-        },
-        {
-            passive: true
+        if (Math.abs(dy) < 55 || Math.abs(dy) < Math.abs(dx)) {
+            return;
         }
-    );
 
-
-
-document
-    .getElementById(
-        "experience"
-    )
-    .addEventListener(
-        "touchend",
-        event => {
-
-            if (
-                sceneTransitioning
-            ) {
+        if (activeScene.id === "sceneHero") {
+            if (dy < -55) {
+                nextScene();
                 return;
             }
 
-
-            if (
-                adminMode &&
-                !previewMode
-            ) {
+            if (dy > 95) {
+                location.reload();
                 return;
             }
 
-
-            if (
-                document.querySelector(
-                    ".modal-overlay.open"
-                )
-            ) {
-                return;
-            }
-
-
-            const touchEndX =
-                event.changedTouches[0]
-                    .clientX;
-
-
-            const touchEndY =
-                event.changedTouches[0]
-                    .clientY;
-
-
-            const dx =
-                touchEndX -
-                touchStartX;
-
-
-            const dy =
-                touchEndY -
-                touchStartY;
-
-
-            const activeScene =
-                getActiveScene();
-
-
-
-            /*
-               PORTADA:
-               swipe hacia arriba.
-            */
-
-            if (
-                activeScene &&
-                activeScene.id ===
-                "sceneHero"
-            ) {
-
-                if (
-                    dy < -50 &&
-                    Math.abs(dy) >
-                    Math.abs(dx)
-                ) {
-
-                    nextScene();
-
-                }
-
-
-                return;
-
-            }
-
-
-
-            /*
-               RESTO:
-               horizontal.
-            */
-
-            if (
-                Math.abs(dx) >
-                55 &&
-                Math.abs(dx) >
-                Math.abs(dy) * 1.15
-            ) {
-
-                if (
-                    dx < 0
-                ) {
-
-                    nextScene();
-
-                }
-
-                else {
-
-                    previousScene();
-
-                }
-
-            }
-
-        },
-        {
-            passive: true
+            return;
         }
-    );
 
-
-
-document
-    .getElementById(
-        "experience"
-    )
-    .addEventListener(
-        "wheel",
-        event => {
-
-            if (
-                sceneTransitioning ||
-                wheelLocked
-            ) {
-                return;
+        if (dy < -55) {
+            if (isSceneAtBottom(activeScene)) {
+                nextScene();
             }
-
-
-            if (
-                adminMode &&
-                !previewMode
-            ) {
-                return;
-            }
-
-
-            if (
-                document.querySelector(
-                    ".modal-overlay.open"
-                )
-            ) {
-                return;
-            }
-
-
-            const activeScene =
-                getActiveScene();
-
-
-
-            /*
-               PORTADA:
-               scroll hacia abajo.
-            */
-
-            if (
-                activeScene &&
-                activeScene.id ===
-                "sceneHero"
-            ) {
-
-                if (
-                    event.deltaY > 25
-                ) {
-
-                    wheelLocked =
-                        true;
-
-
-                    nextScene();
-
-
-                    setTimeout(
-                        () => {
-
-                            wheelLocked =
-                                false;
-
-                        },
-                        1200
-                    );
-
-                }
-
-
-                return;
-
-            }
-
-
-
-            /*
-               RESTO:
-               trackpad horizontal.
-            */
-
-            if (
-                Math.abs(
-                    event.deltaX
-                ) >
-                Math.abs(
-                    event.deltaY
-                ) &&
-                Math.abs(
-                    event.deltaX
-                ) > 20
-            ) {
-
-                wheelLocked =
-                    true;
-
-
-                if (
-                    event.deltaX > 0
-                ) {
-
-                    nextScene();
-
-                }
-
-                else {
-
-                    previousScene();
-
-                }
-
-
-                setTimeout(
-                    () => {
-
-                        wheelLocked =
-                            false;
-
-                    },
-                    1000
-                );
-
-            }
-
-        },
-        {
-            passive: true
+            return;
         }
-    );
 
+        if (dy > 55) {
+            if (isSceneAtTop(activeScene)) {
+                previousScene();
+            }
+        }
+    },
+    { passive: true }
+);
+
+document.getElementById("experience").addEventListener(
+    "wheel",
+    event => {
+        if (sceneTransitioning || wheelLocked) return;
+        if (adminMode && !previewMode) return;
+        if (document.querySelector(".modal-overlay.open")) return;
+
+        const activeScene = getActiveScene();
+        if (!activeScene) return;
+
+        if (Math.abs(event.deltaY) < 22) return;
+
+        if (activeScene.id === "sceneHero") {
+            if (event.deltaY > 22) {
+                wheelLocked = true;
+                nextScene();
+                setTimeout(() => { wheelLocked = false; }, 1200);
+            }
+            return;
+        }
+
+        if (event.deltaY > 22 && isSceneAtBottom(activeScene)) {
+            wheelLocked = true;
+            nextScene();
+            setTimeout(() => { wheelLocked = false; }, 1000);
+            return;
+        }
+
+        if (event.deltaY < -22 && isSceneAtTop(activeScene)) {
+            wheelLocked = true;
+            previousScene();
+            setTimeout(() => { wheelLocked = false; }, 1000);
+        }
+    },
+    { passive: true }
+);
 
 
 /* =========================================================
    FECHA
 ========================================================= */
 
-document
-    .querySelectorAll(
-        ".date-disc"
-    )
-    .forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    button
-                        .classList
-                        .add(
-                            "revealed"
-                        );
-
-                }
-            );
-
-        }
-    );
-
+document.querySelectorAll(".date-disc").forEach(button => {
+    button.addEventListener("click", () => {
+        button.classList.add("revealed");
+    });
+});
 
 
 /* =========================================================
@@ -4823,266 +3659,74 @@ document
 ========================================================= */
 
 function actualizarCuentaAtras() {
+    const boda = new Date(currentWeddingDate).getTime();
+    const diff = boda - Date.now();
 
-    const boda =
-        new Date(
-            currentWeddingDate
-        ).getTime();
-
-
-    const diff =
-        boda -
-        Date.now();
-
-
-    if (
-        diff <= 0
-    ) {
-
-        document.getElementById(
-            "countDays"
-        ).textContent = "0";
-
-        document.getElementById(
-            "countHours"
-        ).textContent = "0";
-
-        document.getElementById(
-            "countMinutes"
-        ).textContent = "0";
-
-        document.getElementById(
-            "countSeconds"
-        ).textContent = "0";
-
+    if (diff <= 0) {
+        document.getElementById("countDays").textContent = "0";
+        document.getElementById("countHours").textContent = "0";
+        document.getElementById("countMinutes").textContent = "0";
+        document.getElementById("countSeconds").textContent = "0";
         return;
-
     }
 
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
 
-    const days =
-        Math.floor(
-            diff /
-            86400000
-        );
-
-
-    const hours =
-        Math.floor(
-            (
-                diff %
-                86400000
-            ) /
-            3600000
-        );
-
-
-    const minutes =
-        Math.floor(
-            (
-                diff %
-                3600000
-            ) /
-            60000
-        );
-
-
-    const seconds =
-        Math.floor(
-            (
-                diff %
-                60000
-            ) /
-            1000
-        );
-
-
-    document.getElementById(
-        "countDays"
-    ).textContent =
-        days;
-
-
-    document.getElementById(
-        "countHours"
-    ).textContent =
-        String(hours)
-            .padStart(
-                2,
-                "0"
-            );
-
-
-    document.getElementById(
-        "countMinutes"
-    ).textContent =
-        String(minutes)
-            .padStart(
-                2,
-                "0"
-            );
-
-
-    document.getElementById(
-        "countSeconds"
-    ).textContent =
-        String(seconds)
-            .padStart(
-                2,
-                "0"
-            );
-
+    document.getElementById("countDays").textContent = days;
+    document.getElementById("countHours").textContent = String(hours).padStart(2, "0");
+    document.getElementById("countMinutes").textContent = String(minutes).padStart(2, "0");
+    document.getElementById("countSeconds").textContent = String(seconds).padStart(2, "0");
 }
 
-
-setInterval(
-    actualizarCuentaAtras,
-    1000
-);
-
-
+setInterval(actualizarCuentaAtras, 1000);
 actualizarCuentaAtras();
-
 
 
 /* =========================================================
    LUGARES
 ========================================================= */
 
-document
-    .querySelectorAll(
-        ".place-tab"
-    )
-    .forEach(
-        tab => {
+document.querySelectorAll(".place-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+        document.querySelectorAll(".place-tab").forEach(item => {
+            item.classList.remove("active");
+        });
 
-            tab.addEventListener(
-                "click",
-                () => {
+        document.querySelectorAll(".place-panel").forEach(panel => {
+            panel.classList.remove("active");
+        });
 
-                    document
-                        .querySelectorAll(
-                            ".place-tab"
-                        )
-                        .forEach(
-                            item => {
+        tab.classList.add("active");
 
-                                item.classList.remove(
-                                    "active"
-                                );
-
-                            }
-                        );
-
-
-                    document
-                        .querySelectorAll(
-                            ".place-panel"
-                        )
-                        .forEach(
-                            panel => {
-
-                                panel.classList.remove(
-                                    "active"
-                                );
-
-                            }
-                        );
-
-
-                    tab.classList.add(
-                        "active"
-                    );
-
-
-                    if (
-                        tab.dataset.place ===
-                        "ceremonia"
-                    ) {
-
-                        document
-                            .getElementById(
-                                "placeCeremonia"
-                            )
-                            .classList
-                            .add(
-                                "active"
-                            );
-
-                    }
-
-                    else {
-
-                        document
-                            .getElementById(
-                                "placeBanquete"
-                            )
-                            .classList
-                            .add(
-                                "active"
-                            );
-
-                    }
-
-                }
-            );
-
+        if (tab.dataset.place === "ceremonia") {
+            document.getElementById("placeCeremonia").classList.add("active");
+        } else {
+            document.getElementById("placeBanquete").classList.add("active");
         }
-    );
-
-
+    });
+});
 
 function openMap(type) {
-
     let url = "";
 
-
-    if (
-        type ===
-        "ceremonia"
-    ) {
-
-        url =
-            siteConfig
-                .ceremoniaMap;
-
+    if (type === "ceremonia") {
+        url = siteConfig.ceremoniaMap;
+    } else {
+        url = siteConfig.banqueteMap;
     }
-
-    else {
-
-        url =
-            siteConfig
-                .banqueteMap;
-
-    }
-
 
     if (!url) {
-
-        if (
-            adminMode
-        ) {
-
-            alert(
-                "Añade el enlace de Google Maps desde el configurador."
-            );
-
+        if (adminMode) {
+            alert("Añade el enlace de Google Maps desde el configurador.");
         }
-
-
         return;
-
     }
 
-
-    window.open(
-        url,
-        "_blank",
-        "noopener"
-    );
-
+    window.open(url, "_blank", "noopener");
 }
-
 
 
 /* =========================================================
@@ -5090,71 +3734,25 @@ function openMap(type) {
 ========================================================= */
 
 function goGallery(index) {
+    galleryIndex = index;
 
-    galleryIndex =
-        index;
-
-
-    document
-        .getElementById(
-            "galleryTrack"
-        )
-        .style
-        .transform =
+    document.getElementById("galleryTrack").style.transform =
         `translateX(-${galleryIndex * 100}%)`;
 
-
-    document
-        .querySelectorAll(
-            ".gallery-dot"
-        )
-        .forEach(
-            (dot, i) => {
-
-                dot.classList.toggle(
-                    "active",
-                    i === galleryIndex
-                );
-
-            }
-        );
-
+    document.querySelectorAll(".gallery-dot").forEach((dot, i) => {
+        dot.classList.toggle("active", i === galleryIndex);
+    });
 }
-
-
 
 function nextGallerySlide() {
-
-    galleryIndex =
-        (
-            galleryIndex +
-            1
-        ) % 3;
-
-
-    goGallery(
-        galleryIndex
-    );
-
+    galleryIndex = (galleryIndex + 1) % 3;
+    goGallery(galleryIndex);
 }
-
-
 
 function previousGallerySlide() {
-
-    galleryIndex =
-        (
-            galleryIndex +
-            2
-        ) % 3;
-
-
-    goGallery(
-        galleryIndex
-    );
-
+    galleryIndex = (galleryIndex + 2) % 3;
+    goGallery(galleryIndex);
 }
-
 
 
 /* =========================================================
@@ -5162,59 +3760,20 @@ function previousGallerySlide() {
 ========================================================= */
 
 function openModal(id) {
-
-    document
-        .getElementById(id)
-        .classList
-        .add(
-            "open"
-        );
-
+    document.getElementById(id).classList.add("open");
 }
-
 
 function closeModal(id) {
-
-    document
-        .getElementById(id)
-        .classList
-        .remove(
-            "open"
-        );
-
+    document.getElementById(id).classList.remove("open");
 }
 
-
-document
-    .querySelectorAll(
-        ".modal-overlay"
-    )
-    .forEach(
-        modal => {
-
-            modal.addEventListener(
-                "click",
-                event => {
-
-                    if (
-                        event.target ===
-                        modal
-                    ) {
-
-                        modal
-                            .classList
-                            .remove(
-                                "open"
-                            );
-
-                    }
-
-                }
-            );
-
+document.querySelectorAll(".modal-overlay").forEach(modal => {
+    modal.addEventListener("click", event => {
+        if (event.target === modal) {
+            modal.classList.remove("open");
         }
-    );
-
+    });
+});
 
 
 /* =========================================================
@@ -5222,31 +3781,12 @@ document
 ========================================================= */
 
 function copiarIban() {
+    const iban = document.getElementById("ibanTexto").innerText;
 
-    const iban =
-        document
-            .getElementById(
-                "ibanTexto"
-            )
-            .innerText;
-
-
-    navigator.clipboard
-        .writeText(
-            iban
-        )
-        .then(
-            () => {
-
-                alert(
-                    "IBAN copiado"
-                );
-
-            }
-        );
-
+    navigator.clipboard.writeText(iban).then(() => {
+        alert("IBAN copiado");
+    });
 }
-
 
 
 /* =========================================================
@@ -5254,35 +3794,15 @@ function copiarIban() {
 ========================================================= */
 
 function openAlbum() {
-
-    if (
-        !siteConfig.albumUrl
-    ) {
-
-        if (
-            adminMode
-        ) {
-
-            alert(
-                "Añade el enlace al álbum desde el configurador."
-            );
-
+    if (!siteConfig.albumUrl) {
+        if (adminMode) {
+            alert("Añade el enlace al álbum desde el configurador.");
         }
-
-
         return;
-
     }
 
-
-    window.open(
-        siteConfig.albumUrl,
-        "_blank",
-        "noopener"
-    );
-
+    window.open(siteConfig.albumUrl, "_blank", "noopener");
 }
-
 
 
 /* =========================================================
@@ -5290,151 +3810,45 @@ function openAlbum() {
 ========================================================= */
 
 async function enviarConfirmacion() {
+    const name = document.getElementById("guestName").value.trim();
+    const companion = document.getElementById("guestCompanion").value.trim();
+    const busEl = document.querySelector('input[name="autobus"]:checked');
+    const menuEl = document.querySelector('input[name="menu"]:checked');
+    const allergies = document.getElementById("guestAllergies").value.trim();
 
-    const name =
-        document
-            .getElementById(
-                "guestName"
-            )
-            .value
-            .trim();
-
-
-    const companion =
-        document
-            .getElementById(
-                "guestCompanion"
-            )
-            .value
-            .trim();
-
-
-    const busEl =
-        document
-            .querySelector(
-                'input[name="autobus"]:checked'
-            );
-
-
-    const menuEl =
-        document
-            .querySelector(
-                'input[name="menu"]:checked'
-            );
-
-
-    const allergies =
-        document
-            .getElementById(
-                "guestAllergies"
-            )
-            .value
-            .trim();
-
-
-    if (
-        !name ||
-        !busEl ||
-        !menuEl
-    ) {
-
-        alert(
-            "Por favor, escribe tu nombre, indica si necesitas autobús y selecciona el menú."
-        );
-
-
+    if (!name || !busEl || !menuEl) {
+        alert("Por favor, escribe tu nombre, indica si necesitas autobús y selecciona el menú.");
         return;
-
     }
 
-
     try {
+        await db.collection("asistencias").add({
+            nombre: name,
+            acompañante: companion,
+            autobus: busEl.value,
+            menu: menuEl.value,
+            alergias: allergies,
+            fecha: new Date().toLocaleString("es-ES")
+        });
 
-        await db
-            .collection(
-                "asistencias"
-            )
-            .add({
+        alert("¡Confirmación enviada! Muchas gracias.");
 
-                nombre:
-                    name,
-
-                acompañante:
-                    companion,
-
-                autobus:
-                    busEl.value,
-
-                menu:
-                    menuEl.value,
-
-                alergias:
-                    allergies,
-
-                fecha:
-                    new Date()
-                        .toLocaleString(
-                            "es-ES"
-                        )
-
-            });
-
-
-        alert(
-            "¡Confirmación enviada! Muchas gracias."
-        );
-
-
-        document.getElementById(
-            "guestName"
-        ).value = "";
-
-
-        document.getElementById(
-            "guestCompanion"
-        ).value = "";
-
-
-        document.getElementById(
-            "guestAllergies"
-        ).value = "";
-
+        document.getElementById("guestName").value = "";
+        document.getElementById("guestCompanion").value = "";
+        document.getElementById("guestAllergies").value = "";
 
         document
-            .querySelectorAll(
-                'input[name="autobus"], input[name="menu"]'
-            )
-            .forEach(
-                element => {
+            .querySelectorAll('input[name="autobus"], input[name="menu"]')
+            .forEach(input => { input.checked = false; });
 
-                    element.checked =
-                        false;
-
-                }
-            );
-
-
-        closeModal(
-            "modalRSVP"
-        );
-
+        closeModal("modalRSVP");
     }
 
     catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            "Ha habido un problema al enviar la confirmación. Inténtalo de nuevo."
-        );
-
+        console.error(error);
+        alert("Ha habido un problema al enviar la confirmación. Inténtalo de nuevo.");
     }
-
 }
-
 
 
 /* =========================================================
@@ -5442,857 +3856,371 @@ async function enviarConfirmacion() {
 ========================================================= */
 
 async function enviarCancion() {
+    const guest = document.getElementById("songGuest").value.trim();
+    const song = document.getElementById("songName").value.trim();
+    const artist = document.getElementById("songArtist").value.trim();
 
-    const guest =
-        document
-            .getElementById(
-                "songGuest"
-            )
-            .value
-            .trim();
-
-
-    const song =
-        document
-            .getElementById(
-                "songName"
-            )
-            .value
-            .trim();
-
-
-    const artist =
-        document
-            .getElementById(
-                "songArtist"
-            )
-            .value
-            .trim();
-
-
-    if (
-        !song ||
-        !artist
-    ) {
-
-        alert(
-            "Escribe el nombre de la canción y el artista."
-        );
-
-
+    if (!song || !artist) {
+        alert("Escribe el nombre de la canción y el artista.");
         return;
-
     }
 
-
     try {
+        await db.collection("canciones").add({
+            nombre: guest,
+            cancion: song,
+            artista: artist,
+            fecha: new Date().toLocaleString("es-ES")
+        });
 
-        await db
-            .collection(
-                "canciones"
-            )
-            .add({
+        alert("¡Canción guardada!");
 
-                nombre:
-                    guest,
+        document.getElementById("songGuest").value = "";
+        document.getElementById("songName").value = "";
+        document.getElementById("songArtist").value = "";
 
-                cancion:
-                    song,
-
-                artista:
-                    artist,
-
-                fecha:
-                    new Date()
-                        .toLocaleString(
-                            "es-ES"
-                        )
-
-            });
-
-
-        alert(
-            "¡Canción guardada!"
-        );
-
-
-        document.getElementById(
-            "songGuest"
-        ).value = "";
-
-
-        document.getElementById(
-            "songName"
-        ).value = "";
-
-
-        document.getElementById(
-            "songArtist"
-        ).value = "";
-
-
-        closeModal(
-            "modalSong"
-        );
-
+        closeModal("modalSong");
     }
 
     catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            "No hemos podido guardar la canción."
-        );
-
+        console.error(error);
+        alert("No hemos podido guardar la canción.");
     }
-
 }
-
 
 
 /* =========================================================
    CSV
 ========================================================= */
 
-function downloadCSV(
-    content,
-    filename
-) {
+function downloadCSV(content, filename) {
+    const blob = new Blob([content], {
+        type: "text/csv;charset=utf-8;"
+    });
 
-    const blob =
-        new Blob(
-            [content],
-            {
-                type:
-                    "text/csv;charset=utf-8;"
-            }
-        );
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
 
+    link.href = url;
+    link.download = filename;
 
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-
-    const link =
-        document.createElement(
-            "a"
-        );
-
-
-    link.href =
-        url;
-
-
-    link.download =
-        filename;
-
-
-    document.body
-        .appendChild(
-            link
-        );
-
-
+    document.body.appendChild(link);
     link.click();
-
-
     link.remove();
 
-
-    URL.revokeObjectURL(
-        url
-    );
-
+    URL.revokeObjectURL(url);
 }
-
-
 
 async function descargarAsistencias() {
-
     try {
+        const snapshot = await db.collection("asistencias").get();
 
-        const snapshot =
-            await db
-                .collection(
-                    "asistencias"
-                )
-                .get();
+        let csv = "\uFEFFNombre,Acompañante,Autobús,Menú,Alergias,Fecha\n";
 
+        snapshot.forEach(doc => {
+            const data = doc.data();
 
-        let csv =
-            "\uFEFFNombre,Acompañante,Autobús,Menú,Alergias,Fecha\n";
+            const values = [
+                data.nombre || "",
+                data.acompañante || "",
+                data.autobus || "",
+                data.menu || "",
+                data.alergias || "",
+                data.fecha || ""
+            ].map(value => `"${String(value).replace(/"/g, '""')}"`);
 
+            csv += values.join(",") + "\n";
+        });
 
-        snapshot.forEach(
-            doc => {
-
-                const data =
-                    doc.data();
-
-
-                const values = [
-
-                    data.nombre || "",
-
-                    data.acompañante || "",
-
-                    data.autobus || "",
-
-                    data.menu || "",
-
-                    data.alergias || "",
-
-                    data.fecha || ""
-
-                ].map(
-                    value =>
-                        `"${String(value)
-                            .replace(
-                                /"/g,
-                                '""'
-                            )}"`
-                );
-
-
-                csv +=
-                    values.join(",") +
-                    "\n";
-
-            }
-        );
-
-
-        downloadCSV(
-            csv,
-            "invitados_boda.csv"
-        );
-
+        downloadCSV(csv, "invitados_boda.csv");
     }
 
     catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            "No se ha podido generar el CSV de invitados."
-        );
-
+        console.error(error);
+        alert("No se ha podido generar el CSV de invitados.");
     }
-
 }
-
-
 
 async function descargarCanciones() {
-
     try {
+        const snapshot = await db.collection("canciones").get();
 
-        const snapshot =
-            await db
-                .collection(
-                    "canciones"
-                )
-                .get();
+        let csv = "\uFEFFInvitado,Canción,Artista,Fecha\n";
 
+        snapshot.forEach(doc => {
+            const data = doc.data();
 
-        let csv =
-            "\uFEFFInvitado,Canción,Artista,Fecha\n";
+            const values = [
+                data.nombre || "",
+                data.cancion || "",
+                data.artista || "",
+                data.fecha || ""
+            ].map(value => `"${String(value).replace(/"/g, '""')}"`);
 
+            csv += values.join(",") + "\n";
+        });
 
-        snapshot.forEach(
-            doc => {
-
-                const data =
-                    doc.data();
-
-
-                const values = [
-
-                    data.nombre || "",
-
-                    data.cancion || "",
-
-                    data.artista || "",
-
-                    data.fecha || ""
-
-                ].map(
-                    value =>
-                        `"${String(value)
-                            .replace(
-                                /"/g,
-                                '""'
-                            )}"`
-                );
-
-
-                csv +=
-                    values.join(",") +
-                    "\n";
-
-            }
-        );
-
-
-        downloadCSV(
-            csv,
-            "sugerencias_musicales.csv"
-        );
-
+        downloadCSV(csv, "sugerencias_musicales.csv");
     }
 
     catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            "No se ha podido generar el CSV de música."
-        );
-
+        console.error(error);
+        alert("No se ha podido generar el CSV de música.");
     }
-
 }
-
 
 
 /* =========================================================
    ADMIN
 ========================================================= */
 
-document
-    .getElementById(
-        "secretAdminBtn"
-    )
-    .addEventListener(
-        "click",
-        () => {
+document.getElementById("secretAdminBtn").addEventListener("click", () => {
+    adminClickCount++;
 
-            adminClickCount++;
+    if (adminClickCount >= ADMIN_CLICKS) {
+        adminClickCount = 0;
 
+        const password = prompt("Contraseña:");
 
-            if (
-                adminClickCount >=
-                ADMIN_CLICKS
-            ) {
-
-                adminClickCount =
-                    0;
-
-
-                const password =
-                    prompt(
-                        "Contraseña:"
-                    );
-
-
-                if (
-                    password ===
-                    "LaJosefa"
-                ) {
-
-                    enableAdmin();
-
-                }
-
-            }
-
+        if (password === "LaJosefa") {
+            enableAdmin();
         }
-    );
-
-
+    }
+});
 
 function enableAdmin() {
+    adminMode = true;
+    previewMode = false;
 
-    adminMode =
-        true;
+    document.body.classList.add("admin-editing");
+    document.getElementById("adminBar").classList.add("visible");
 
-
-    previewMode =
-        false;
-
-
-    document.body
-        .classList
-        .add(
-            "admin-editing"
-        );
-
-
-    document
-        .getElementById(
-            "adminBar"
-        )
-        .classList
-        .add(
-            "visible"
-        );
-
-
-    setTextEditing(
-        true
-    );
-
-
+    setTextEditing(true);
     activateMediaEditing();
-
-
     loadConfigIntoPanel();
-
-
     openAdminPanel();
-
 }
 
 
-
 /* =========================================================
-   TEXTO EDITABLE
+   EDICIÓN TEXTO
 ========================================================= */
 
-function setTextEditing(
-    enabled
-) {
-
-    textIds.forEach(
-        id => {
-
-            const element =
-                document
-                    .getElementById(
-                        id
-                    );
-
-
-            if (
-                element
-            ) {
-
-                element.setAttribute(
-                    "contenteditable",
-                    enabled
-                        ? "true"
-                        : "false"
-                );
-
-            }
-
+function setTextEditing(enabled) {
+    textIds.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.setAttribute(
+                "contenteditable",
+                enabled ? "true" : "false"
+            );
         }
-    );
-
+    });
 }
 
 
-
 /* =========================================================
-   MULTIMEDIA EDITABLE
+   EDICIÓN MEDIA
 ========================================================= */
 
 function activateMediaEditing() {
+    fotoIds.forEach(id => {
+        const element = document.getElementById(id);
 
-    fotoIds.forEach(
-        id => {
+        if (!element) return;
 
-            const element =
-                document
-                    .getElementById(
-                        id
-                    );
+        element.addEventListener("click", event => {
+            if (!adminMode || previewMode) return;
 
+            event.preventDefault();
+            event.stopPropagation();
 
-            if (
-                !element
-            ) {
-                return;
+            const targetSelect = document.getElementById("adminImageTarget");
+            if (targetSelect && positionableImageIds.includes(id)) {
+                targetSelect.value = id;
+                syncSelectedImagePositionControls();
             }
 
+            triggerMediaUpload(id, "image");
+        });
+    });
 
-            element.addEventListener(
-                "click",
-                event => {
+    document.getElementById("heroVideo").addEventListener("click", event => {
+        if (!adminMode || previewMode) return;
 
-                    if (
-                        !adminMode ||
-                        previewMode
-                    ) {
-                        return;
-                    }
+        event.preventDefault();
+        event.stopPropagation();
 
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-
-                    triggerMediaUpload(
-                        id,
-                        "image"
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    document
-        .getElementById(
-            "heroVideo"
-        )
-        .addEventListener(
-            "click",
-            event => {
-
-                if (
-                    !adminMode ||
-                    previewMode
-                ) {
-                    return;
-                }
-
-
-                event.preventDefault();
-
-                event.stopPropagation();
-
-
-                triggerMediaUpload(
-                    "heroVideo",
-                    "video"
-                );
-
-            }
-        );
-
+        triggerMediaUpload("heroVideo", "video");
+    });
 }
-
 
 
 /* =========================================================
    SUBIDA ARCHIVOS
 ========================================================= */
 
-function triggerMediaUpload(
-    id,
-    type
-) {
+function triggerMediaUpload(id, type) {
+    currentMediaId = id;
+    currentMediaType = type;
 
-    currentMediaId =
-        id;
+    const uploader = document.getElementById("mediaUploader");
 
-
-    currentMediaType =
-        type;
-
-
-    const uploader =
-        document
-            .getElementById(
-                "mediaUploader"
-            );
-
-
-    uploader.value =
-        "";
-
-
-    uploader.accept =
-        type === "video"
-        ? "video/*"
-        : "image/*";
-
-
+    uploader.value = "";
+    uploader.accept = type === "video" ? "video/*" : "image/*";
     uploader.click();
-
 }
 
+document.getElementById("mediaUploader").addEventListener("change", async event => {
+    const file = event.target.files[0];
+    if (!file) return;
 
+    try {
+        const path =
+            currentMediaType === "video"
+                ? "videosBoda/" + currentMediaId
+                : "imagenesBoda/" + currentMediaId;
 
-document
-    .getElementById(
-        "mediaUploader"
-    )
-    .addEventListener(
-        "change",
-        async event => {
+        const ref = storage.ref(path);
 
-            const file =
-                event.target.files[0];
+        await ref.put(file);
 
+        const url = await ref.getDownloadURL();
 
-            if (
-                !file
-            ) {
-                return;
+        if (currentMediaId === "heroVideo") {
+            heroVideoUrl = url;
+            await activateHeroVideo(url);
+        } else {
+            const element = document.getElementById(currentMediaId);
+
+            if (currentMediaId === "bgImage") {
+                element.classList.remove("loaded");
+                element.onload = () => {
+                    element.classList.add("loaded");
+                };
             }
 
+            element.src = url;
 
-            try {
-
-                const path =
-                    currentMediaType ===
-                    "video"
-                    ? "videosBoda/" +
-                      currentMediaId
-                    : "imagenesBoda/" +
-                      currentMediaId;
-
-
-                const ref =
-                    storage
-                        .ref(
-                            path
-                        );
-
-
-                await ref.put(
-                    file
-                );
-
-
-                const url =
-                    await ref
-                        .getDownloadURL();
-
-
-                if (
-                    currentMediaId ===
-                    "heroVideo"
-                ) {
-
-                    heroVideoUrl =
-                        url;
-
-
-                    await activateHeroVideo(
-                        url
-                    );
-
-                }
-
-                else {
-
-                    const element =
-                        document
-                            .getElementById(
-                                currentMediaId
-                            );
-
-
-                    if (
-                        currentMediaId ===
-                        "bgImage"
-                    ) {
-
-                        element
-                            .classList
-                            .remove(
-                                "loaded"
-                            );
-
-
-                        element.onload =
-                            () => {
-
-                                element
-                                    .classList
-                                    .add(
-                                        "loaded"
-                                    );
-
-                            };
-
-                    }
-
-
-                    element.src =
-                        url;
-
-
-                    if (
-                        currentMediaId ===
-                        "bgImage" &&
-                        element.complete
-                    ) {
-
-                        element
-                            .classList
-                            .add(
-                                "loaded"
-                            );
-
-                    }
-
-                }
-
-
-                alert(
-                    "Archivo actualizado. Pulsa «Publicar» para guardar los cambios."
-                );
-
+            if (currentMediaId === "bgImage" && element.complete) {
+                element.classList.add("loaded");
             }
-
-            catch (error) {
-
-                console.error(
-                    error
-                );
-
-
-                alert(
-                    "No se ha podido subir el archivo."
-                );
-
-            }
-
         }
-    );
 
+        alert("Archivo actualizado. Pulsa «Publicar» para guardar los cambios.");
+    }
+
+    catch (error) {
+        console.error(error);
+        alert("No se ha podido subir el archivo.");
+    }
+});
+
+
+/* =========================================================
+   ENCUADRE IMÁGENES
+========================================================= */
+
+function applyImagePositions() {
+    ensureImagePositionsDefaults();
+
+    positionableImageIds.forEach(id => {
+        const element = document.getElementById(id);
+        const pos = siteConfig.imagePositions[id];
+
+        if (!element || !pos) return;
+
+        element.style.objectPosition = `${pos.x}% ${pos.y}%`;
+    });
+}
+
+function syncSelectedImagePositionControls() {
+    ensureImagePositionsDefaults();
+
+    const targetId = document.getElementById("adminImageTarget").value;
+    const pos = siteConfig.imagePositions[targetId] || { x: 50, y: 50 };
+
+    document.getElementById("adminImagePosX").value = pos.x;
+    document.getElementById("adminImagePosY").value = pos.y;
+    document.getElementById("adminImagePosXValue").textContent = `${pos.x}%`;
+    document.getElementById("adminImagePosYValue").textContent = `${pos.y}%`;
+}
+
+function updateSelectedImagePosition() {
+    ensureImagePositionsDefaults();
+
+    const targetId = document.getElementById("adminImageTarget").value;
+    const x = Number(document.getElementById("adminImagePosX").value);
+    const y = Number(document.getElementById("adminImagePosY").value);
+
+    siteConfig.imagePositions[targetId] = { x, y };
+
+    document.getElementById("adminImagePosXValue").textContent = `${x}%`;
+    document.getElementById("adminImagePosYValue").textContent = `${y}%`;
+
+    applyImagePositions();
+}
+
+function resetSelectedImagePosition() {
+    const targetId = document.getElementById("adminImageTarget").value;
+    siteConfig.imagePositions[targetId] = { x: 50, y: 50 };
+    syncSelectedImagePositionControls();
+    applyImagePositions();
+}
+
+document.getElementById("adminImageTarget").addEventListener("change", syncSelectedImagePositionControls);
+document.getElementById("adminImagePosX").addEventListener("input", updateSelectedImagePosition);
+document.getElementById("adminImagePosY").addEventListener("input", updateSelectedImagePosition);
 
 
 /* =========================================================
    VIDEO
 ========================================================= */
 
-async function activateHeroVideo(
-    url
-) {
-
-    if (
-        !url
-    ) {
-
-        removeHeroVideo(
-            false
-        );
-
-
+async function activateHeroVideo(url) {
+    if (!url) {
+        removeHeroVideo(false);
         return;
-
     }
 
+    const video = document.getElementById("heroVideo");
+    const image = document.getElementById("heroImg");
 
-    const video =
-        document
-            .getElementById(
-                "heroVideo"
-            );
+    heroVideoUrl = url;
 
+    video.src = url;
+    video.classList.add("active-media");
 
-    const image =
-        document
-            .getElementById(
-                "heroImg"
-            );
-
-
-    heroVideoUrl =
-        url;
-
-
-    video.src =
-        url;
-
-
-    video.classList.add(
-        "active-media"
-    );
-
-
-    image.classList.add(
-        "video-active"
-    );
-
+    image.classList.add("video-active");
 
     video.load();
 
-
     try {
-
         await video.play();
-
     }
 
     catch (error) {
-
-        console.log(
-            "Autoplay pendiente de interacción."
-        );
-
+        console.log("Autoplay pendiente de interacción.");
     }
-
 }
 
+function removeHeroVideo(showMessage = true) {
+    heroVideoUrl = "";
 
-
-function removeHeroVideo(
-    showMessage = true
-) {
-
-    heroVideoUrl =
-        "";
-
-
-    const video =
-        document
-            .getElementById(
-                "heroVideo"
-            );
-
-
-    const image =
-        document
-            .getElementById(
-                "heroImg"
-            );
-
+    const video = document.getElementById("heroVideo");
+    const image = document.getElementById("heroImg");
 
     video.pause();
-
-
-    video.removeAttribute(
-        "src"
-    );
-
-
+    video.removeAttribute("src");
     video.load();
 
+    video.classList.remove("active-media");
+    image.classList.remove("video-active");
 
-    video.classList.remove(
-        "active-media"
-    );
-
-
-    image.classList.remove(
-        "video-active"
-    );
-
-
-    if (
-        showMessage &&
-        adminMode
-    ) {
-
-        alert(
-            "Se utilizará la fotografía de portada. Pulsa «Publicar» para guardar el cambio."
-        );
-
+    if (showMessage && adminMode) {
+        alert("Se utilizará la fotografía de portada. Pulsa «Publicar» para guardar el cambio.");
     }
-
 }
-
 
 
 /* =========================================================
@@ -6300,32 +4228,12 @@ function removeHeroVideo(
 ========================================================= */
 
 function openAdminPanel() {
-
-    document
-        .getElementById(
-            "adminPanel"
-        )
-        .classList
-        .add(
-            "open"
-        );
-
+    document.getElementById("adminPanel").classList.add("open");
 }
-
 
 function closeAdminPanel() {
-
-    document
-        .getElementById(
-            "adminPanel"
-        )
-        .classList
-        .remove(
-            "open"
-        );
-
+    document.getElementById("adminPanel").classList.remove("open");
 }
-
 
 
 /* =========================================================
@@ -6333,281 +4241,119 @@ function closeAdminPanel() {
 ========================================================= */
 
 function loadConfigIntoPanel() {
+    ensureImagePositionsDefaults();
 
-    document
-        .getElementById(
-            "adminWeddingDate"
-        )
-        .value =
-        siteConfig.weddingDate ||
-        "2027-06-19T00:00";
+    document.getElementById("adminWeddingDate").value =
+        siteConfig.weddingDate || "2027-06-19T00:00";
 
+    document.getElementById("adminCeremoniaMap").value =
+        siteConfig.ceremoniaMap || "";
 
-    document
-        .getElementById(
-            "adminCeremoniaMap"
-        )
-        .value =
-        siteConfig.ceremoniaMap ||
-        "";
+    document.getElementById("adminBanqueteMap").value =
+        siteConfig.banqueteMap || "";
 
+    document.getElementById("adminAlbumUrl").value =
+        siteConfig.albumUrl || "";
 
-    document
-        .getElementById(
-            "adminBanqueteMap"
-        )
-        .value =
-        siteConfig.banqueteMap ||
-        "";
+    document.getElementById("toggleGallery").checked =
+        siteConfig.showGallery !== false;
 
+    document.getElementById("toggleGift").checked =
+        siteConfig.showGift !== false;
 
-    document
-        .getElementById(
-            "adminAlbumUrl"
-        )
-        .value =
-        siteConfig.albumUrl ||
-        "";
+    document.getElementById("toggleDress").checked =
+        siteConfig.showDress !== false;
 
+    document.getElementById("toggleSong").checked =
+        siteConfig.showSong !== false;
 
-    document
-        .getElementById(
-            "toggleGallery"
-        )
-        .checked =
-        siteConfig.showGallery !==
-        false;
+    document.getElementById("toggleTips").checked =
+        siteConfig.showTips !== false;
 
+    document.getElementById("toggleAlbum").checked =
+        siteConfig.showAlbum === true;
 
-    document
-        .getElementById(
-            "toggleGift"
-        )
-        .checked =
-        siteConfig.showGift !==
-        false;
-
-
-    document
-        .getElementById(
-            "toggleDress"
-        )
-        .checked =
-        siteConfig.showDress !==
-        false;
-
-
-    document
-        .getElementById(
-            "toggleSong"
-        )
-        .checked =
-        siteConfig.showSong !==
-        false;
-
-
-    document
-        .getElementById(
-            "toggleTips"
-        )
-        .checked =
-        siteConfig.showTips !==
-        false;
-
-
-    document
-        .getElementById(
-            "toggleAlbum"
-        )
-        .checked =
-        siteConfig.showAlbum ===
-        true;
-
+    syncSelectedImagePositionControls();
 }
-
-
 
 function readConfigFromPanel() {
-
     siteConfig.weddingDate =
-        document
-            .getElementById(
-                "adminWeddingDate"
-            )
-            .value ||
+        document.getElementById("adminWeddingDate").value ||
         "2027-06-19T00:00";
-
 
     siteConfig.ceremoniaMap =
-        document
-            .getElementById(
-                "adminCeremoniaMap"
-            )
-            .value
-            .trim();
-
+        document.getElementById("adminCeremoniaMap").value.trim();
 
     siteConfig.banqueteMap =
-        document
-            .getElementById(
-                "adminBanqueteMap"
-            )
-            .value
-            .trim();
-
+        document.getElementById("adminBanqueteMap").value.trim();
 
     siteConfig.albumUrl =
-        document
-            .getElementById(
-                "adminAlbumUrl"
-            )
-            .value
-            .trim();
-
+        document.getElementById("adminAlbumUrl").value.trim();
 
     siteConfig.showGallery =
-        document
-            .getElementById(
-                "toggleGallery"
-            )
-            .checked;
-
+        document.getElementById("toggleGallery").checked;
 
     siteConfig.showGift =
-        document
-            .getElementById(
-                "toggleGift"
-            )
-            .checked;
-
+        document.getElementById("toggleGift").checked;
 
     siteConfig.showDress =
-        document
-            .getElementById(
-                "toggleDress"
-            )
-            .checked;
-
+        document.getElementById("toggleDress").checked;
 
     siteConfig.showSong =
-        document
-            .getElementById(
-                "toggleSong"
-            )
-            .checked;
-
+        document.getElementById("toggleSong").checked;
 
     siteConfig.showTips =
-        document
-            .getElementById(
-                "toggleTips"
-            )
-            .checked;
-
+        document.getElementById("toggleTips").checked;
 
     siteConfig.showAlbum =
-        document
-            .getElementById(
-                "toggleAlbum"
-            )
-            .checked;
+        document.getElementById("toggleAlbum").checked;
 
-
-    currentWeddingDate =
-        siteConfig
-            .weddingDate;
-
+    currentWeddingDate = siteConfig.weddingDate;
 
     applyConfig();
-
 }
 
-
-
 function applyConfig() {
+    document.getElementById("sceneGallery").classList.toggle(
+        "scene-disabled",
+        siteConfig.showGallery === false
+    );
 
-    document
-        .getElementById(
-            "sceneGallery"
-        )
-        .classList
-        .toggle(
-            "scene-disabled",
-            siteConfig
-                .showGallery ===
-                false
-        );
+    document.getElementById("giftCard").style.display =
+        siteConfig.showGift === false ? "none" : "";
 
+    document.getElementById("dressCard").style.display =
+        siteConfig.showDress === false ? "none" : "";
 
-    document
-        .getElementById(
-            "giftCard"
-        )
-        .style.display =
-        siteConfig.showGift ===
-        false
-        ? "none"
-        : "";
+    document.getElementById("songCard").style.display =
+        siteConfig.showSong === false ? "none" : "";
 
+    document.getElementById("tipsCard").style.display =
+        siteConfig.showTips === false ? "none" : "";
 
-    document
-        .getElementById(
-            "dressCard"
-        )
-        .style.display =
-        siteConfig.showDress ===
-        false
-        ? "none"
-        : "";
-
-
-    document
-        .getElementById(
-            "songCard"
-        )
-        .style.display =
-        siteConfig.showSong ===
-        false
-        ? "none"
-        : "";
-
-
-    document
-        .getElementById(
-            "tipsCard"
-        )
-        .style.display =
-        siteConfig.showTips ===
-        false
-        ? "none"
-        : "";
-
-
-    document
-        .getElementById(
-            "albumCard"
-        )
-        .style.display =
-        siteConfig.showAlbum ===
-        true
-        ? ""
-        : "none";
-
+    document.getElementById("albumCard").style.display =
+        siteConfig.showAlbum === true ? "" : "none";
 
     currentWeddingDate =
-        siteConfig
-            .weddingDate ||
-        "2027-06-19T00:00";
+        siteConfig.weddingDate || "2027-06-19T00:00";
 
-
+    applyImagePositions();
     actualizarCuentaAtras();
-
 
     buildSceneDots();
 
+    const active = getActiveScene();
+    if (active && active.classList.contains("scene-disabled")) {
+        const firstVisible = getVisibleScenes()[0];
+        if (firstVisible) {
+            document.querySelectorAll(".scene").forEach(scene => {
+                scene.classList.remove("active");
+            });
+            firstVisible.classList.add("active");
+            updateSceneDots();
+        }
+    }
 }
-
-
 
 [
     "toggleGallery",
@@ -6616,22 +4362,9 @@ function applyConfig() {
     "toggleSong",
     "toggleTips",
     "toggleAlbum"
-
-].forEach(
-    id => {
-
-        document
-            .getElementById(
-                id
-            )
-            .addEventListener(
-                "change",
-                readConfigFromPanel
-            );
-
-    }
-);
-
+].forEach(id => {
+    document.getElementById(id).addEventListener("change", readConfigFromPanel);
+});
 
 
 /* =========================================================
@@ -6639,716 +4372,264 @@ function applyConfig() {
 ========================================================= */
 
 function togglePreview() {
+    previewMode = !previewMode;
 
-    previewMode =
-        !previewMode;
+    const button = document.getElementById("previewBtn");
 
-
-    const button =
-        document
-            .getElementById(
-                "previewBtn"
-            );
-
-
-    if (
-        previewMode
-    ) {
-
-        setTextEditing(
-            false
-        );
-
-
-        document.body
-            .classList
-            .remove(
-                "admin-editing"
-            );
-
-
-        button.textContent =
-            "Volver a editar";
-
+    if (previewMode) {
+        setTextEditing(false);
+        document.body.classList.remove("admin-editing");
+        button.textContent = "Volver a editar";
     }
 
     else {
-
-        setTextEditing(
-            true
-        );
-
-
-        document.body
-            .classList
-            .add(
-                "admin-editing"
-            );
-
-
-        button.textContent =
-            "Vista previa";
-
+        setTextEditing(true);
+        document.body.classList.add("admin-editing");
+        button.textContent = "Vista previa";
     }
-
 }
-
 
 
 /* =========================================================
    PUBLICAR
 ========================================================= */
 
-document
-    .getElementById(
-        "saveBtn"
-    )
-    .addEventListener(
-        "click",
-        async () => {
+document.getElementById("saveBtn").addEventListener("click", async () => {
+    try {
+        readConfigFromPanel();
 
-            try {
+        const data = {};
 
-                readConfigFromPanel();
-
-
-                const data =
-                    {};
-
-
-                textIds.forEach(
-                    id => {
-
-                        const element =
-                            document
-                                .getElementById(
-                                    id
-                                );
-
-
-                        if (
-                            element
-                        ) {
-
-                            data[id] =
-                                element
-                                    .innerHTML;
-
-                        }
-
-                    }
-                );
-
-
-                fotoIds.forEach(
-                    id => {
-
-                        const element =
-                            document
-                                .getElementById(
-                                    id
-                                );
-
-
-                        if (
-                            element &&
-                            element.src
-                        ) {
-
-                            data[id] =
-                                element.src;
-
-                        }
-
-                    }
-                );
-
-
-                data.heroVideo =
-                    heroVideoUrl;
-
-
-                data.siteConfig =
-                    siteConfig;
-
-
-                await db
-                    .collection(
-                        "bodaData"
-                    )
-                    .doc(
-                        "contenidoPrincipal"
-                    )
-                    .set(
-                        data,
-                        {
-                            merge:
-                                true
-                        }
-                    );
-
-
-                alert(
-                    "Publicado correctamente."
-                );
-
+        textIds.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                data[id] = element.innerHTML;
             }
+        });
 
-            catch (error) {
-
-                console.error(
-                    error
-                );
-
-
-                alert(
-                    "No se han podido publicar los cambios."
-                );
-
+        fotoIds.forEach(id => {
+            const element = document.getElementById(id);
+            if (element && element.src) {
+                data[id] = element.src;
             }
+        });
 
-        }
-    );
+        data.heroVideo = heroVideoUrl;
+        data.siteConfig = siteConfig;
 
+        await db
+            .collection("bodaData")
+            .doc("contenidoPrincipal")
+            .set(data, { merge: true });
+
+        alert("Publicado correctamente.");
+    }
+
+    catch (error) {
+        console.error(error);
+        alert("No se han podido publicar los cambios.");
+    }
+});
 
 
 /* =========================================================
-   PRELOAD IMAGEN
+   PRELOAD IMÁGENES
 ========================================================= */
 
-function preloadImage(
-    url
-) {
-
-    return new Promise(
-        resolve => {
-
-            if (
-                !url
-            ) {
-
-                resolve();
-
-                return;
-
-            }
-
-
-            const img =
-                new Image();
-
-
-            img.onload =
-                resolve;
-
-
-            img.onerror =
-                resolve;
-
-
-            img.src =
-                url;
-
+function preloadImage(url) {
+    return new Promise(resolve => {
+        if (!url) {
+            resolve();
+            return;
         }
-    );
 
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = resolve;
+        img.src = url;
+    });
 }
-
 
 
 /* =========================================================
    WAIT VIDEO
 ========================================================= */
 
-function waitForVideo(
-    video,
-    timeout = 4500
-) {
+function waitForVideo(video, timeout = 4500) {
+    return new Promise(resolve => {
+        let finished = false;
 
-    return new Promise(
-        resolve => {
+        const done = () => {
+            if (finished) return;
+            finished = true;
 
-            let finished =
-                false;
+            clearTimeout(timer);
+            video.removeEventListener("canplay", done);
+            video.removeEventListener("loadeddata", done);
 
+            resolve();
+        };
 
-            const done =
-                () => {
+        video.addEventListener("canplay", done, { once: true });
+        video.addEventListener("loadeddata", done, { once: true });
 
-                    if (
-                        finished
-                    ) {
-                        return;
-                    }
-
-
-                    finished =
-                        true;
-
-
-                    clearTimeout(
-                        timer
-                    );
-
-
-                    video.removeEventListener(
-                        "canplay",
-                        done
-                    );
-
-
-                    video.removeEventListener(
-                        "loadeddata",
-                        done
-                    );
-
-
-                    resolve();
-
-                };
-
-
-            video.addEventListener(
-                "canplay",
-                done,
-                {
-                    once: true
-                }
-            );
-
-
-            video.addEventListener(
-                "loadeddata",
-                done,
-                {
-                    once: true
-                }
-            );
-
-
-            const timer =
-                setTimeout(
-                    done,
-                    timeout
-                );
-
-        }
-    );
-
+        const timer = setTimeout(done, timeout);
+    });
 }
-
 
 
 /* =========================================================
-   CARGAR FIREBASE
+   CARGA FIREBASE
 ========================================================= */
 
 async function loadSavedContent() {
-
     try {
+        const documentSnapshot = await db
+            .collection("bodaData")
+            .doc("contenidoPrincipal")
+            .get();
 
-        const documentSnapshot =
-            await db
-                .collection(
-                    "bodaData"
-                )
-                .doc(
-                    "contenidoPrincipal"
-                )
-                .get();
-
-
-        if (
-            !documentSnapshot
-                .exists
-        ) {
-
+        if (!documentSnapshot.exists) {
+            ensureImagePositionsDefaults();
             applyConfig();
-
             return;
-
         }
 
+        const data = documentSnapshot.data();
 
-        const data =
-            documentSnapshot
-                .data();
-
-
-
-        textIds.forEach(
-            id => {
-
-                if (
-                    data[id] !==
-                    undefined
-                ) {
-
-                    const element =
-                        document
-                            .getElementById(
-                                id
-                            );
-
-
-                    if (
-                        element
-                    ) {
-
-                        element.innerHTML =
-                            data[id];
-
-                    }
-
+        textIds.forEach(id => {
+            if (data[id] !== undefined) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.innerHTML = data[id];
                 }
-
             }
-        );
+        });
 
-
-
-        if (
-            data.siteConfig
-        ) {
-
+        if (data.siteConfig) {
             siteConfig = {
-
                 ...siteConfig,
-
-                ...data.siteConfig
-
+                ...data.siteConfig,
+                imagePositions: {
+                    ...siteConfig.imagePositions,
+                    ...(data.siteConfig.imagePositions || {})
+                }
             };
-
         }
 
+        ensureImagePositionsDefaults();
 
         currentWeddingDate =
-            siteConfig
-                .weddingDate ||
-            "2027-06-19T00:00";
+            siteConfig.weddingDate || "2027-06-19T00:00";
 
+        const imageJobs = [];
 
-
-        const imageJobs =
-            [];
-
-
-        for (
-            const id of
-            fotoIds
-        ) {
-
-            if (
-                !data[id]
-            ) {
-                continue;
-            }
-
+        for (const id of fotoIds) {
+            if (!data[id]) continue;
 
             imageJobs.push(
+                preloadImage(data[id]).then(() => {
+                    const element = document.getElementById(id);
+                    if (!element) return;
 
-                preloadImage(
-                    data[id]
-                )
-                .then(
-                    () => {
+                    element.src = data[id];
 
-                        const element =
-                            document
-                                .getElementById(
-                                    id
-                                );
-
-
-                        if (
-                            !element
-                        ) {
-                            return;
-                        }
-
-
-                        element.src =
-                            data[id];
-
-
-                        if (
-                            id ===
-                            "bgImage"
-                        ) {
-
-                            element
-                                .classList
-                                .add(
-                                    "loaded"
-                                );
-
-                        }
-
+                    if (id === "bgImage") {
+                        element.classList.add("loaded");
                     }
-                )
-
+                })
             );
-
         }
 
+        await Promise.all(imageJobs);
 
-        await Promise.all(
-            imageJobs
-        );
-
-
-
-        if (
-            !data.gallery1Img &&
-            data.heroImg
-        ) {
-
-            document
-                .getElementById(
-                    "gallery1Img"
-                )
-                .src =
-                data.heroImg;
-
+        if (!data.gallery1Img && data.heroImg) {
+            document.getElementById("gallery1Img").src = data.heroImg;
         }
 
-
-        if (
-            !data.gallery2Img &&
-            data.ceremoniaImg
-        ) {
-
-            document
-                .getElementById(
-                    "gallery2Img"
-                )
-                .src =
-                data.ceremoniaImg;
-
+        if (!data.gallery2Img && data.ceremoniaImg) {
+            document.getElementById("gallery2Img").src = data.ceremoniaImg;
         }
 
-
-        if (
-            !data.gallery3Img &&
-            data.banqueteImg
-        ) {
-
-            document
-                .getElementById(
-                    "gallery3Img"
-                )
-                .src =
-                data.banqueteImg;
-
+        if (!data.gallery3Img && data.banqueteImg) {
+            document.getElementById("gallery3Img").src = data.banqueteImg;
         }
 
+        applyImagePositions();
 
+        if (data.heroVideo) {
+            heroVideoUrl = data.heroVideo;
 
-        if (
-            data.heroVideo
-        ) {
-
-            heroVideoUrl =
-                data.heroVideo;
-
-
-            const video =
-                document
-                    .getElementById(
-                        "heroVideo"
-                    );
-
-
-            video.src =
-                heroVideoUrl;
-
-
+            const video = document.getElementById("heroVideo");
+            video.src = heroVideoUrl;
             video.load();
 
-
-            await waitForVideo(
-                video
-            );
-
-
-            await activateHeroVideo(
-                heroVideoUrl
-            );
-
+            await waitForVideo(video);
+            await activateHeroVideo(heroVideoUrl);
         }
 
-
         applyConfig();
-
     }
 
     catch (error) {
-
-        console.error(
-            "Error cargando Firebase:",
-            error
-        );
-
-
+        console.error("Error cargando Firebase:", error);
+        ensureImagePositionsDefaults();
         applyConfig();
-
     }
-
 }
-
 
 
 /* =========================================================
    CARGA INICIAL
 ========================================================= */
 
-window.addEventListener(
-    "load",
-    async () => {
+window.addEventListener("load", async () => {
+    const overlay = document.getElementById("loadingOverlay");
 
-        const overlay =
-            document
-                .getElementById(
-                    "loadingOverlay"
-                );
+    try {
+        await loadSavedContent();
 
-
-        try {
-
-            await loadSavedContent();
-
-
-            if (
-                document.fonts &&
-                document.fonts.ready
-            ) {
-
-                await document
-                    .fonts
-                    .ready;
-
-            }
-
-
-            await new Promise(
-                resolve =>
-                    setTimeout(
-                        resolve,
-                        400
-                    )
-            );
-
+        if (document.fonts && document.fonts.ready) {
+            await document.fonts.ready;
         }
 
-        catch (error) {
-
-            console.error(
-                error
-            );
-
-        }
-
-        finally {
-
-            overlay
-                .classList
-                .add(
-                    "hide"
-                );
-
-
-            buildSceneDots();
-
-
-            actualizarCuentaAtras();
-
-        }
-
+        await new Promise(resolve => setTimeout(resolve, 400));
     }
-);
 
+    catch (error) {
+        console.error(error);
+    }
+
+    finally {
+        overlay.classList.add("hide");
+        buildSceneDots();
+        actualizarCuentaAtras();
+    }
+});
 
 
 /* =========================================================
    TECLADO
 ========================================================= */
 
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            document.querySelector(
-                ".modal-overlay.open"
-            )
-        ) {
-
-            if (
-                event.key ===
-                "Escape"
-            ) {
-
-                document
-                    .querySelectorAll(
-                        ".modal-overlay.open"
-                    )
-                    .forEach(
-                        modal => {
-
-                            modal
-                                .classList
-                                .remove(
-                                    "open"
-                                );
-
-                        }
-                    );
-
-            }
-
-
-            return;
-
+document.addEventListener("keydown", event => {
+    if (document.querySelector(".modal-overlay.open")) {
+        if (event.key === "Escape") {
+            document
+                .querySelectorAll(".modal-overlay.open")
+                .forEach(modal => modal.classList.remove("open"));
         }
-
-
-        if (
-            event.key ===
-            "ArrowRight"
-        ) {
-
-            nextScene();
-
-        }
-
-
-        if (
-            event.key ===
-            "ArrowLeft"
-        ) {
-
-            previousScene();
-
-        }
-
-
-        /*
-           En portada también se puede bajar
-           con la flecha del teclado.
-        */
-
-        if (
-            event.key === "ArrowDown" &&
-            getActiveScene()?.id ===
-            "sceneHero"
-        ) {
-
-            nextScene();
-
-        }
-
+        return;
     }
-);
+
+    if (event.key === "ArrowDown") {
+        nextScene();
+    }
+
+    if (event.key === "ArrowUp") {
+        previousScene();
+    }
+});
 
 </script>
 
