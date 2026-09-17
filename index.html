@@ -22,7 +22,7 @@
 <!--
 =========================================================
 ANA & CARLOS
-VERSIÓN: VERTICAL-FULLSCREEN-V2
+VERSIÓN: FULLSCREEN-VERTICAL-V3
 =========================================================
 -->
 
@@ -173,7 +173,12 @@ a {
 
 #bgImage.loaded {
 
-    opacity: .68;
+    /*
+       Más presencia que antes.
+       El velo crema posterior se ha reducido también.
+    */
+
+    opacity: .84;
 
 }
 
@@ -195,8 +200,7 @@ a {
     align-items: center;
     justify-content: center;
 
-    background:
-        var(--cream);
+    background: var(--cream);
 
     transition:
         opacity .9s ease,
@@ -222,16 +226,14 @@ a {
 
 .loading-monogram {
 
-    font-family:
-        var(--font-script);
+    font-family: var(--font-script);
 
     font-size:
         clamp(78px,20vw,130px);
 
     line-height: 1;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
     animation:
         loadingBreath
@@ -247,19 +249,16 @@ a {
     width: 70px;
     height: 1px;
 
-    margin:
-        20px auto;
+    margin: 20px auto;
 
-    background:
-        var(--gold);
+    background: var(--gold);
 
 }
 
 
 .loading-text {
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
     font-size: 9px;
 
@@ -267,8 +266,7 @@ a {
 
     text-transform: uppercase;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
     opacity: .7;
 
@@ -316,16 +314,19 @@ a {
 
     overflow: hidden;
 
+    /*
+       Antes estaba en .61.
+       Ese velo escondía muchísimo el fondo.
+    */
+
     background:
-        rgba(248,245,239,.61);
+        rgba(248,245,239,.43);
 
 }
 
 
 /* =========================================================
    ESCENAS
-   IMPORTANTE:
-   YA NO HAY SCROLL INTERNO
 ========================================================= */
 
 .scene {
@@ -373,7 +374,7 @@ a {
 
 
 /* =========================================================
-   TRANSICIÓN VERTICAL
+   TRANSICIONES VERTICALES
 ========================================================= */
 
 .scene.scene-enter-next,
@@ -390,8 +391,6 @@ a {
 
 }
 
-
-/* SIGUIENTE */
 
 .scene.scene-enter-next {
 
@@ -420,8 +419,6 @@ a {
 
 }
 
-
-/* ANTERIOR */
 
 .scene.scene-enter-prev {
 
@@ -639,8 +636,7 @@ a {
 
     margin-bottom: 7px;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
     font-size: 9px;
 
@@ -648,8 +644,7 @@ a {
 
     text-transform: uppercase;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
     opacity: .74;
 
@@ -662,8 +657,7 @@ a {
 
     margin-bottom: 10px;
 
-    font-family:
-        var(--font-script);
+    font-family: var(--font-script);
 
     font-size:
         clamp(
@@ -676,8 +670,7 @@ a {
 
     line-height: .95;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
@@ -690,8 +683,7 @@ a {
 
     margin-bottom: 16px;
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
     font-size:
         clamp(
@@ -702,15 +694,13 @@ a {
 
     line-height: 1.38;
 
-    color:
-        var(--charcoal);
+    color: var(--charcoal);
 
 }
 
 
 /* =========================================================
    FLECHA INFERIOR
-   SIN TEXTO
 ========================================================= */
 
 .scene-cue {
@@ -735,16 +725,13 @@ a {
 
     border: none;
 
-    background:
-        transparent;
+    background: transparent;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     cursor: pointer;
@@ -840,8 +827,7 @@ a {
 .scene.active
 .reveal:nth-child(2) {
 
-    animation-delay:
-        .05s;
+    animation-delay: .05s;
 
 }
 
@@ -849,8 +835,7 @@ a {
 .scene.active
 .reveal:nth-child(3) {
 
-    animation-delay:
-        .10s;
+    animation-delay: .10s;
 
 }
 
@@ -858,8 +843,7 @@ a {
 .scene.active
 .reveal:nth-child(4) {
 
-    animation-delay:
-        .15s;
+    animation-delay: .15s;
 
 }
 
@@ -867,8 +851,7 @@ a {
 .scene.active
 .reveal:nth-child(5) {
 
-    animation-delay:
-        .20s;
+    animation-delay: .20s;
 
 }
 
@@ -893,8 +876,7 @@ a {
 
 #sceneHero {
 
-    background:
-        #181914;
+    background: #181914;
 
 }
 
@@ -907,8 +889,7 @@ a {
 
     overflow: hidden;
 
-    background:
-        #181914;
+    background: #181914;
 
 }
 
@@ -1027,8 +1008,7 @@ a {
 
     margin-bottom: 7px;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
     font-size: 9px;
 
@@ -1043,8 +1023,7 @@ a {
 
 #heroNombres {
 
-    font-family:
-        var(--font-script);
+    font-family: var(--font-script);
 
     font-size:
         clamp(
@@ -1068,8 +1047,7 @@ a {
 
     margin-top: 16px;
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
     font-size:
         clamp(
@@ -1086,17 +1064,15 @@ a {
 
 
 /* =========================================================
-   BOTONES
+   BOTONES GENERALES
 ========================================================= */
 
 .primary-btn,
 .secondary-btn {
 
-    border-radius:
-        999px;
+    border-radius: 999px;
 
-    padding:
-        11px 21px;
+    padding: 11px 21px;
 
     cursor: pointer;
 
@@ -1117,18 +1093,15 @@ a {
     background:
         var(--sage);
 
-    color:
-        white;
+    color: white;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
     font-size: 9px;
 
     letter-spacing: .17em;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
 }
 
@@ -1145,18 +1118,15 @@ a {
     backdrop-filter:
         blur(10px);
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
     font-size: 9px;
 
     letter-spacing: .13em;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
     box-shadow:
 
@@ -1203,12 +1173,15 @@ a {
         );
 
     margin:
+
         clamp(
             8px,
             2svh,
             18px
         )
+
         0
+
         clamp(
             13px,
             2.5svh,
@@ -1220,11 +1193,9 @@ a {
 
 .date-disc {
 
-    aspect-ratio:
-        1;
+    aspect-ratio: 1;
 
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     border:
         1px solid
@@ -1240,26 +1211,18 @@ a {
         0 10px 28px
         rgba(75,67,52,.07);
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
-    position:
-        relative;
+    position: relative;
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
+    justify-content: center;
 
-    justify-content:
-        center;
-
-    overflow:
-        hidden;
+    overflow: hidden;
 
     transition:
         transform .4s ease,
@@ -1270,20 +1233,15 @@ a {
 
 .date-disc-label {
 
-    position:
-        absolute;
+    position: absolute;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
-    font-size:
-        7px;
+    font-size: 7px;
 
-    letter-spacing:
-        .20em;
+    letter-spacing: .20em;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
     transition:
         opacity .35s ease;
@@ -1293,14 +1251,12 @@ a {
 
 .date-disc-value {
 
-    opacity:
-        0;
+    opacity: 0;
 
     transform:
         scale(.7);
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
     font-size:
         clamp(
@@ -1318,11 +1274,9 @@ a {
 
 .date-disc.revealed {
 
-    background:
-        var(--sage);
+    background: var(--sage);
 
-    color:
-        white;
+    color: white;
 
     transform:
         rotateY(180deg);
@@ -1333,8 +1287,7 @@ a {
 .date-disc.revealed
 .date-disc-label {
 
-    opacity:
-        0;
+    opacity: 0;
 
 }
 
@@ -1342,8 +1295,7 @@ a {
 .date-disc.revealed
 .date-disc-value {
 
-    opacity:
-        1;
+    opacity: 1;
 
     transform:
         rotateY(180deg)
@@ -1360,11 +1312,9 @@ a {
 
     flex: 0 0 auto;
 
-    margin-bottom:
-        5px;
+    margin-bottom: 5px;
 
-    font-family:
-        var(--font-script);
+    font-family: var(--font-script);
 
     font-size:
         clamp(
@@ -1373,8 +1323,7 @@ a {
             39px
         );
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
@@ -1387,14 +1336,12 @@ a {
 
     max-width: 520px;
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         repeat(4,1fr);
 
-    gap:
-        6px;
+    gap: 6px;
 
 }
 
@@ -1422,11 +1369,9 @@ a {
 
 .countdown-number {
 
-    display:
-        block;
+    display: block;
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
     font-size:
         clamp(
@@ -1435,34 +1380,26 @@ a {
             37px
         );
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
 
 .countdown-label {
 
-    display:
-        block;
+    display: block;
 
-    margin-top:
-        2px;
+    margin-top: 2px;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
-    font-size:
-        6px;
+    font-size: 6px;
 
-    letter-spacing:
-        .13em;
+    letter-spacing: .13em;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
-    opacity:
-        .64;
+    opacity: .64;
 
 }
 
@@ -1475,46 +1412,67 @@ a {
 
     flex: 0 0 auto;
 
-    display:
-        flex;
-
-    gap:
-        5px;
-
-    margin:
-        3px 0
-        clamp(
-            8px,
-            1.5svh,
-            14px
+    width:
+        min(
+            100%,
+            520px
         );
 
-    padding:
-        4px;
+    display: grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap: 6px;
+
+    margin:
+        5px 0
+        clamp(
+            9px,
+            1.6svh,
+            15px
+        );
+
+    padding: 5px;
 
     border:
         1px solid
-        var(--gold-line);
+        rgba(185,167,124,.58);
 
-    border-radius:
-        100px;
+    border-radius: 999px;
 
     background:
-        rgba(255,255,255,.50);
+        rgba(255,255,255,.68);
+
+    backdrop-filter:
+        blur(12px);
+
+    box-shadow:
+
+        0 10px 26px
+        rgba(63,57,46,.08),
+
+        inset 0 1px 0
+        rgba(255,255,255,.88);
 
 }
 
 
 .place-tab {
 
-    border:
-        none;
+    position: relative;
 
-    border-radius:
-        100px;
+    border: 0;
+
+    border-radius: 999px;
 
     padding:
-        8px 13px;
+        clamp(
+            10px,
+            1.7svh,
+            13px
+        )
+        15px;
 
     background:
         transparent;
@@ -1522,20 +1480,42 @@ a {
     color:
         var(--sage);
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
     font-family:
         var(--font-accent);
 
     font-size:
-        8px;
+        clamp(
+            8px,
+            1.2svh,
+            10px
+        );
 
-    letter-spacing:
-        .11em;
+    font-weight: 500;
 
-    text-transform:
-        uppercase;
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    transition:
+
+        color .28s ease,
+
+        background .28s ease,
+
+        box-shadow .28s ease,
+
+        transform .28s ease;
+
+}
+
+
+.place-tab:not(.active) {
+
+    border:
+        1px solid
+        rgba(185,167,124,.20);
 
 }
 
@@ -1545,38 +1525,44 @@ a {
     background:
         var(--sage);
 
-    color:
-        white;
+    color: white;
+
+    box-shadow:
+        0 7px 17px
+        rgba(65,72,51,.20);
+
+}
+
+
+.place-tab:active {
+
+    transform:
+        scale(.98);
 
 }
 
 
 .place-panel {
 
-    display:
-        none;
+    display: none;
 
-    width:
-        100%;
+    width: 100%;
 
-    max-width:
-        610px;
+    max-width: 610px;
 
 }
 
 
 .place-panel.active {
 
-    display:
-        block;
+    display: block;
 
 }
 
 
 .place-photo {
 
-    width:
-        100%;
+    width: 100%;
 
     height:
         clamp(
@@ -1585,8 +1571,7 @@ a {
             340px
         );
 
-    object-fit:
-        cover;
+    object-fit: cover;
 
     object-position:
         center center;
@@ -1606,8 +1591,7 @@ a {
 
 .place-card {
 
-    position:
-        relative;
+    position: relative;
 
     width:
         calc(100% - 26px);
@@ -1616,22 +1600,23 @@ a {
         -34px auto 0;
 
     padding:
+
         clamp(
             14px,
             2.3svh,
             23px
         )
+
         18px;
 
     border:
         1px solid
-        rgba(185,167,124,.25);
+        rgba(185,167,124,.28);
 
-    border-radius:
-        22px;
+    border-radius: 22px;
 
     background:
-        rgba(248,245,239,.96);
+        rgba(248,245,239,.95);
 
     backdrop-filter:
         blur(15px);
@@ -1649,31 +1634,24 @@ a {
 
 .place-card h3 {
 
-    margin-bottom:
-        5px;
+    margin-bottom: 5px;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    letter-spacing:
-        .22em;
+    letter-spacing: .22em;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
-    color:
-        var(--gold);
+    color: var(--gold);
 
 }
 
 
 .place-card h2 {
 
-    font-family:
-        var(--font-script);
+    font-family: var(--font-script);
 
     font-size:
         clamp(
@@ -1682,25 +1660,20 @@ a {
             52px
         );
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
-    line-height:
-        1;
+    line-height: 1;
 
 }
 
 
 .place-card p {
 
-    margin-top:
-        5px;
+    margin-top: 5px;
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
     font-size:
         clamp(
@@ -1709,8 +1682,7 @@ a {
             17px
         );
 
-    line-height:
-        1.3;
+    line-height: 1.3;
 
 }
 
@@ -1721,19 +1693,15 @@ a {
 
 .gallery-shell {
 
-    position:
-        relative;
+    position: relative;
 
     flex: 0 0 auto;
 
-    width:
-        100%;
+    width: 100%;
 
-    max-width:
-        570px;
+    max-width: 570px;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     border-radius:
         190px
@@ -1750,11 +1718,9 @@ a {
 
 .gallery-track {
 
-    display:
-        flex;
+    display: flex;
 
-    width:
-        100%;
+    width: 100%;
 
     transition:
         transform .60s
@@ -1768,19 +1734,16 @@ a {
     flex:
         0 0 100%;
 
-    width:
-        100%;
+    width: 100%;
 
 }
 
 
 .gallery-slide img {
 
-    display:
-        block;
+    display: block;
 
-    width:
-        100%;
+    width: 100%;
 
     height:
         clamp(
@@ -1789,8 +1752,7 @@ a {
             485px
         );
 
-    object-fit:
-        cover;
+    object-fit: cover;
 
     object-position:
         center center;
@@ -1809,74 +1771,56 @@ a {
             15px
         );
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
+    justify-content: center;
 
-    justify-content:
-        center;
-
-    gap:
-        12px;
+    gap: 12px;
 
 }
 
 
 .gallery-arrow {
 
-    width:
-        39px;
-
-    height:
-        31px;
+    width: 39px;
+    height: 31px;
 
     border:
         1px solid
         var(--gold-line);
 
-    border-radius:
-        13px;
+    border-radius: 13px;
 
     background:
         rgba(255,255,255,.61);
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
-    font-size:
-        18px;
+    font-size: 18px;
 
 }
 
 
 .gallery-dot {
 
-    width:
-        9px;
+    width: 9px;
+    height: 9px;
 
-    height:
-        9px;
-
-    padding:
-        0;
+    padding: 0;
 
     border:
         1px solid
         rgba(91,99,69,.32);
 
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     background:
         rgba(255,255,255,.58);
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
     transition:
         transform .3s ease,
@@ -1891,8 +1835,7 @@ a {
     transform:
         scale(1.18);
 
-    background:
-        var(--sage);
+    background: var(--sage);
 
     box-shadow:
         0 0 0 4px
@@ -1903,19 +1846,15 @@ a {
 
 /* =========================================================
    TARJETAS DETALLES
-   SIEMPRE 2 × 3
 ========================================================= */
 
 .detail-grid {
 
-    flex:
-        0 0 auto;
+    flex: 0 0 auto;
 
-    width:
-        100%;
+    width: 100%;
 
-    max-width:
-        620px;
+    max-width: 620px;
 
     height:
         min(
@@ -1923,8 +1862,7 @@ a {
             460px
         );
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         repeat(
@@ -1945,22 +1883,17 @@ a {
             13px
         );
 
-    margin-top:
-        5px;
+    margin-top: 5px;
 
 }
 
 
 .detail-card {
 
-    position:
-        relative;
+    position: relative;
 
-    min-width:
-        0;
-
-    min-height:
-        0;
+    min-width: 0;
+    min-height: 0;
 
     padding:
         clamp(
@@ -1969,15 +1902,13 @@ a {
             17px
         );
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     border:
         1px solid
         rgba(185,167,124,.52);
 
-    border-radius:
-        23px;
+    border-radius: 23px;
 
     background:
 
@@ -1999,23 +1930,26 @@ a {
     backdrop-filter:
         blur(13px);
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
-    display:
-        flex;
+    display: flex;
 
-    flex-direction:
-        column;
+    flex-direction: column;
 
-    justify-content:
-        space-between;
+    align-items: flex-start;
 
-    text-align:
-        left;
+    justify-content: center;
 
-    color:
-        var(--charcoal);
+    gap:
+        clamp(
+            6px,
+            1svh,
+            10px
+        );
+
+    text-align: left;
+
+    color: var(--charcoal);
 
     box-shadow:
 
@@ -2041,50 +1975,36 @@ a {
 
 .detail-card::before {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    inset:
-        5px;
+    inset: 5px;
 
     border:
         1px solid
         rgba(185,167,124,.18);
 
-    border-radius:
-        18px;
+    border-radius: 18px;
 
-    pointer-events:
-        none;
+    pointer-events: none;
 
 }
 
 
 .detail-card::after {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    width:
-        110px;
+    width: 110px;
+    height: 110px;
 
-    height:
-        110px;
+    right: -48px;
+    top: -60px;
 
-    right:
-        -48px;
-
-    top:
-        -60px;
-
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     background:
 
@@ -2100,19 +2020,16 @@ a {
 
         );
 
-    pointer-events:
-        none;
+    pointer-events: none;
 
 }
 
 
 .detail-card > * {
 
-    position:
-        relative;
+    position: relative;
 
-    z-index:
-        2;
+    z-index: 2;
 
 }
 
@@ -2137,16 +2054,16 @@ a {
 
     width:
         clamp(
-            37px,
-            5.4svh,
-            49px
+            38px,
+            5.5svh,
+            50px
         );
 
     height:
         clamp(
-            37px,
-            5.4svh,
-            49px
+            38px,
+            5.5svh,
+            50px
         );
 
     flex:
@@ -2156,20 +2073,15 @@ a {
         1px solid
         rgba(185,167,124,.55);
 
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     background:
-        rgba(255,255,255,.76);
+        rgba(255,255,255,.77);
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
-
-    justify-content:
-        center;
+    align-items: center;
+    justify-content: center;
 
     box-shadow:
 
@@ -2194,11 +2106,16 @@ a {
             31px
         );
 
-    line-height:
-        1;
+    line-height: 1;
 
-    color:
-        var(--sage);
+    color: var(--sage);
+
+}
+
+
+.detail-content {
+
+    width: 100%;
 
 }
 
@@ -2207,13 +2124,12 @@ a {
 
     margin-top:
         clamp(
-            5px,
-            1svh,
-            10px
+            3px,
+            .6svh,
+            6px
         );
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
     font-size:
         clamp(
@@ -2222,25 +2138,20 @@ a {
             9px
         );
 
-    letter-spacing:
-        .14em;
+    letter-spacing: .14em;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
 
 .detail-content p {
 
-    margin-top:
-        4px;
+    margin-top: 4px;
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
     font-size:
         clamp(
@@ -2249,71 +2160,9 @@ a {
             16px
         );
 
-    line-height:
-        1.18;
+    line-height: 1.18;
 
-    opacity:
-        .82;
-
-}
-
-
-.detail-open {
-
-    margin-top:
-        5px;
-
-    padding-top:
-        5px;
-
-    border-top:
-        1px solid
-        rgba(185,167,124,.24);
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
-
-    font-family:
-        var(--font-accent);
-
-    font-size:
-        clamp(
-            5.5px,
-            .9svh,
-            7px
-        );
-
-    letter-spacing:
-        .16em;
-
-    text-transform:
-        uppercase;
-
-    color:
-        var(--sage);
-
-    opacity:
-        .75;
-
-}
-
-
-.detail-open-arrow {
-
-    font-family:
-        var(--font-serif);
-
-    font-size:
-        15px;
-
-    line-height:
-        1;
+    opacity: .82;
 
 }
 
@@ -2324,8 +2173,7 @@ a {
 
 .closing-monogram {
 
-    font-family:
-        var(--font-script);
+    font-family: var(--font-script);
 
     font-size:
         clamp(
@@ -2334,25 +2182,21 @@ a {
             145px
         );
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
-    line-height:
-        1;
+    line-height: 1;
 
 }
 
 
 #mensajeCierre {
 
-    max-width:
-        530px;
+    max-width: 530px;
 
     margin:
         15px auto 0;
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
     font-size:
         clamp(
@@ -2361,48 +2205,70 @@ a {
             22px
         );
 
-    line-height:
-        1.42;
+    line-height: 1.42;
 
 }
 
 
 .closing-date {
 
-    margin-top:
-        23px;
+    margin-top: 23px;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
-    font-size:
-        9px;
+    font-size: 9px;
 
-    letter-spacing:
-        .27em;
+    letter-spacing: .27em;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
 
-.closing-actions {
+.final-whatsapp-link {
 
     margin-top:
-        27px;
+        clamp(
+            27px,
+            4svh,
+            39px
+        );
 
-    display:
-        flex;
+    padding:
+        7px 3px;
 
-    justify-content:
-        center;
+    border: 0;
 
-    flex-wrap:
-        wrap;
+    border-bottom:
+        1px solid
+        rgba(185,167,124,.52);
 
-    gap:
-        10px;
+    background: transparent;
+
+    color: var(--sage);
+
+    cursor: pointer;
+
+    font-family: var(--font-accent);
+
+    font-size: 8px;
+
+    letter-spacing: .22em;
+
+    text-transform: uppercase;
+
+    transition:
+        opacity .25s ease,
+        border-color .25s ease;
+
+}
+
+
+.final-whatsapp-link:hover {
+
+    opacity: .72;
+
+    border-color: var(--sage);
 
 }
 
@@ -2413,59 +2279,45 @@ a {
 
 #sceneDots {
 
-    position:
-        fixed;
+    position: fixed;
 
-    right:
-        15px;
+    right: 15px;
 
-    top:
-        50%;
+    top: 50%;
 
-    z-index:
-        900;
+    z-index: 900;
 
     transform:
         translateY(-50%);
 
-    display:
-        flex;
+    display: flex;
 
-    flex-direction:
-        column;
+    flex-direction: column;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        14px;
+    gap: 14px;
 
 }
 
 
 .scene-dot {
 
-    width:
-        9px;
+    width: 9px;
+    height: 9px;
 
-    height:
-        9px;
-
-    padding:
-        0;
+    padding: 0;
 
     border:
         1px solid
         rgba(91,99,69,.42);
 
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     background:
         rgba(248,245,239,.80);
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
     transition:
         transform .3s ease,
@@ -2477,17 +2329,12 @@ a {
 
 .scene-dot.active {
 
-    width:
-        12px;
+    width: 12px;
+    height: 12px;
 
-    height:
-        12px;
+    background: var(--sage);
 
-    background:
-        var(--sage);
-
-    border-color:
-        var(--sage);
+    border-color: var(--sage);
 
     box-shadow:
         0 0 0 4px
@@ -2511,11 +2358,9 @@ a {
 #sceneDots.hero-mode
 .scene-dot.active {
 
-    background:
-        white;
+    background: white;
 
-    border-color:
-        white;
+    border-color: white;
 
     box-shadow:
         0 0 0 4px
@@ -2530,26 +2375,18 @@ a {
 
 .modal-overlay {
 
-    position:
-        fixed;
+    position: fixed;
 
-    inset:
-        0;
+    inset: 0;
 
-    z-index:
-        15000;
+    z-index: 15000;
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
+    justify-content: center;
 
-    justify-content:
-        center;
-
-    padding:
-        18px;
+    padding: 18px;
 
     background:
         rgba(34,35,28,.58);
@@ -2557,11 +2394,9 @@ a {
     backdrop-filter:
         blur(8px);
 
-    opacity:
-        0;
+    opacity: 0;
 
-    visibility:
-        hidden;
+    visibility: hidden;
 
     transition:
         opacity .35s ease,
@@ -2572,11 +2407,9 @@ a {
 
 .modal-overlay.open {
 
-    opacity:
-        1;
+    opacity: 1;
 
-    visibility:
-        visible;
+    visibility: visible;
 
 }
 
@@ -2586,20 +2419,16 @@ a {
     width:
         min(100%,560px);
 
-    max-height:
-        88svh;
+    max-height: 88svh;
 
-    overflow-y:
-        auto;
+    overflow-y: auto;
 
     padding:
         28px 23px;
 
-    border-radius:
-        27px;
+    border-radius: 27px;
 
-    background:
-        var(--cream);
+    background: var(--cream);
 
     box-shadow:
         0 30px 80px
@@ -2627,87 +2456,131 @@ a {
 
 .modal-header {
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        flex-start;
+    align-items: flex-start;
+    justify-content: space-between;
 
-    justify-content:
-        space-between;
+    gap: 20px;
 
-    gap:
-        20px;
-
-    margin-bottom:
-        22px;
+    margin-bottom: 22px;
 
 }
 
 
 .modal-title {
 
-    font-family:
-        var(--font-script);
+    font-family: var(--font-script);
 
-    font-size:
-        47px;
+    font-size: 47px;
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    line-height:
-        1;
+    line-height: 1;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
 
 .modal-close {
 
-    width:
-        36px;
+    width: 36px;
+    height: 36px;
 
-    height:
-        36px;
-
-    flex:
-        0 0 auto;
+    flex: 0 0 auto;
 
     border:
         1px solid
         var(--gold-line);
 
-    border-radius:
-        50%;
+    border-radius: 50%;
 
-    background:
-        transparent;
+    background: transparent;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
-    font-size:
-        21px;
+    font-size: 21px;
 
 }
 
 
 .modal-body {
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
-    font-size:
-        18px;
+    font-size: 18px;
 
-    line-height:
-        1.5;
+    line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+.whatsapp-intro {
+
+    text-align: center;
+
+    max-width: 390px;
+
+    margin:
+        0 auto 18px;
+
+}
+
+
+.whatsapp-qr-wrap {
+
+    width:
+        min(
+            100%,
+            310px
+        );
+
+    aspect-ratio: 1;
+
+    margin:
+        0 auto 21px;
+
+    padding: 14px;
+
+    border:
+        1px solid
+        rgba(185,167,124,.37);
+
+    border-radius: 22px;
+
+    background: white;
+
+    box-shadow:
+        0 15px 35px
+        rgba(63,57,46,.09);
+
+}
+
+
+.whatsapp-qr-image {
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    background: white;
+
+}
+
+
+.whatsapp-direct-btn {
+
+    width: 100%;
 
 }
 
@@ -2718,101 +2591,78 @@ a {
 
 .form-field {
 
-    margin-bottom:
-        21px;
+    margin-bottom: 21px;
 
 }
 
 
 .form-label {
 
-    display:
-        block;
+    display: block;
 
-    margin-bottom:
-        6px;
+    margin-bottom: 6px;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    letter-spacing:
-        .14em;
+    letter-spacing: .14em;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
 
 .form-input {
 
-    width:
-        100%;
+    width: 100%;
 
-    padding:
-        10px 0;
+    padding: 10px 0;
 
-    border:
-        none;
+    border: none;
 
     border-bottom:
         1px solid
         var(--sage);
 
-    outline:
-        none;
+    outline: none;
 
-    background:
-        transparent;
+    background: transparent;
 
-    color:
-        var(--charcoal);
+    color: var(--charcoal);
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
-    font-size:
-        18px;
+    font-size: 18px;
 
 }
 
 
 .radio-options {
 
-    display:
-        flex;
+    display: flex;
 
-    flex-wrap:
-        wrap;
+    flex-wrap: wrap;
 
     gap:
         11px 21px;
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
-    font-size:
-        17px;
+    font-size: 17px;
 
 }
 
 
 .radio-options label {
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        7px;
+    gap: 7px;
 
 }
 
@@ -2823,34 +2673,24 @@ a {
 
 #secretAdminBtn {
 
-    position:
-        fixed;
+    position: fixed;
 
-    right:
-        0;
+    right: 0;
+    bottom: 0;
 
-    bottom:
-        0;
+    z-index: 12000;
 
-    z-index:
-        12000;
-
-    width:
-        90px;
-
-    height:
-        90px;
+    width: 90px;
+    height: 90px;
 
 }
 
 
 #adminBar {
 
-    position:
-        fixed;
+    position: fixed;
 
-    left:
-        50%;
+    left: 50%;
 
     bottom:
         max(
@@ -2858,8 +2698,7 @@ a {
             env(safe-area-inset-bottom)
         );
 
-    z-index:
-        20000;
+    z-index: 20000;
 
     width:
         min(
@@ -2867,15 +2706,13 @@ a {
             820px
         );
 
-    padding:
-        8px;
+    padding: 8px;
 
     transform:
         translateX(-50%)
         translateY(150px);
 
-    border-radius:
-        100px;
+    border-radius: 100px;
 
     background:
         rgba(65,72,51,.96);
@@ -2887,20 +2724,15 @@ a {
         0 16px 55px
         rgba(0,0,0,.22);
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        6px;
+    gap: 6px;
 
-    overflow-x:
-        auto;
+    overflow-x: auto;
 
-    scrollbar-width:
-        none;
+    scrollbar-width: none;
 
     transition:
         transform .42s ease;
@@ -2910,8 +2742,7 @@ a {
 
 #adminBar::-webkit-scrollbar {
 
-    display:
-        none;
+    display: none;
 
 }
 
@@ -2927,14 +2758,11 @@ a {
 
 .admin-bar-btn {
 
-    flex:
-        0 0 auto;
+    flex: 0 0 auto;
 
-    border:
-        none;
+    border: none;
 
-    border-radius:
-        100px;
+    border-radius: 100px;
 
     padding:
         10px 12px;
@@ -2942,64 +2770,49 @@ a {
     background:
         rgba(255,255,255,.12);
 
-    color:
-        white;
+    color: white;
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    letter-spacing:
-        .08em;
+    letter-spacing: .08em;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
 }
 
 
 .admin-bar-btn.primary {
 
-    background:
-        white;
+    background: white;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
 
 /* =========================================================
-   PANEL CONFIGURADOR
+   CONFIGURADOR
 ========================================================= */
 
 #adminPanel {
 
-    position:
-        fixed;
+    position: fixed;
 
-    top:
-        0;
+    top: 0;
+    right: 0;
 
-    right:
-        0;
-
-    z-index:
-        21000;
+    z-index: 21000;
 
     width:
         min(92vw,430px);
 
-    height:
-        100%;
+    height: 100%;
 
-    overflow-y:
-        auto;
+    overflow-y: auto;
 
     padding:
 
@@ -3015,8 +2828,7 @@ a {
             env(safe-area-inset-bottom)
         );
 
-    background:
-        var(--cream);
+    background: var(--cream);
 
     box-shadow:
         -20px 0 70px
@@ -3042,31 +2854,23 @@ a {
 
 .admin-panel-header {
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
+    justify-content: space-between;
 
-    justify-content:
-        space-between;
-
-    margin-bottom:
-        24px;
+    margin-bottom: 24px;
 
 }
 
 
 .admin-panel-title {
 
-    font-family:
-        var(--font-script);
+    font-family: var(--font-script);
 
-    font-size:
-        46px;
+    font-size: 46px;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
@@ -3085,34 +2889,26 @@ a {
 
 .admin-section-title {
 
-    margin-bottom:
-        14px;
+    margin-bottom: 14px;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
-    font-size:
-        9px;
+    font-size: 9px;
 
-    letter-spacing:
-        .18em;
+    letter-spacing: .18em;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
 
 .admin-action {
 
-    width:
-        100%;
+    width: 100%;
 
-    margin-bottom:
-        8px;
+    margin-bottom: 8px;
 
     padding:
         11px 13px;
@@ -3121,20 +2917,15 @@ a {
         1px solid
         var(--gold-line);
 
-    border-radius:
-        12px;
+    border-radius: 12px;
 
-    background:
-        white;
+    background: white;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
-    text-align:
-        left;
+    text-align: left;
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
 }
 
@@ -3142,11 +2933,9 @@ a {
 .admin-input,
 .admin-select {
 
-    width:
-        100%;
+    width: 100%;
 
-    margin-bottom:
-        12px;
+    margin-bottom: 12px;
 
     padding:
         10px 12px;
@@ -3155,80 +2944,59 @@ a {
         1px solid
         var(--gold-line);
 
-    border-radius:
-        10px;
+    border-radius: 10px;
 
-    background:
-        white;
+    background: white;
 
-    color:
-        var(--charcoal);
+    color: var(--charcoal);
 
-    outline:
-        none;
+    outline: none;
 
 }
 
 
 .admin-small-label {
 
-    display:
-        block;
+    display: block;
 
-    margin-bottom:
-        6px;
+    margin-bottom: 6px;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    letter-spacing:
-        .12em;
+    letter-spacing: .12em;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
 }
 
 
 .admin-toggle {
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
+    justify-content: space-between;
 
-    justify-content:
-        space-between;
+    gap: 20px;
 
-    gap:
-        20px;
+    padding: 9px 0;
 
-    padding:
-        9px 0;
+    font-family: var(--font-serif);
 
-    font-family:
-        var(--font-serif);
-
-    font-size:
-        17px;
+    font-size: 17px;
 
 }
 
 
 .admin-range {
 
-    width:
-        100%;
+    width: 100%;
 
-    accent-color:
-        var(--sage);
+    accent-color: var(--sage);
 
 }
 
@@ -3238,61 +3006,48 @@ a {
     margin:
         3px 0 13px;
 
-    font-family:
-        var(--font-accent);
+    font-family: var(--font-accent);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    letter-spacing:
-        .11em;
+    letter-spacing: .11em;
 
-    color:
-        var(--sage);
+    color: var(--sage);
 
-    opacity:
-        .75;
+    opacity: .75;
 
 }
 
 
 .admin-hint {
 
-    margin-top:
-        8px;
+    margin-top: 8px;
 
-    font-family:
-        var(--font-serif);
+    font-family: var(--font-serif);
 
-    font-size:
-        15px;
+    font-size: 15px;
 
-    line-height:
-        1.42;
+    line-height: 1.42;
 
-    opacity:
-        .72;
+    opacity: .72;
 
 }
 
 
 /* =========================================================
-   PREVIEW DE ENCUADRE
+   PREVIEW ENCUADRE
 ========================================================= */
 
 .admin-image-preview-shell {
 
-    width:
-        100%;
+    width: 100%;
 
-    height:
-        215px;
+    height: 215px;
 
     margin:
         6px 0 17px;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     border:
         1px solid
@@ -3304,8 +3059,7 @@ a {
         18px
         18px;
 
-    background:
-        var(--cream-dark);
+    background: var(--cream-dark);
 
     box-shadow:
         0 12px 28px
@@ -3316,17 +3070,12 @@ a {
 
 #adminImagePreview {
 
-    display:
-        block;
+    display: block;
 
-    width:
-        100%;
+    width: 100%;
+    height: 100%;
 
-    height:
-        100%;
-
-    object-fit:
-        cover;
+    object-fit: cover;
 
     object-position:
         center center;
@@ -3345,8 +3094,7 @@ body.admin-editing
         1px dashed
         rgba(91,99,69,.55);
 
-    outline-offset:
-        4px;
+    outline-offset: 4px;
 
 }
 
@@ -3358,11 +3106,9 @@ body.admin-editing
         2px dashed
         rgba(185,167,124,.9);
 
-    outline-offset:
-        -5px;
+    outline-offset: -5px;
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
 }
 
@@ -3375,52 +3121,40 @@ body.admin-editing
 
     .scene-inner {
 
-        padding-left:
-            16px;
-
-        padding-right:
-            16px;
+        padding-left: 16px;
+        padding-right: 16px;
 
     }
 
 
     #sceneDots {
 
-        right:
-            8px;
+        right: 8px;
 
-        gap:
-            12px;
+        gap: 12px;
 
     }
 
 
     .scene-dot {
 
-        width:
-            8px;
-
-        height:
-            8px;
+        width: 8px;
+        height: 8px;
 
     }
 
 
     .scene-dot.active {
 
-        width:
-            11px;
-
-        height:
-            11px;
+        width: 11px;
+        height: 11px;
 
     }
 
 
     .detail-grid {
 
-        max-width:
-            460px;
+        max-width: 460px;
 
     }
 
@@ -3430,8 +3164,7 @@ body.admin-editing
         padding:
             9px 9px;
 
-        font-size:
-            7px;
+        font-size: 7px;
 
     }
 
@@ -3446,11 +3179,8 @@ body.admin-editing
 
     .scene-inner {
 
-        padding-top:
-            37px;
-
-        padding-bottom:
-            44px;
+        padding-top: 37px;
+        padding-bottom: 44px;
 
     }
 
@@ -3464,27 +3194,23 @@ body.admin-editing
                 55px
             );
 
-        margin-bottom:
-            6px;
+        margin-bottom: 6px;
 
     }
 
 
     .scene-description {
 
-        font-size:
-            15px;
+        font-size: 15px;
 
-        margin-bottom:
-            9px;
+        margin-bottom: 9px;
 
     }
 
 
     .date-reveal-grid {
 
-        max-width:
-            430px;
+        max-width: 430px;
 
         margin:
             7px 0 11px;
@@ -3494,11 +3220,9 @@ body.admin-editing
 
     .countdown-title {
 
-        font-size:
-            30px;
+        font-size: 30px;
 
-        margin-bottom:
-            3px;
+        margin-bottom: 3px;
 
     }
 
@@ -3519,6 +3243,14 @@ body.admin-editing
     }
 
 
+    .place-tab {
+
+        padding:
+            8px 10px;
+
+    }
+
+
     .place-photo {
 
         height:
@@ -3532,8 +3264,7 @@ body.admin-editing
 
     .place-card {
 
-        margin-top:
-            -27px;
+        margin-top: -27px;
 
         padding:
             11px 15px;
@@ -3543,22 +3274,18 @@ body.admin-editing
 
     .place-card h2 {
 
-        font-size:
-            35px;
+        font-size: 35px;
 
     }
 
 
     .place-card p {
 
-        margin-top:
-            3px;
+        margin-top: 3px;
 
-        font-size:
-            13px;
+        font-size: 13px;
 
-        line-height:
-            1.18;
+        line-height: 1.18;
 
     }
 
@@ -3571,8 +3298,7 @@ body.admin-editing
         padding:
             8px 14px;
 
-        font-size:
-            7px;
+        font-size: 7px;
 
     }
 
@@ -3590,27 +3316,23 @@ body.admin-editing
 
     .gallery-controls {
 
-        margin-top:
-            6px;
+        margin-top: 6px;
 
     }
 
 
     .detail-grid {
 
-        height:
-            59svh;
+        height: 59svh;
 
-        gap:
-            6px;
+        gap: 6px;
 
     }
 
 
     .detail-card {
 
-        border-radius:
-            18px;
+        border-radius: 18px;
 
         padding:
             9px 11px;
@@ -3620,104 +3342,74 @@ body.admin-editing
 
     .detail-card::before {
 
-        inset:
-            4px;
+        inset: 4px;
 
-        border-radius:
-            14px;
+        border-radius: 14px;
 
     }
 
 
     .detail-badge {
 
-        width:
-            34px;
-
-        height:
-            34px;
+        width: 34px;
+        height: 34px;
 
     }
 
 
     .detail-symbol {
 
-        font-size:
-            23px;
+        font-size: 23px;
 
     }
 
 
     .detail-content h3 {
 
-        margin-top:
-            4px;
+        margin-top: 3px;
 
-        font-size:
-            6.5px;
+        font-size: 6.5px;
 
     }
 
 
     .detail-content p {
 
-        margin-top:
-            2px;
+        margin-top: 2px;
 
-        font-size:
-            12px;
+        font-size: 12px;
 
-        line-height:
-            1.1;
-
-    }
-
-
-    .detail-open {
-
-        margin-top:
-            3px;
-
-        padding-top:
-            3px;
-
-        font-size:
-            5px;
+        line-height: 1.1;
 
     }
 
 
     .closing-monogram {
 
-        font-size:
-            90px;
+        font-size: 90px;
 
     }
 
 
     #mensajeCierre {
 
-        margin-top:
-            10px;
+        margin-top: 10px;
 
-        font-size:
-            17px;
+        font-size: 17px;
 
     }
 
 
     .closing-date {
 
-        margin-top:
-            17px;
+        margin-top: 17px;
 
     }
 
 
-    .closing-actions {
+    .final-whatsapp-link {
 
-        margin-top:
-            20px;
+        margin-top: 20px;
 
     }
 
@@ -3732,54 +3424,45 @@ body.admin-editing
 
     .scene-inner {
 
-        padding-top:
-            31px;
-
-        padding-bottom:
-            38px;
+        padding-top: 31px;
+        padding-bottom: 38px;
 
     }
 
 
     .scene-kicker {
 
-        font-size:
-            7px;
+        font-size: 7px;
 
-        margin-bottom:
-            4px;
+        margin-bottom: 4px;
 
     }
 
 
     .scene-title {
 
-        font-size:
-            38px;
+        font-size: 38px;
 
     }
 
 
     .place-photo {
 
-        height:
-            170px;
+        height: 170px;
 
     }
 
 
     .gallery-slide img {
 
-        height:
-            235px;
+        height: 235px;
 
     }
 
 
     .detail-grid {
 
-        height:
-            61svh;
+        height: 61svh;
 
     }
 
@@ -3901,6 +3584,7 @@ body.admin-editing
             Nos casamos
         </div>
 
+
         <h1
             id="heroNombres"
             class="reveal"
@@ -3908,6 +3592,7 @@ body.admin-editing
         >
             Ana y Carlos
         </h1>
+
 
         <p
             id="heroFecha"
@@ -4536,24 +4221,11 @@ body.admin-editing
 
                 </div>
 
-
-                <div class="detail-open">
-
-                    <span>
-                        Abrir
-                    </span>
-
-                    <span class="detail-open-arrow">
-                        ›
-                    </span>
-
-                </div>
-
             </button>
 
 
 
-            <!-- LISTA -->
+            <!-- LISTA BODA -->
 
             <button
                 id="giftCard"
@@ -4584,19 +4256,6 @@ body.admin-editing
                     <p>
                         Un detalle para nosotros
                     </p>
-
-                </div>
-
-
-                <div class="detail-open">
-
-                    <span>
-                        Abrir
-                    </span>
-
-                    <span class="detail-open-arrow">
-                        ›
-                    </span>
 
                 </div>
 
@@ -4635,19 +4294,6 @@ body.admin-editing
 
                 </div>
 
-
-                <div class="detail-open">
-
-                    <span>
-                        Abrir
-                    </span>
-
-                    <span class="detail-open-arrow">
-                        ›
-                    </span>
-
-                </div>
-
             </button>
 
 
@@ -4680,19 +4326,6 @@ body.admin-editing
                     <p>
                         ¿Qué canción no puede faltar?
                     </p>
-
-                </div>
-
-
-                <div class="detail-open">
-
-                    <span>
-                        Abrir
-                    </span>
-
-                    <span class="detail-open-arrow">
-                        ›
-                    </span>
 
                 </div>
 
@@ -4731,24 +4364,11 @@ body.admin-editing
 
                 </div>
 
-
-                <div class="detail-open">
-
-                    <span>
-                        Abrir
-                    </span>
-
-                    <span class="detail-open-arrow">
-                        ›
-                    </span>
-
-                </div>
-
             </button>
 
 
 
-            <!-- FOTOS -->
+            <!-- ÁLBUM GOOGLE -->
 
             <button
                 id="albumCard"
@@ -4776,19 +4396,6 @@ body.admin-editing
                     <p>
                         Compartid el día con nosotros
                     </p>
-
-                </div>
-
-
-                <div class="detail-open">
-
-                    <span>
-                        Abrir
-                    </span>
-
-                    <span class="detail-open-arrow">
-                        ›
-                    </span>
 
                 </div>
 
@@ -4840,26 +4447,14 @@ body.admin-editing
         </div>
 
 
-        <div class="closing-actions reveal">
-
-            <button
-                class="secondary-btn"
-                type="button"
-                onclick="previousScene()"
-            >
-                Ir a la anterior
-            </button>
-
-
-            <button
-                class="secondary-btn"
-                type="button"
-                onclick="goToScene('sceneHero')"
-            >
-                Volver al principio
-            </button>
-
-        </div>
+        <button
+            id="whatsappFinalLink"
+            class="final-whatsapp-link reveal"
+            type="button"
+            onclick="openWhatsappModal()"
+        >
+            Grupo de WhatsApp
+        </button>
 
     </div>
 
@@ -5328,6 +4923,78 @@ body.admin-editing
 
 
 <!-- =========================================================
+     WHATSAPP
+========================================================= -->
+
+<div
+    id="modalWhatsapp"
+    class="modal-overlay"
+>
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <h2 class="modal-title">
+                Grupo de WhatsApp
+            </h2>
+
+
+            <button
+                class="modal-close"
+                onclick="closeModal('modalWhatsapp')"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+
+            <p class="whatsapp-intro">
+
+                Si os apetece, podéis uniros al grupo de la boda
+                para compartir momentos, fotos y publicaciones
+                con nosotros.
+
+            </p>
+
+
+            <div
+                id="whatsappQrWrap"
+                class="whatsapp-qr-wrap"
+            >
+
+                <img
+                    id="whatsappQrImg"
+                    class="whatsapp-qr-image editable-media"
+                    alt="Código QR del grupo de WhatsApp"
+                >
+
+            </div>
+
+
+            <button
+                id="whatsappDirectBtn"
+                class="primary-btn whatsapp-direct-btn"
+                type="button"
+                onclick="openWhatsappGroup()"
+            >
+                Entrar al grupo
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
      ADMIN
 ========================================================= -->
 
@@ -5593,10 +5260,66 @@ body.admin-editing
 
         <p class="admin-hint">
 
-            El marco superior te enseña en directo qué zona
-            de la fotografía quedará visible. Para la iglesia,
-            mueve especialmente el control vertical hasta dejar
-            el edificio centrado.
+            La previsualización muestra la zona de fotografía
+            que queda dentro del marco.
+
+        </p>
+
+    </div>
+
+
+
+    <!-- WHATSAPP -->
+
+    <div class="admin-section">
+
+        <div class="admin-section-title">
+            Grupo de WhatsApp
+        </div>
+
+
+        <button
+            class="admin-action"
+            onclick="triggerMediaUpload('whatsappQrImg','image')"
+            type="button"
+        >
+            Subir / cambiar código QR
+        </button>
+
+
+        <label class="admin-small-label">
+            Enlace directo del grupo
+        </label>
+
+
+        <input
+            id="adminWhatsappUrl"
+            class="admin-input"
+            type="url"
+            placeholder="https://chat.whatsapp.com/..."
+        >
+
+
+        <label class="admin-toggle">
+
+            <span>
+                Mostrar acceso a WhatsApp
+            </span>
+
+
+            <input
+                id="toggleWhatsapp"
+                type="checkbox"
+            >
+
+        </label>
+
+
+        <p class="admin-hint">
+
+            El QR aparecerá únicamente al abrir el acceso desde
+            la pantalla final. En móvil podrán entrar directamente
+            mediante el botón.
 
         </p>
 
@@ -5842,7 +5565,7 @@ body.admin-editing
 ========================================================= */
 
 const SITE_VERSION =
-    "VERTICAL-FULLSCREEN-V2";
+    "FULLSCREEN-VERTICAL-V3";
 
 
 console.info(
@@ -5985,6 +5708,9 @@ let siteConfig = {
     albumUrl:
         "",
 
+    whatsappUrl:
+        "",
+
     showGallery:
         true,
 
@@ -6001,6 +5727,9 @@ let siteConfig = {
         true,
 
     showAlbum:
+        false,
+
+    showWhatsapp:
         false,
 
     imagePositions: {
@@ -6121,7 +5850,9 @@ const fotoIds = [
 
     "gallery3Img",
 
-    "bgImage"
+    "bgImage",
+
+    "whatsappQrImg"
 
 ];
 
@@ -6168,6 +5899,7 @@ function ensureImagePositionsDefaults() {
 }
 
 
+
 function getVisibleScenes() {
 
     return [
@@ -6189,12 +5921,53 @@ function getVisibleScenes() {
 }
 
 
+
 function getActiveScene() {
 
     return document
         .querySelector(
             ".scene.active"
         );
+
+}
+
+
+
+/*
+   Importante con Firebase Storage:
+
+   si sobrescribimos un archivo usando la misma ruta,
+   el navegador puede conservar la versión anterior.
+
+   Añadimos un parámetro temporal para forzar
+   la actualización visual.
+*/
+
+function addCacheBuster(
+    url
+) {
+
+    if (
+        !url
+    ) {
+
+        return url;
+
+    }
+
+
+    const separator =
+        url.includes("?")
+            ? "&"
+            : "?";
+
+
+    return (
+        url +
+        separator +
+        "v=" +
+        Date.now()
+    );
 
 }
 
@@ -6278,14 +6051,6 @@ function goToScene(
             ? "scene-leave-next"
             : "scene-leave-prev";
 
-
-    /*
-        Transición normal:
-        640ms.
-
-        Portada:
-        780ms.
-    */
 
     const duration =
 
@@ -6519,7 +6284,7 @@ function previousScene() {
 
 
 /* =========================================================
-   PUNTOS LATERALES
+   PUNTOS
 ========================================================= */
 
 function buildSceneDots() {
@@ -6651,7 +6416,7 @@ function updateSceneDots() {
 
 
 /* =========================================================
-   GESTOS VERTICALES
+   GESTOS
 ========================================================= */
 
 let touchStartX =
@@ -6769,15 +6534,6 @@ document
             }
 
 
-            /*
-                Si el gesto es más
-                horizontal que vertical,
-                lo ignoramos.
-
-                Así la galería puede seguir
-                manejándose independientemente.
-            */
-
             if (
 
                 Math.abs(dy) <
@@ -6796,13 +6552,9 @@ document
 
 
             /*
-                PORTADA
-
-                Deslizar arriba:
-                siguiente.
-
-                Tirón fuerte abajo:
-                recarga.
+               Portada:
+               arriba -> siguiente
+               tirón fuerte abajo -> refrescar
             */
 
             if (
@@ -6838,10 +6590,9 @@ document
 
 
             /*
-                En todas las demás:
-
-                arriba = siguiente
-                abajo = anterior
+               Resto:
+               swipe arriba = siguiente
+               swipe abajo = anterior
             */
 
             if (
@@ -7484,7 +7235,7 @@ function copiarIban() {
 
 
 /* =========================================================
-   ÁLBUM
+   ÁLBUM GOOGLE
 ========================================================= */
 
 function openAlbum() {
@@ -7519,6 +7270,102 @@ function openAlbum() {
 
         "noopener"
 
+    );
+
+}
+
+
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+function openWhatsappModal() {
+
+    updateWhatsappModal();
+
+
+    openModal(
+        "modalWhatsapp"
+    );
+
+}
+
+
+
+function updateWhatsappModal() {
+
+    const qr =
+        document
+            .getElementById(
+                "whatsappQrImg"
+            );
+
+
+    const qrWrap =
+        document
+            .getElementById(
+                "whatsappQrWrap"
+            );
+
+
+    const button =
+        document
+            .getElementById(
+                "whatsappDirectBtn"
+            );
+
+
+    const hasQr =
+        Boolean(
+            qr &&
+            qr.getAttribute(
+                "src"
+            )
+        );
+
+
+    qrWrap.style.display =
+        hasQr
+            ? ""
+            : "none";
+
+
+    button.style.display =
+        siteConfig.whatsappUrl
+            ? ""
+            : "none";
+
+}
+
+
+
+function openWhatsappGroup() {
+
+    if (
+        !siteConfig.whatsappUrl
+    ) {
+
+        if (
+            adminMode
+        ) {
+
+            alert(
+                "Añade el enlace del grupo de WhatsApp desde el configurador."
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    window.open(
+        siteConfig.whatsappUrl,
+        "_blank",
+        "noopener"
     );
 
 }
@@ -8049,7 +7896,7 @@ async function descargarCanciones() {
 
 
 /* =========================================================
-   ADMIN SECRETO
+   ADMIN
 ========================================================= */
 
 document
@@ -8244,15 +8091,24 @@ function activateMediaEditing() {
                                 .stopPropagation();
 
 
-                            document
-                                .getElementById(
-                                    "adminImageTarget"
-                                )
-                                .value =
-                                id;
+                            if (
+                                positionableImageIds
+                                    .includes(
+                                        id
+                                    )
+                            ) {
+
+                                document
+                                    .getElementById(
+                                        "adminImageTarget"
+                                    )
+                                    .value =
+                                    id;
 
 
-                            syncSelectedImagePositionControls();
+                                syncSelectedImagePositionControls();
+
+                            }
 
 
                             triggerMediaUpload(
@@ -8306,7 +8162,7 @@ function activateMediaEditing() {
 
 
 /* =========================================================
-   UPLOAD
+   SUBIDA
 ========================================================= */
 
 function triggerMediaUpload(
@@ -8398,9 +8254,20 @@ document
                     );
 
 
-                const url =
+                const rawUrl =
                     await ref
                         .getDownloadURL();
+
+
+                /*
+                   Fuerza al navegador a enseñar
+                   la nueva versión del archivo.
+                */
+
+                const url =
+                    addCacheBuster(
+                        rawUrl
+                    );
 
 
                 if (
@@ -8458,26 +8325,46 @@ document
 
 
                     if (
-
                         currentMediaId ===
                         "bgImage"
-
-                        &&
-
-                        element.complete
-
                     ) {
 
-                        element
-                            .classList
-                            .add(
-                                "loaded"
-                            );
+                        if (
+                            element.complete &&
+                            element.naturalWidth > 0
+                        ) {
+
+                            element
+                                .classList
+                                .add(
+                                    "loaded"
+                                );
+
+                        }
 
                     }
 
 
-                    syncSelectedImagePositionControls();
+                    if (
+                        currentMediaId ===
+                        "whatsappQrImg"
+                    ) {
+
+                        updateWhatsappModal();
+
+                    }
+
+
+                    if (
+                        positionableImageIds
+                            .includes(
+                                currentMediaId
+                            )
+                    ) {
+
+                        syncSelectedImagePositionControls();
+
+                    }
 
                 }
 
@@ -8981,7 +8868,7 @@ function closeAdminPanel() {
 
 
 /* =========================================================
-   CONFIG PANEL
+   CONFIG
 ========================================================= */
 
 function loadConfigIntoPanel() {
@@ -9035,6 +8922,19 @@ function loadConfigIntoPanel() {
         .value =
         siteConfig
             .albumUrl
+
+        ||
+
+        "";
+
+
+    document
+        .getElementById(
+            "adminWhatsappUrl"
+        )
+        .value =
+        siteConfig
+            .whatsappUrl
 
         ||
 
@@ -9101,6 +9001,16 @@ function loadConfigIntoPanel() {
         true;
 
 
+    document
+        .getElementById(
+            "toggleWhatsapp"
+        )
+        .checked =
+        siteConfig
+            .showWhatsapp ===
+        true;
+
+
     syncSelectedImagePositionControls();
 
 }
@@ -9151,6 +9061,17 @@ function readConfigFromPanel() {
         document
             .getElementById(
                 "adminAlbumUrl"
+            )
+            .value
+            .trim();
+
+
+    siteConfig
+        .whatsappUrl =
+
+        document
+            .getElementById(
+                "adminWhatsappUrl"
             )
             .value
             .trim();
@@ -9212,6 +9133,16 @@ function readConfigFromPanel() {
         document
             .getElementById(
                 "toggleAlbum"
+            )
+            .checked;
+
+
+    siteConfig
+        .showWhatsapp =
+
+        document
+            .getElementById(
+                "toggleWhatsapp"
             )
             .checked;
 
@@ -9332,6 +9263,22 @@ function applyConfig() {
         : "none";
 
 
+    document
+        .getElementById(
+            "whatsappFinalLink"
+        )
+        .style
+        .display =
+
+        siteConfig
+            .showWhatsapp ===
+        true
+
+        ? ""
+
+        : "none";
+
+
     currentWeddingDate =
         siteConfig
             .weddingDate
@@ -9342,6 +9289,9 @@ function applyConfig() {
 
 
     applyImagePositions();
+
+
+    updateWhatsappModal();
 
 
     actualizarCuentaAtras();
@@ -9369,7 +9319,9 @@ function applyConfig() {
 
     "toggleTips",
 
-    "toggleAlbum"
+    "toggleAlbum",
+
+    "toggleWhatsapp"
 
 ]
 .forEach(
@@ -9390,7 +9342,7 @@ function applyConfig() {
 
 
 /* =========================================================
-   PREVIEW ADMIN
+   PREVIEW
 ========================================================= */
 
 function togglePreview() {
@@ -9511,7 +9463,9 @@ document
 
                             if (
                                 element &&
-                                element.src
+                                element.getAttribute(
+                                    "src"
+                                )
                             ) {
 
                                 data[id] =
@@ -9580,7 +9534,7 @@ document
 
 
 /* =========================================================
-   PRELOAD IMÁGENES
+   PRELOAD
 ========================================================= */
 
 function preloadImage(
@@ -9624,7 +9578,7 @@ function preloadImage(
 
 
 /* =========================================================
-   ESPERAR VIDEO
+   VIDEO READY
 ========================================================= */
 
 function waitForVideo(
@@ -9917,7 +9871,7 @@ async function loadSavedContent() {
 
 
 
-        /* GALERÍA COMPATIBILIDAD */
+        /* GALERÍA LEGACY */
 
         if (
             !data.gallery1Img &&
@@ -10095,6 +10049,9 @@ window
 
 
                 actualizarCuentaAtras();
+
+
+                updateWhatsappModal();
 
             }
 
