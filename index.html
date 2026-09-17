@@ -85,7 +85,6 @@ a {
 
 /* =========================================================
    FONDO GLOBAL
-   CORREGIDO: ahora sí queda visible detrás de la invitación
 ========================================================= */
 
 #bgImage {
@@ -112,7 +111,7 @@ a {
 
 
 /* =========================================================
-   LOADING A & C
+   LOADING
 ========================================================= */
 
 #loadingOverlay {
@@ -203,17 +202,12 @@ a {
 
     overflow: hidden;
 
-    /*
-       Antes el fondo crema tapaba prácticamente
-       por completo la imagen general.
-    */
     background: rgba(248,245,239,.64);
 }
 
 
 /* =========================================================
    ESCENAS
-   Transición más delicada: fundido + movimiento mínimo
 ========================================================= */
 
 .scene {
@@ -233,16 +227,11 @@ a {
     opacity: 0;
     visibility: hidden;
 
-    transform:
-        scale(1.008)
-        translateX(7px);
-
-    transition:
-        opacity .95s cubic-bezier(.22,.8,.31,1),
-        transform .95s cubic-bezier(.22,.8,.31,1),
-        visibility 0s linear .95s;
-
     pointer-events: none;
+
+    transform: translateX(0);
+
+    --scene-duration: 850ms;
 }
 
 .scene.active {
@@ -251,38 +240,184 @@ a {
     opacity: 1;
     visibility: visible;
 
-    transform:
-        scale(1)
-        translateX(0);
-
-    transition:
-        opacity .95s cubic-bezier(.22,.8,.31,1),
-        transform .95s cubic-bezier(.22,.8,.31,1),
-        visibility 0s;
-
     pointer-events: auto;
+
+    transform: translateX(0);
 }
 
 
-/*
-   La transición del vídeo es aún más lenta
-   para que no parezca que "corta".
-*/
+/* =========================================================
+   TRANSICIONES EDITORIALES
+========================================================= */
 
-#sceneHero {
-    background: #181914;
+.scene.scene-enter-forward,
+.scene.scene-enter-backward,
+.scene.scene-leave-forward,
+.scene.scene-leave-backward {
+    visibility: visible;
 
-    transition:
-        opacity 1.25s cubic-bezier(.22,.8,.31,1),
-        transform 1.25s cubic-bezier(.22,.8,.31,1),
-        visibility 0s linear 1.25s;
+    will-change:
+        transform,
+        opacity,
+        filter;
 }
 
-#sceneHero.active {
-    transition:
-        opacity 1.25s cubic-bezier(.22,.8,.31,1),
-        transform 1.25s cubic-bezier(.22,.8,.31,1),
-        visibility 0s;
+
+/* AVANZAR */
+
+.scene.scene-enter-forward {
+    z-index: 3;
+
+    animation:
+        sceneEnterForward
+        var(--scene-duration)
+        cubic-bezier(.22,.76,.28,1)
+        both;
+}
+
+.scene.scene-leave-forward {
+    z-index: 2;
+
+    pointer-events: none;
+
+    animation:
+        sceneLeaveForward
+        var(--scene-duration)
+        cubic-bezier(.22,.76,.28,1)
+        both;
+}
+
+
+/* RETROCEDER */
+
+.scene.scene-enter-backward {
+    z-index: 3;
+
+    animation:
+        sceneEnterBackward
+        var(--scene-duration)
+        cubic-bezier(.22,.76,.28,1)
+        both;
+}
+
+.scene.scene-leave-backward {
+    z-index: 2;
+
+    pointer-events: none;
+
+    animation:
+        sceneLeaveBackward
+        var(--scene-duration)
+        cubic-bezier(.22,.76,.28,1)
+        both;
+}
+
+
+@keyframes sceneEnterForward {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateX(28px)
+            scale(.996);
+
+        filter: blur(1.2px);
+    }
+
+    45% {
+        opacity: .78;
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            scale(1);
+
+        filter: blur(0);
+    }
+
+}
+
+
+@keyframes sceneLeaveForward {
+
+    from {
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            scale(1);
+
+        filter: blur(0);
+    }
+
+    to {
+        opacity: 0;
+
+        transform:
+            translateX(-18px)
+            scale(.996);
+
+        filter: blur(.8px);
+    }
+
+}
+
+
+@keyframes sceneEnterBackward {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateX(-28px)
+            scale(.996);
+
+        filter: blur(1.2px);
+    }
+
+    45% {
+        opacity: .78;
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            scale(1);
+
+        filter: blur(0);
+    }
+
+}
+
+
+@keyframes sceneLeaveBackward {
+
+    from {
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            scale(1);
+
+        filter: blur(0);
+    }
+
+    to {
+        opacity: 0;
+
+        transform:
+            translateX(18px)
+            scale(.996);
+
+        filter: blur(.8px);
+    }
+
 }
 
 
@@ -387,8 +522,12 @@ a {
 
 
 /* =========================================================
-   PORTADA VIDEO
+   PORTADA
 ========================================================= */
+
+#sceneHero {
+    background: #181914;
+}
 
 .hero-media {
     position: absolute;
@@ -585,9 +724,9 @@ a {
 .secondary-btn {
     border: 1px solid var(--gold-line);
 
-    background: rgba(255,255,255,.52);
+    background: rgba(255,255,255,.60);
 
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
 
     color: var(--sage);
 
@@ -595,15 +734,21 @@ a {
 
     font-size: 9px;
 
+    font-weight: 500;
+
     letter-spacing: .14em;
 
     text-transform: uppercase;
+
+    box-shadow:
+        0 10px 28px rgba(72,66,53,.07),
+        inset 0 1px 0 rgba(255,255,255,.8);
 }
 
 .primary-btn:hover,
 .secondary-btn:hover {
     box-shadow:
-        0 9px 24px rgba(70,65,52,.09);
+        0 13px 30px rgba(70,65,52,.11);
 }
 
 .primary-btn:active,
@@ -790,12 +935,11 @@ a {
 
 
 /* =========================================================
-   NAVEGACIÓN ENTRE ESCENAS
-   Sustituimos círculos con flechas por botones más editoriales
+   NAVEGACIÓN
 ========================================================= */
 
 .scene-navigation {
-    margin-top: 36px;
+    margin-top: 38px;
 
     display: flex;
 
@@ -804,22 +948,27 @@ a {
 
     flex-wrap: wrap;
 
-    gap: 10px;
+    gap: 12px;
 }
 
 .scene-nav-button {
-    min-width: 118px;
+    min-width: 135px;
 
-    border: 1px solid rgba(185,167,124,.48);
+    padding: 14px 24px;
+
+    border:
+        1px solid rgba(185,167,124,.52);
 
     border-radius: 999px;
 
-    padding: 12px 19px;
-
     background:
-        rgba(255,255,255,.52);
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.90) 0%,
+            rgba(246,242,234,.76) 100%
+        );
 
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
 
     color: var(--sage);
 
@@ -827,31 +976,48 @@ a {
 
     font-family: var(--font-accent);
 
-    font-size: 8px;
+    font-size: 10px;
+
+    font-weight: 500;
 
     letter-spacing: .17em;
 
     text-transform: uppercase;
 
     box-shadow:
-        0 8px 25px rgba(65,60,48,.05);
+        0 10px 28px rgba(72,66,53,.08),
+        inset 0 1px 0 rgba(255,255,255,.85);
 
     transition:
-        transform .25s ease,
-        background .25s ease,
-        box-shadow .25s ease;
+        transform .3s ease,
+        background .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
 }
 
 .scene-nav-button:hover {
     background:
-        rgba(255,255,255,.78);
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.98) 0%,
+            rgba(244,239,229,.88) 100%
+        );
+
+    border-color:
+        rgba(185,167,124,.72);
 
     box-shadow:
-        0 12px 30px rgba(65,60,48,.10);
+        0 14px 34px rgba(72,66,53,.12),
+        inset 0 1px 0 rgba(255,255,255,.95);
+
+    transform:
+        translateY(-2px);
 }
 
 .scene-nav-button:active {
-    transform: scale(.97);
+    transform:
+        translateY(0)
+        scale(.98);
 }
 
 
@@ -956,6 +1122,22 @@ a {
     box-shadow:
         0 20px 45px rgba(58,52,43,.12);
 }
+
+
+/* =========================================================
+   AJUSTE ESPECÍFICO IGLESIA
+========================================================= */
+
+#placeCeremonia .place-photo {
+    height: min(54vh, 500px);
+
+    object-position: center center;
+}
+
+#placeCeremonia .place-card {
+    margin-top: -34px;
+}
+
 
 .place-card h3 {
     font-family: var(--font-accent);
@@ -1063,15 +1245,13 @@ a {
     border-radius: 14px;
 
     background:
-        rgba(255,255,255,.50);
+        rgba(255,255,255,.55);
 
     color: var(--sage);
 
     cursor: pointer;
 
     font-size: 19px;
-
-    line-height: 1;
 
     transition:
         background .25s ease,
@@ -1080,7 +1260,7 @@ a {
 
 .gallery-arrow:hover {
     background:
-        rgba(255,255,255,.78);
+        rgba(255,255,255,.8);
 }
 
 .gallery-arrow:active {
@@ -1138,20 +1318,29 @@ a {
 }
 
 .detail-card {
+    position: relative;
+
     min-height: 165px;
 
-    padding: 22px 17px;
+    padding: 23px 18px;
+
+    overflow: hidden;
 
     border:
-        1px solid var(--gold-line);
+        1px solid rgba(185,167,124,.40);
 
-    border-radius: 23px;
+    border-radius: 24px;
 
     background:
-        rgba(255,255,255,.50);
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.78) 0%,
+            rgba(248,245,239,.62) 55%,
+            rgba(240,235,225,.52) 100%
+        );
 
     backdrop-filter:
-        blur(10px);
+        blur(12px);
 
     cursor: pointer;
 
@@ -1165,24 +1354,88 @@ a {
 
     color: var(--charcoal);
 
+    box-shadow:
+        0 14px 38px rgba(63,57,46,.09),
+        0 3px 8px rgba(63,57,46,.04),
+        inset 0 1px 0 rgba(255,255,255,.90);
+
     transition:
-        transform .3s ease,
-        box-shadow .3s ease;
+        transform .38s cubic-bezier(.22,.8,.31,1),
+        box-shadow .38s ease,
+        border-color .38s ease;
+}
+
+.detail-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 5px;
+
+    border:
+        1px solid rgba(185,167,124,.13);
+
+    border-radius: 19px;
+
+    pointer-events: none;
+}
+
+.detail-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    top: -65px;
+    right: -55px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.72) 0%,
+            rgba(255,255,255,0) 70%
+        );
+
+    pointer-events: none;
+}
+
+.detail-card > * {
+    position: relative;
+
+    z-index: 2;
 }
 
 .detail-card:hover {
     transform:
-        translateY(-4px);
+        translateY(-5px);
+
+    border-color:
+        rgba(185,167,124,.58);
 
     box-shadow:
-        0 15px 35px
-        rgba(60,54,45,.08);
+        0 20px 45px rgba(63,57,46,.13),
+        0 5px 12px rgba(63,57,46,.05),
+        inset 0 1px 0 rgba(255,255,255,.96);
+}
+
+.detail-card:active {
+    transform:
+        translateY(-1px)
+        scale(.99);
+
+    box-shadow:
+        0 9px 24px rgba(63,57,46,.10),
+        inset 0 1px 0 rgba(255,255,255,.90);
 }
 
 .detail-symbol {
     font-family: var(--font-script);
 
-    font-size: 38px;
+    font-size: 40px;
 
     color: var(--sage);
 
@@ -1263,13 +1516,12 @@ a {
 
     flex-wrap: wrap;
 
-    gap: 10px;
+    gap: 12px;
 }
 
 
 /* =========================================================
-   PUNTOS DE NAVEGACIÓN
-   Ya no hay "rayita" activa. Todos son círculos elegantes.
+   INDICADORES LATERALES
 ========================================================= */
 
 #sceneDots {
@@ -1327,15 +1579,10 @@ a {
 
     border-color: var(--sage);
 
-    transform: scale(1);
-
     box-shadow:
         0 0 0 5px
         rgba(91,99,69,.12);
 }
-
-
-/* Indicadores claros encima del vídeo */
 
 #sceneDots.hero-mode .scene-dot {
     border-color:
@@ -1541,7 +1788,7 @@ a {
 
 
 /* =========================================================
-   ADMINISTRACIÓN
+   ADMIN
 ========================================================= */
 
 #secretAdminBtn {
@@ -1642,7 +1889,9 @@ a {
 }
 
 
-/* ADMIN DRAWER */
+/* =========================================================
+   ADMIN PANEL
+========================================================= */
 
 #adminPanel {
     position: fixed;
@@ -1831,17 +2080,25 @@ body.admin-editing .editable-media {
             calc(100% - 20px);
     }
 
+    #placeCeremonia .place-photo {
+        height: min(52vh, 470px);
+    }
+
+    #placeCeremonia .place-card {
+        margin-top: -26px;
+    }
+
     #sceneDots {
         right: 10px;
     }
 
     .scene-nav-button {
-        min-width: 105px;
+        min-width: 120px;
 
         padding:
-            11px 15px;
+            13px 18px;
 
-        font-size: 7px;
+        font-size: 9px;
     }
 
     .admin-bar-btn {
@@ -1901,20 +2158,11 @@ body.admin-editing .editable-media {
 
 </head>
 
-
 <body>
 
 
-<!-- =========================================================
-     FONDO GLOBAL
-========================================================= -->
-
 <img id="bgImage" alt="" aria-hidden="true">
 
-
-<!-- =========================================================
-     LOADING
-========================================================= -->
 
 <div id="loadingOverlay">
 
@@ -1936,15 +2184,11 @@ body.admin-editing .editable-media {
 
 
 
-<!-- =========================================================
-     EXPERIENCIA
-========================================================= -->
-
 <main id="experience">
 
 
 <!-- =========================================================
-     ESCENA 1 · PORTADA
+     1 · PORTADA
 ========================================================= -->
 
 <section
@@ -2001,9 +2245,8 @@ body.admin-editing .editable-media {
             19 de junio de 2027 · Madrid
         </p>
 
-        <div
-            class="hero-enter reveal hero-scroll-hint"
-        >
+
+        <div class="hero-enter reveal hero-scroll-hint">
 
             <span>
                 Desliza para descubrir
@@ -2022,7 +2265,7 @@ body.admin-editing .editable-media {
 
 
 <!-- =========================================================
-     ESCENA 2 · FECHA
+     2 · FECHA
 ========================================================= -->
 
 <section
@@ -2057,10 +2300,7 @@ body.admin-editing .editable-media {
 
         <div class="date-reveal-grid reveal">
 
-            <button
-                class="date-disc"
-                type="button"
-            >
+            <button class="date-disc" type="button">
 
                 <span class="date-disc-label">
                     Día
@@ -2076,10 +2316,7 @@ body.admin-editing .editable-media {
             </button>
 
 
-            <button
-                class="date-disc"
-                type="button"
-            >
+            <button class="date-disc" type="button">
 
                 <span class="date-disc-label">
                     Mes
@@ -2095,10 +2332,7 @@ body.admin-editing .editable-media {
             </button>
 
 
-            <button
-                class="date-disc"
-                type="button"
-            >
+            <button class="date-disc" type="button">
 
                 <span class="date-disc-label">
                     Año
@@ -2217,7 +2451,7 @@ body.admin-editing .editable-media {
 
 
 <!-- =========================================================
-     ESCENA 3 · CEREMONIA / BANQUETE
+     3 · CEREMONIA / CELEBRACIÓN
 ========================================================= -->
 
 <section
@@ -2261,8 +2495,6 @@ body.admin-editing .editable-media {
 
         </div>
 
-
-        <!-- CEREMONIA -->
 
         <div
             id="placeCeremonia"
@@ -2323,7 +2555,6 @@ body.admin-editing .editable-media {
         </div>
 
 
-        <!-- BANQUETE -->
 
         <div
             id="placeBanquete"
@@ -2409,7 +2640,7 @@ body.admin-editing .editable-media {
 
 
 <!-- =========================================================
-     ESCENA 4 · GALERÍA
+     4 · GALERÍA
 ========================================================= -->
 
 <section
@@ -2497,7 +2728,6 @@ body.admin-editing .editable-media {
                 class="gallery-arrow"
                 type="button"
                 onclick="previousGallerySlide()"
-                aria-label="Foto anterior"
             >
                 ‹
             </button>
@@ -2524,7 +2754,6 @@ body.admin-editing .editable-media {
                 class="gallery-arrow"
                 type="button"
                 onclick="nextGallerySlide()"
-                aria-label="Foto siguiente"
             >
                 ›
             </button>
@@ -2557,7 +2786,7 @@ body.admin-editing .editable-media {
 
 
 <!-- =========================================================
-     ESCENA 5 · DETALLES
+     5 · DETALLES
 ========================================================= -->
 
 <section
@@ -2583,8 +2812,6 @@ body.admin-editing .editable-media {
 
         <div class="detail-grid reveal">
 
-
-            <!-- RSVP -->
 
             <button
                 class="detail-card"
@@ -2618,8 +2845,6 @@ body.admin-editing .editable-media {
 
 
 
-            <!-- REGALOS -->
-
             <button
                 id="giftCard"
                 class="detail-card"
@@ -2650,8 +2875,6 @@ body.admin-editing .editable-media {
 
 
 
-            <!-- DRESS CODE -->
-
             <button
                 id="dressCard"
                 class="detail-card"
@@ -2678,8 +2901,6 @@ body.admin-editing .editable-media {
             </button>
 
 
-
-            <!-- MÚSICA -->
 
             <button
                 id="songCard"
@@ -2708,8 +2929,6 @@ body.admin-editing .editable-media {
 
 
 
-            <!-- INFORMACIÓN -->
-
             <button
                 id="tipsCard"
                 class="detail-card"
@@ -2737,8 +2956,6 @@ body.admin-editing .editable-media {
 
 
 
-            <!-- FOTOS INVITADOS -->
-
             <button
                 id="albumCard"
                 class="detail-card"
@@ -2763,7 +2980,6 @@ body.admin-editing .editable-media {
                 </div>
 
             </button>
-
 
         </div>
 
@@ -2793,7 +3009,7 @@ body.admin-editing .editable-media {
 
 
 <!-- =========================================================
-     ESCENA 6 · FINAL
+     6 · FINAL
 ========================================================= -->
 
 <section
@@ -2854,16 +3070,12 @@ body.admin-editing .editable-media {
 
 
 
-<!-- =========================================================
-     INDICADORES LATERALES
-========================================================= -->
-
 <div id="sceneDots"></div>
 
 
 
 <!-- =========================================================
-     MODAL RSVP
+     RSVP
 ========================================================= -->
 
 <div
@@ -2960,8 +3172,6 @@ body.admin-editing .editable-media {
             </div>
 
 
-            <!-- NUEVO CAMPO MENÚ -->
-
             <div class="form-field">
 
                 <label class="form-label">
@@ -3032,7 +3242,7 @@ body.admin-editing .editable-media {
 
 
 <!-- =========================================================
-     MODAL REGALOS
+     REGALOS
 ========================================================= -->
 
 <div
@@ -3102,7 +3312,7 @@ body.admin-editing .editable-media {
 
 
 <!-- =========================================================
-     MODAL DRESS CODE
+     DRESS CODE
 ========================================================= -->
 
 <div
@@ -3149,7 +3359,7 @@ body.admin-editing .editable-media {
 
 
 <!-- =========================================================
-     MODAL MÚSICA
+     MÚSICA
 ========================================================= -->
 
 <div
@@ -3218,8 +3428,6 @@ body.admin-editing .editable-media {
             </div>
 
 
-            <!-- NUEVO CAMPO ARTISTA -->
-
             <div class="form-field">
 
                 <label class="form-label">
@@ -3253,7 +3461,7 @@ body.admin-editing .editable-media {
 
 
 <!-- =========================================================
-     MODAL INFORMACIÓN
+     INFORMACIÓN
 ========================================================= -->
 
 <div
@@ -3353,10 +3561,6 @@ body.admin-editing .editable-media {
 
 
 
-<!-- =========================================================
-     CONFIGURADOR
-========================================================= -->
-
 <aside id="adminPanel">
 
     <div class="admin-panel-header">
@@ -3376,7 +3580,6 @@ body.admin-editing .editable-media {
     </div>
 
 
-    <!-- MULTIMEDIA -->
 
     <div class="admin-section">
 
@@ -3436,8 +3639,6 @@ body.admin-editing .editable-media {
 
 
 
-    <!-- FECHA -->
-
     <div class="admin-section">
 
         <div class="admin-section-title">
@@ -3458,8 +3659,6 @@ body.admin-editing .editable-media {
     </div>
 
 
-
-    <!-- UBICACIONES -->
 
     <div class="admin-section">
 
@@ -3495,8 +3694,6 @@ body.admin-editing .editable-media {
 
 
 
-    <!-- ÁLBUM -->
-
     <div class="admin-section">
 
         <div class="admin-section-title">
@@ -3517,8 +3714,6 @@ body.admin-editing .editable-media {
     </div>
 
 
-
-    <!-- SECCIONES -->
 
     <div class="admin-section">
 
@@ -3618,7 +3813,6 @@ body.admin-editing .editable-media {
     </div>
 
 
-    <!-- EXPORTACIONES -->
 
     <div class="admin-section">
 
@@ -3728,7 +3922,7 @@ const storage =
 
 
 /* =========================================================
-   DATOS
+   VARIABLES
 ========================================================= */
 
 const ADMIN_CLICKS = 5;
@@ -3746,6 +3940,8 @@ let currentMediaType = "image";
 let heroVideoUrl = "";
 
 let galleryIndex = 0;
+
+let sceneTransitioning = false;
 
 let currentWeddingDate =
     "2027-06-19T00:00";
@@ -3788,7 +3984,7 @@ let siteConfig = {
 
 
 /* =========================================================
-   ELEMENTOS EDITABLES
+   EDITABLES
 ========================================================= */
 
 const textIds = [
@@ -3888,6 +4084,7 @@ function getVisibleScenes() {
 }
 
 
+
 function getActiveScene() {
 
     return document.querySelector(
@@ -3897,10 +4094,12 @@ function getActiveScene() {
 }
 
 
+
 function goToScene(id) {
 
     const target =
         document.getElementById(id);
+
 
     if (
         !target ||
@@ -3917,34 +4116,90 @@ function goToScene(id) {
 
 
     if (
-        current === target
+        !current ||
+        current === target ||
+        sceneTransitioning
     ) {
         return;
     }
 
 
-    document
-        .querySelectorAll(
-            ".scene"
+    const scenes =
+        getVisibleScenes();
+
+
+    const currentIndex =
+        scenes.indexOf(current);
+
+
+    const targetIndex =
+        scenes.indexOf(target);
+
+
+    const forward =
+        targetIndex > currentIndex;
+
+
+    const enterClass =
+        forward
+            ? "scene-enter-forward"
+            : "scene-enter-backward";
+
+
+    const leaveClass =
+        forward
+            ? "scene-leave-forward"
+            : "scene-leave-backward";
+
+
+    /*
+       La transición del vídeo es un poco
+       más lenta que las demás.
+    */
+
+    const duration =
+        (
+            current.id === "sceneHero" ||
+            target.id === "sceneHero"
         )
-        .forEach(
-            scene => {
-
-                scene.classList.remove(
-                    "active"
-                );
-
-            }
-        );
+        ? 1050
+        : 850;
 
 
-    target.classList.add(
-        "active"
+    sceneTransitioning =
+        true;
+
+
+    current.style.setProperty(
+        "--scene-duration",
+        duration + "ms"
+    );
+
+
+    target.style.setProperty(
+        "--scene-duration",
+        duration + "ms"
     );
 
 
     target.scrollTop =
         0;
+
+
+    current.classList.remove(
+        "active"
+    );
+
+
+    current.classList.add(
+        leaveClass
+    );
+
+
+    target.classList.add(
+        "active",
+        enterClass
+    );
 
 
     updateSceneDots();
@@ -3957,12 +4212,12 @@ function goToScene(id) {
 
 
     /*
-       Entrando en portada:
-       reproducimos vídeo.
+       Si regresamos a portada,
+       reactivamos vídeo.
     */
 
     if (
-        id === "sceneHero" &&
+        target.id === "sceneHero" &&
         heroVideoUrl
     ) {
 
@@ -3976,26 +4231,21 @@ function goToScene(id) {
 
 
     /*
-       Saliendo de portada:
-       no pausamos inmediatamente,
-       para que el fundido se vea suave.
+       Si salimos de portada,
+       dejamos el vídeo reproduciéndose
+       mientras termina el fundido.
     */
 
     if (
-        id !== "sceneHero" &&
+        current.id === "sceneHero" &&
         heroVideoUrl
     ) {
 
         setTimeout(
             () => {
 
-                const active =
-                    getActiveScene();
-
-
                 if (
-                    active &&
-                    active.id !==
+                    getActiveScene()?.id !==
                     "sceneHero"
                 ) {
 
@@ -4004,10 +4254,31 @@ function goToScene(id) {
                 }
 
             },
-            1300
+            duration
         );
 
     }
+
+
+    setTimeout(
+        () => {
+
+            current.classList.remove(
+                leaveClass
+            );
+
+
+            target.classList.remove(
+                enterClass
+            );
+
+
+            sceneTransitioning =
+                false;
+
+        },
+        duration + 40
+    );
 
 }
 
@@ -4015,11 +4286,20 @@ function goToScene(id) {
 
 function nextScene() {
 
+    if (
+        sceneTransitioning
+    ) {
+        return;
+    }
+
+
     const scenes =
         getVisibleScenes();
 
+
     const active =
         getActiveScene();
+
 
     const index =
         scenes.indexOf(active);
@@ -4027,8 +4307,7 @@ function nextScene() {
 
     if (
         index >= 0 &&
-        index <
-        scenes.length - 1
+        index < scenes.length - 1
     ) {
 
         goToScene(
@@ -4043,11 +4322,20 @@ function nextScene() {
 
 function previousScene() {
 
+    if (
+        sceneTransitioning
+    ) {
+        return;
+    }
+
+
     const scenes =
         getVisibleScenes();
 
+
     const active =
         getActiveScene();
+
 
     const index =
         scenes.indexOf(active);
@@ -4101,7 +4389,7 @@ document
 
 
 /* =========================================================
-   INDICADORES LATERALES
+   INDICADORES
 ========================================================= */
 
 function buildSceneDots() {
@@ -4184,8 +4472,7 @@ function updateSceneDots() {
     container.classList.toggle(
         "hero-mode",
         active &&
-        active.id ===
-        "sceneHero"
+        active.id === "sceneHero"
     );
 
 
@@ -4211,7 +4498,7 @@ function updateSceneDots() {
 
 
 /* =========================================================
-   NAVEGACIÓN POR GESTOS
+   GESTOS
 ========================================================= */
 
 let touchStartX = 0;
@@ -4221,8 +4508,6 @@ let touchStartY = 0;
 let wheelLocked = false;
 
 
-
-/* TOUCH */
 
 document
     .getElementById(
@@ -4255,6 +4540,13 @@ document
     .addEventListener(
         "touchend",
         event => {
+
+            if (
+                sceneTransitioning
+            ) {
+                return;
+            }
+
 
             if (
                 adminMode &&
@@ -4300,7 +4592,7 @@ document
 
             /*
                PORTADA:
-               solo gesto vertical.
+               swipe hacia arriba.
             */
 
             if (
@@ -4328,7 +4620,7 @@ document
 
             /*
                RESTO:
-               swipe horizontal.
+               horizontal.
             */
 
             if (
@@ -4362,8 +4654,6 @@ document
 
 
 
-/* TRACKPAD / RATÓN */
-
 document
     .getElementById(
         "experience"
@@ -4371,6 +4661,14 @@ document
     .addEventListener(
         "wheel",
         event => {
+
+            if (
+                sceneTransitioning ||
+                wheelLocked
+            ) {
+                return;
+            }
+
 
             if (
                 adminMode &&
@@ -4384,13 +4682,6 @@ document
                 document.querySelector(
                     ".modal-overlay.open"
                 )
-            ) {
-                return;
-            }
-
-
-            if (
-                wheelLocked
             ) {
                 return;
             }
@@ -4413,8 +4704,7 @@ document
             ) {
 
                 if (
-                    event.deltaY >
-                    25
+                    event.deltaY > 25
                 ) {
 
                     wheelLocked =
@@ -4445,8 +4735,7 @@ document
 
             /*
                RESTO:
-               desplazamiento lateral
-               del trackpad.
+               trackpad horizontal.
             */
 
             if (
@@ -4501,7 +4790,7 @@ document
 
 
 /* =========================================================
-   FECHA INTERACTIVA
+   FECHA
 ========================================================= */
 
 document
@@ -4541,49 +4830,30 @@ function actualizarCuentaAtras() {
         ).getTime();
 
 
-    const now =
-        Date.now();
-
-
     const diff =
-        boda - now;
+        boda -
+        Date.now();
 
 
     if (
         diff <= 0
     ) {
 
-        document
-            .getElementById(
-                "countDays"
-            )
-            .textContent =
-            "0";
+        document.getElementById(
+            "countDays"
+        ).textContent = "0";
 
+        document.getElementById(
+            "countHours"
+        ).textContent = "0";
 
-        document
-            .getElementById(
-                "countHours"
-            )
-            .textContent =
-            "0";
+        document.getElementById(
+            "countMinutes"
+        ).textContent = "0";
 
-
-        document
-            .getElementById(
-                "countMinutes"
-            )
-            .textContent =
-            "0";
-
-
-        document
-            .getElementById(
-                "countSeconds"
-            )
-            .textContent =
-            "0";
-
+        document.getElementById(
+            "countSeconds"
+        ).textContent = "0";
 
         return;
 
@@ -4627,19 +4897,15 @@ function actualizarCuentaAtras() {
         );
 
 
-    document
-        .getElementById(
-            "countDays"
-        )
-        .textContent =
+    document.getElementById(
+        "countDays"
+    ).textContent =
         days;
 
 
-    document
-        .getElementById(
-            "countHours"
-        )
-        .textContent =
+    document.getElementById(
+        "countHours"
+    ).textContent =
         String(hours)
             .padStart(
                 2,
@@ -4647,11 +4913,9 @@ function actualizarCuentaAtras() {
             );
 
 
-    document
-        .getElementById(
-            "countMinutes"
-        )
-        .textContent =
+    document.getElementById(
+        "countMinutes"
+    ).textContent =
         String(minutes)
             .padStart(
                 2,
@@ -4659,11 +4923,9 @@ function actualizarCuentaAtras() {
             );
 
 
-    document
-        .getElementById(
-            "countSeconds"
-        )
-        .textContent =
+    document.getElementById(
+        "countSeconds"
+    ).textContent =
         String(seconds)
             .padStart(
                 2,
@@ -4684,7 +4946,7 @@ actualizarCuentaAtras();
 
 
 /* =========================================================
-   CEREMONIA / BANQUETE
+   LUGARES
 ========================================================= */
 
 document
@@ -4994,8 +5256,7 @@ function copiarIban() {
 function openAlbum() {
 
     if (
-        !siteConfig
-            .albumUrl
+        !siteConfig.albumUrl
     ) {
 
         if (
@@ -5025,7 +5286,7 @@ function openAlbum() {
 
 
 /* =========================================================
-   CONFIRMACIÓN DE ASISTENCIA
+   ASISTENCIA
 ========================================================= */
 
 async function enviarConfirmacion() {
@@ -5124,28 +5385,19 @@ async function enviarConfirmacion() {
         );
 
 
-        document
-            .getElementById(
-                "guestName"
-            )
-            .value =
-            "";
+        document.getElementById(
+            "guestName"
+        ).value = "";
 
 
-        document
-            .getElementById(
-                "guestCompanion"
-            )
-            .value =
-            "";
+        document.getElementById(
+            "guestCompanion"
+        ).value = "";
 
 
-        document
-            .getElementById(
-                "guestAllergies"
-            )
-            .value =
-            "";
+        document.getElementById(
+            "guestAllergies"
+        ).value = "";
 
 
         document
@@ -5264,28 +5516,19 @@ async function enviarCancion() {
         );
 
 
-        document
-            .getElementById(
-                "songGuest"
-            )
-            .value =
-            "";
+        document.getElementById(
+            "songGuest"
+        ).value = "";
 
 
-        document
-            .getElementById(
-                "songName"
-            )
-            .value =
-            "";
+        document.getElementById(
+            "songName"
+        ).value = "";
 
 
-        document
-            .getElementById(
-                "songArtist"
-            )
-            .value =
-            "";
+        document.getElementById(
+            "songArtist"
+        ).value = "";
 
 
         closeModal(
@@ -5312,179 +5555,7 @@ async function enviarCancion() {
 
 
 /* =========================================================
-   CSV INVITADOS
-========================================================= */
-
-async function descargarAsistencias() {
-
-    try {
-
-        const snapshot =
-            await db
-                .collection(
-                    "asistencias"
-                )
-                .get();
-
-
-        let csv =
-            "\uFEFFNombre,Acompañante,Autobús,Menú,Alergias,Fecha\n";
-
-
-        snapshot.forEach(
-            doc => {
-
-                const data =
-                    doc.data();
-
-
-                const values = [
-
-                    data.nombre ||
-                    "",
-
-                    data.acompañante ||
-                    "",
-
-                    data.autobus ||
-                    "",
-
-                    data.menu ||
-                    "",
-
-                    data.alergias ||
-                    "",
-
-                    data.fecha ||
-                    ""
-
-                ].map(
-                    value =>
-                        `"${String(value)
-                            .replace(
-                                /"/g,
-                                '""'
-                            )}"`
-                );
-
-
-                csv +=
-                    values.join(",") +
-                    "\n";
-
-            }
-        );
-
-
-        downloadCSV(
-            csv,
-            "invitados_boda.csv"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            "No se ha podido generar el CSV de invitados."
-        );
-
-    }
-
-}
-
-
-
-/* =========================================================
-   CSV MÚSICA
-========================================================= */
-
-async function descargarCanciones() {
-
-    try {
-
-        const snapshot =
-            await db
-                .collection(
-                    "canciones"
-                )
-                .get();
-
-
-        let csv =
-            "\uFEFFInvitado,Canción,Artista,Fecha\n";
-
-
-        snapshot.forEach(
-            doc => {
-
-                const data =
-                    doc.data();
-
-
-                const values = [
-
-                    data.nombre ||
-                    "",
-
-                    data.cancion ||
-                    "",
-
-                    data.artista ||
-                    "",
-
-                    data.fecha ||
-                    ""
-
-                ].map(
-                    value =>
-                        `"${String(value)
-                            .replace(
-                                /"/g,
-                                '""'
-                            )}"`
-                );
-
-
-                csv +=
-                    values.join(",") +
-                    "\n";
-
-            }
-        );
-
-
-        downloadCSV(
-            csv,
-            "sugerencias_musicales.csv"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            "No se ha podido generar el CSV de música."
-        );
-
-    }
-
-}
-
-
-
-/* =========================================================
-   GENERADOR CSV
+   CSV
 ========================================================= */
 
 function downloadCSV(
@@ -5542,8 +5613,162 @@ function downloadCSV(
 
 
 
+async function descargarAsistencias() {
+
+    try {
+
+        const snapshot =
+            await db
+                .collection(
+                    "asistencias"
+                )
+                .get();
+
+
+        let csv =
+            "\uFEFFNombre,Acompañante,Autobús,Menú,Alergias,Fecha\n";
+
+
+        snapshot.forEach(
+            doc => {
+
+                const data =
+                    doc.data();
+
+
+                const values = [
+
+                    data.nombre || "",
+
+                    data.acompañante || "",
+
+                    data.autobus || "",
+
+                    data.menu || "",
+
+                    data.alergias || "",
+
+                    data.fecha || ""
+
+                ].map(
+                    value =>
+                        `"${String(value)
+                            .replace(
+                                /"/g,
+                                '""'
+                            )}"`
+                );
+
+
+                csv +=
+                    values.join(",") +
+                    "\n";
+
+            }
+        );
+
+
+        downloadCSV(
+            csv,
+            "invitados_boda.csv"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "No se ha podido generar el CSV de invitados."
+        );
+
+    }
+
+}
+
+
+
+async function descargarCanciones() {
+
+    try {
+
+        const snapshot =
+            await db
+                .collection(
+                    "canciones"
+                )
+                .get();
+
+
+        let csv =
+            "\uFEFFInvitado,Canción,Artista,Fecha\n";
+
+
+        snapshot.forEach(
+            doc => {
+
+                const data =
+                    doc.data();
+
+
+                const values = [
+
+                    data.nombre || "",
+
+                    data.cancion || "",
+
+                    data.artista || "",
+
+                    data.fecha || ""
+
+                ].map(
+                    value =>
+                        `"${String(value)
+                            .replace(
+                                /"/g,
+                                '""'
+                            )}"`
+                );
+
+
+                csv +=
+                    values.join(",") +
+                    "\n";
+
+            }
+        );
+
+
+        downloadCSV(
+            csv,
+            "sugerencias_musicales.csv"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "No se ha podido generar el CSV de música."
+        );
+
+    }
+
+}
+
+
+
 /* =========================================================
-   ADMIN SECRET BUTTON
+   ADMIN
 ========================================================= */
 
 document
@@ -5633,7 +5858,7 @@ function enableAdmin() {
 
 
 /* =========================================================
-   EDICIÓN TEXTO
+   TEXTO EDITABLE
 ========================================================= */
 
 function setTextEditing(
@@ -5671,7 +5896,7 @@ function setTextEditing(
 
 
 /* =========================================================
-   EDICIÓN MEDIA
+   MULTIMEDIA EDITABLE
 ========================================================= */
 
 function activateMediaEditing() {
@@ -5756,7 +5981,7 @@ function activateMediaEditing() {
 
 
 /* =========================================================
-   UPLOAD MEDIA
+   SUBIDA ARCHIVOS
 ========================================================= */
 
 function triggerMediaUpload(
@@ -5866,13 +6091,6 @@ document
                             );
 
 
-                    /*
-                       Fondo:
-                       quitamos loaded hasta
-                       que la nueva imagen termine
-                       de cargar.
-                    */
-
                     if (
                         currentMediaId ===
                         "bgImage"
@@ -5945,7 +6163,7 @@ document
 
 
 /* =========================================================
-   VIDEO PORTADA
+   VIDEO
 ========================================================= */
 
 async function activateHeroVideo(
@@ -6078,7 +6296,7 @@ function removeHeroVideo(
 
 
 /* =========================================================
-   ADMIN PANEL
+   PANEL ADMIN
 ========================================================= */
 
 function openAdminPanel() {
@@ -6111,7 +6329,7 @@ function closeAdminPanel() {
 
 
 /* =========================================================
-   CARGAR CONFIG EN PANEL
+   CONFIG
 ========================================================= */
 
 function loadConfigIntoPanel() {
@@ -6208,10 +6426,6 @@ function loadConfigIntoPanel() {
 }
 
 
-
-/* =========================================================
-   LEER CONFIGURADOR
-========================================================= */
 
 function readConfigFromPanel() {
 
@@ -6310,10 +6524,6 @@ function readConfigFromPanel() {
 
 
 
-/* =========================================================
-   APLICAR CONFIG
-========================================================= */
-
 function applyConfig() {
 
     document
@@ -6399,10 +6609,6 @@ function applyConfig() {
 
 
 
-/* =========================================================
-   TOGGLES
-========================================================= */
-
 [
     "toggleGallery",
     "toggleGift",
@@ -6429,7 +6635,7 @@ function applyConfig() {
 
 
 /* =========================================================
-   VISTA PREVIA
+   PREVIEW
 ========================================================= */
 
 function togglePreview() {
@@ -6607,7 +6813,7 @@ document
 
 
 /* =========================================================
-   PRELOAD IMÁGENES
+   PRELOAD IMAGEN
 ========================================================= */
 
 function preloadImage(
@@ -6651,7 +6857,7 @@ function preloadImage(
 
 
 /* =========================================================
-   ESPERAR VIDEO
+   WAIT VIDEO
 ========================================================= */
 
 function waitForVideo(
@@ -6734,7 +6940,7 @@ function waitForVideo(
 
 
 /* =========================================================
-   CARGAR CONTENIDO FIREBASE
+   CARGAR FIREBASE
 ========================================================= */
 
 async function loadSavedContent() {
@@ -6770,10 +6976,6 @@ async function loadSavedContent() {
 
 
 
-        /*
-           TEXTOS
-        */
-
         textIds.forEach(
             id => {
 
@@ -6805,10 +7007,6 @@ async function loadSavedContent() {
 
 
 
-        /*
-           CONFIG
-        */
-
         if (
             data.siteConfig
         ) {
@@ -6830,10 +7028,6 @@ async function loadSavedContent() {
             "2027-06-19T00:00";
 
 
-
-        /*
-           IMÁGENES
-        */
 
         const imageJobs =
             [];
@@ -6904,13 +7098,6 @@ async function loadSavedContent() {
 
 
 
-        /*
-           GALERÍA:
-           reutilizamos las fotos
-           antiguas si aún no existen
-           fotos específicas.
-        */
-
         if (
             !data.gallery1Img &&
             data.heroImg
@@ -6956,10 +7143,6 @@ async function loadSavedContent() {
         }
 
 
-
-        /*
-           VIDEO
-        */
 
         if (
             data.heroVideo
@@ -7131,9 +7314,7 @@ document.addEventListener(
 
         if (
             event.key ===
-            "ArrowRight" ||
-            event.key ===
-            "ArrowDown"
+            "ArrowRight"
         ) {
 
             nextScene();
@@ -7143,12 +7324,26 @@ document.addEventListener(
 
         if (
             event.key ===
-            "ArrowLeft" ||
-            event.key ===
-            "ArrowUp"
+            "ArrowLeft"
         ) {
 
             previousScene();
+
+        }
+
+
+        /*
+           En portada también se puede bajar
+           con la flecha del teclado.
+        */
+
+        if (
+            event.key === "ArrowDown" &&
+            getActiveScene()?.id ===
+            "sceneHero"
+        ) {
+
+            nextScene();
 
         }
 
